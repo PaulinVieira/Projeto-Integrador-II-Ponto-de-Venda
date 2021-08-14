@@ -479,9 +479,12 @@ public class JIFClients extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jTFClientEmailActionPerformed
 
     private void jBtnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnSaveActionPerformed
+
         Client c = new Client();            
         ClientForm form = new ClientForm();
+        ClientController clientController = new ClientController();
         
+       
         c.setClientCode(this.jTFClientCode.getText());
         c.setClientCPF(this.jTFClientCPF.getText());
         c.setClientName(this.jTFClientName.getText());
@@ -495,19 +498,15 @@ public class JIFClients extends javax.swing.JInternalFrame {
         c.setClientState((String)this.jCBClientState.getSelectedItem());
         c.setClientCity(this.jTFCity.getText());
         
-        if(form.ClientValidation(c)) {
-                
-              ClientController clientController = new ClientController();
-              
-            try {
-                
-                clientController.saveClient(c);               
-            JOptionPane.showMessageDialog(null, "Cliente salvo com sucesso!", "Informação Sistema", WARNING_MESSAGE);
-            } catch (SQLException ex) {
-                Logger.getLogger(JIFClients.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-        } 
+        if(form.ClientValidation(c) && (clientController.uniqueCPF(c.getClientCPF()) == true) ) {
+            
+            clientController.saveClient(c);
+            JOptionPane.showMessageDialog(null, "Cliente salvo com sucesso!", "Informação Sistema", WARNING_MESSAGE);             
+        }else{
+            JOptionPane.showMessageDialog(null, "CPF já existente! Altere a informação do campo", "Informação Sistema", ERROR_MESSAGE); 
+            
+        }
+        
     }//GEN-LAST:event_jBtnSaveActionPerformed
 
 

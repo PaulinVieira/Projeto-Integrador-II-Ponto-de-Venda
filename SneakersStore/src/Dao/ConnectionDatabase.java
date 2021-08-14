@@ -18,14 +18,15 @@ public class ConnectionDatabase {
     private static final String USER = "root";
     private static final String PASSWORD = "senac";
 
-    public static Connection getConnection() throws SQLException {
+    public static Connection getConnection() {
 	try {
 	    Class.forName(DRIVER);
 	    return DriverManager.getConnection(URL, USER, PASSWORD);
 
 	} catch (ClassNotFoundException | SQLException e) {
-            String err = "Não foi possível conectar-se ao banco de dados\nDetalhes técnicos: " +e;
-            JOptionPane.showMessageDialog(null, err, "ERRO BANCO DE DADOS", ERROR_MESSAGE);	    
+            String err = "Não foi possível conectar-se ao banco de dados, o sistema será encerrado\nDetalhes técnicos: " +e;
+            JOptionPane.showMessageDialog(null, err, "ERRO BANCO DE DADOS", ERROR_MESSAGE);
+            System.exit(0);
             throw new RuntimeException("Saída console: Falha na conexão com o banco de dados." + e);
             
 	}
