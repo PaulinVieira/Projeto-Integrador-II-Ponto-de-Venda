@@ -1,0 +1,7 @@
+Dentro da pasta Dao, existe um arquivo .sql para criar o banco de dados e a tabela de cliente. Atualizações no banco de dados incluirei neste arquivo.
+
+Se ocorrer problemas com o projeto, é necessário adicionar o jar do lombok. Se ocorrer problemas com a conexão do banco de dados, necessário alterar a classe ConnectionDatabase alterando as informações de URL, PASSWORD e USER do próprio banco.
+
+Mas se ainda assim tiver problemas, provavelmente não salvou corretamente o driver do MySql
+através deste link pode-se fazer a instalação do driver: https://dev.mysql.com/downloads/connector/j/
+ele automaticamente fica salvo no caminho: C:\Program Files (x86)\MySQL\Connector J 8.0 -, o arquivo jar estará disponível para importar na biblioteca do projeto. 
