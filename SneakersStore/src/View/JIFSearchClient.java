@@ -4,56 +4,93 @@ import Controller.ClientController;
 import Model.Client;
 import Util.PositionForm;
 import java.util.ArrayList;
+import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-public class JIFSearchClient extends javax.swing.JInternalFrame {
-    
+
+public class JIFSearchClient extends javax.swing.JInternalFrame{
+   
+
     PositionForm form = new PositionForm();
     JFMainScreen jfMain = new JFMainScreen();
     int selectedOption = 0;
-    
+
     public JIFSearchClient() {
         initComponents();
-        
+
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         buttonGroup2 = new javax.swing.ButtonGroup();
-        jLabel1 = new javax.swing.JLabel();
-        jRBClientName = new javax.swing.JRadioButton();
-        jRBClientCode = new javax.swing.JRadioButton();
-        jRBClientCPF = new javax.swing.JRadioButton();
-        jRBClientEmail = new javax.swing.JRadioButton();
         jLabel2 = new javax.swing.JLabel();
         jTFClientSearchText = new javax.swing.JTextField();
         jBtnFind = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTListClients = new javax.swing.JTable();
+        jPanel1 = new javax.swing.JPanel();
+        jRBClientCode = new javax.swing.JRadioButton();
+        jRBClientName = new javax.swing.JRadioButton();
+        jRBClientCPF = new javax.swing.JRadioButton();
+        jRBClientEmail = new javax.swing.JRadioButton();
 
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
 
-        jLabel1.setText("Buscar por");
+        jLabel2.setText("Digite o texto da pesquisa");
 
-        buttonGroup2.add(jRBClientName);
-        jRBClientName.setText("Nome");
-        jRBClientName.addActionListener(new java.awt.event.ActionListener() {
+        jBtnFind.setText("Localizar");
+        jBtnFind.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRBClientNameActionPerformed(evt);
+                jBtnFindActionPerformed(evt);
             }
         });
+
+        jTListClients.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nome", "Código", "CPF", "E-mail", "Última Compra", "Celular", "Estado"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTListClients.setColumnSelectionAllowed(true);
+        jTListClients.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTListClientsMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTListClients);
+        jTListClients.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), "Pesquisar por"));
 
         buttonGroup2.add(jRBClientCode);
         jRBClientCode.setText("Código");
         jRBClientCode.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRBClientCodeActionPerformed(evt);
+            }
+        });
+
+        buttonGroup2.add(jRBClientName);
+        jRBClientName.setText("Nome");
+        jRBClientName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRBClientNameActionPerformed(evt);
             }
         });
 
@@ -73,24 +110,32 @@ public class JIFSearchClient extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel2.setText("Digite o texto da pesquisa");
-
-        jBtnFind.setText("Localizar");
-        jBtnFind.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBtnFindActionPerformed(evt);
-            }
-        });
-
-        jTListClients.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Nome", "Código", "CPF", "E-mail", "Última Compra", "Celular", "Estado"
-            }
-        ));
-        jScrollPane1.setViewportView(jTListClients);
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jRBClientName)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jRBClientCode)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jRBClientCPF)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jRBClientEmail)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jRBClientName)
+                    .addComponent(jRBClientCode)
+                    .addComponent(jRBClientCPF)
+                    .addComponent(jRBClientEmail))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -109,35 +154,21 @@ public class JIFSearchClient extends javax.swing.JInternalFrame {
                         .addGap(0, 16, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
-                .addGap(120, 120, 120)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jRBClientName)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jRBClientCode)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jRBClientCPF)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jRBClientEmail)
+                .addGap(14, 14, 14)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jRBClientName)
-                    .addComponent(jRBClientCode)
-                    .addComponent(jRBClientCPF)
-                    .addComponent(jRBClientEmail))
-                .addGap(40, 40, 40)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jTFClientSearchText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jBtnFind))
-                .addGap(40, 40, 40)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -145,13 +176,13 @@ public class JIFSearchClient extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void addRowToTable(ArrayList<Client> list) {
-        
+
         DefaultTableModel model = (DefaultTableModel) jTListClients.getModel();
-        
+
         Object rowData[] = new Object[7];
-        
+
         for (int i = 0; i < list.size(); i++) {
-            
+
             rowData[0] = list.get(i).getClientName();
             rowData[1] = list.get(i).getClientCode();
             rowData[2] = list.get(i).getClientCPF();
@@ -159,16 +190,16 @@ public class JIFSearchClient extends javax.swing.JInternalFrame {
             rowData[4] = list.get(i).getClientDtLastBuy();
             rowData[5] = list.get(i).getClientCellphone();
             rowData[6] = list.get(i).getClientState();
-            
+
             model.addRow(rowData);
         }
     }
-    
+
     private void reset() {
         DefaultTableModel model = (DefaultTableModel) jTListClients.getModel();
-        
+
         model.setRowCount(0);
-        
+
     }
     private void jRBClientNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBClientNameActionPerformed
         selectedOption = 1;
@@ -189,11 +220,11 @@ public class JIFSearchClient extends javax.swing.JInternalFrame {
     private void jBtnFindActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnFindActionPerformed
         //futuramente (se possível) implementar strategy para melhorar a codificação.
         ClientController clientController = new ClientController();
-        
+
         if (selectedOption == 0) { // nada foi informado
             JOptionPane.showMessageDialog(null, "Informe um parâmetro para pesquisa.");
         }
-        
+
         if (selectedOption == 1) { // nome
             reset();
             addRowToTable(clientController.findByName(jTFClientSearchText.getText()));
@@ -213,12 +244,35 @@ public class JIFSearchClient extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_jBtnFindActionPerformed
 
+    private void jTListClientsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTListClientsMouseClicked
+        JIFClients jifClients = new JIFClients();
+        JDesktopPane desktop = getDesktopPane();      
+        desktop.add(jifClients);
+        
+     
+        
+        Client c = new Client();
+
+        int index = jTListClients.getSelectedRow();
+
+        DefaultTableModel model = (DefaultTableModel) jTListClients.getModel();
+        String cpf = model.getValueAt(index, 2).toString();
+       
+       
+        jifClients.showObject(cpf);
+           jifClients.show();
+        
+        
+        
+        
+    }//GEN-LAST:event_jTListClientsMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JButton jBtnFind;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JRadioButton jRBClientCPF;
     private javax.swing.JRadioButton jRBClientCode;
     private javax.swing.JRadioButton jRBClientEmail;
