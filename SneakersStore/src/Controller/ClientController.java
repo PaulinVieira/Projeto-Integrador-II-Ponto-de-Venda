@@ -283,5 +283,42 @@ public class ClientController {
         }
         return listClients;
     }
+    
+    public ArrayList<Client> findAll() {
+
+        Connection con = ConnectionDatabase.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        ArrayList<Client> listClients = new ArrayList<>();
+
+        try {
+
+            stmt = con.prepareStatement("SELECT * FROM clients order by clientName");
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Client c = new Client();
+
+                c.setClientName(rs.getString("clientName"));
+                c.setClientCode(rs.getString("clientCode"));
+                c.setClientCPF(rs.getString("clientCPF"));
+                c.setClientEmail(rs.getString("clientEmail"));
+                c.setClientDtLastBuy(rs.getString("clientDtLastBuy"));
+                c.setClientCellphone(rs.getString("clientCellphone"));
+                c.setClientState(rs.getString("clientState"));
+
+                listClients.add(c);
+
+            }
+        } catch (SQLException ex) {
+
+            String err = "Ocorreu um erro não documentado. Impossível concluir a operação.\nDetalhes técnicos: " + ex;
+            JOptionPane.showMessageDialog(null, err, "ERRO Desconhecido", ERROR_MESSAGE);
+            Logger.getLogger(ClientController.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionDatabase.closeConnection(con, stmt, rs);
+        }
+        return listClients;
+    }
 
 }
