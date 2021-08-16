@@ -49,6 +49,27 @@ public class ClientController {
         }
     }
 
+    public void deleteByCPF(String cpf) {
+        Connection con = ConnectionDatabase.getConnection();
+        PreparedStatement stmt = null;
+
+        try {
+
+            stmt = con.prepareStatement("delete from clients where clientCPF= \'" + cpf + "\'");
+
+            stmt.executeUpdate();
+
+        } catch (SQLException ex) {
+
+            String err = "Ocorreu um erro não documentado. Impossível concluir a operação.\nDetalhes técnicos: " + ex;
+            JOptionPane.showMessageDialog(null, err, "ERRO Desconhecido", ERROR_MESSAGE);
+            Logger.getLogger(ClientController.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionDatabase.closeConnection(con, stmt);
+        }
+    }
+
+    //métodos de pesquisa
     public boolean uniqueCPF(String cpf) {
         boolean uniqueCPF = true;
         Connection con = ConnectionDatabase.getConnection();
@@ -60,11 +81,11 @@ public class ClientController {
 
             rs = stmt.executeQuery();
 
-            if (rs.next()) 
+            if (rs.next()) {
                 uniqueCPF = false;
-            
-             else 
-                uniqueCPF= true;
+            } else {
+                uniqueCPF = true;
+            }
 
         } catch (SQLException ex) {
 
@@ -72,200 +93,195 @@ public class ClientController {
             JOptionPane.showMessageDialog(null, err, "ERRO Desconhecido", ERROR_MESSAGE);
             Logger.getLogger(ClientController.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            ConnectionDatabase.closeConnection(con, stmt);
+            ConnectionDatabase.closeConnection(con, stmt, rs);
         }
         return uniqueCPF;
     }
-    
-    
-    //métodos de pesquisa
-    
-    
+
     public Client findClient(String cpf) {
-        
+
         Connection con = ConnectionDatabase.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        Client c = new Client(); 
-        
+        Client c = new Client();
+
         try {
 
             stmt = con.prepareStatement("SELECT * FROM clients WHERE clientCPF = \'" + cpf + "\'");
             rs = stmt.executeQuery();
-            
+
             rs.next();
-        
-                    c.setClientName(rs.getString("clientName"));
-                    c.setClientCode(rs.getString("clientCode"));
-                    c.setClientCPF(rs.getString("clientCPF"));
-                    c.setClientEmail(rs.getString("clientEmail"));
-                    c.setClientDtLastBuy(rs.getString("clientDtLastBuy"));
-                    c.setClientCellphone(rs.getString("clientCellphone"));
-                    c.setClientState(rs.getString("clientState"));
-                    c.setClientAddress(rs.getString("clientAddress"));
-                    c.setClientPostcode(rs.getString("clientPostcode"));
-                    c.setClientDistrict(rs.getString("clientDistrict"));
-                    c.setClientCity(rs.getString("clientCity"));
-                    
-                 
+
+            c.setClientName(rs.getString("clientName"));
+            c.setClientCode(rs.getString("clientCode"));
+            c.setClientCPF(rs.getString("clientCPF"));
+            c.setClientEmail(rs.getString("clientEmail"));
+            c.setClientDtLastBuy(rs.getString("clientDtLastBuy"));
+            c.setClientCellphone(rs.getString("clientCellphone"));
+            c.setClientState(rs.getString("clientState"));
+            c.setClientAddress(rs.getString("clientAddress"));
+            c.setClientPostcode(rs.getString("clientPostcode"));
+            c.setClientDistrict(rs.getString("clientDistrict"));
+            c.setClientCity(rs.getString("clientCity"));
+
         } catch (SQLException ex) {
 
             String err = "Ocorreu um erro não documentado. Impossível concluir a operação.\nDetalhes técnicos: " + ex;
             JOptionPane.showMessageDialog(null, err, "ERRO Desconhecido", ERROR_MESSAGE);
             Logger.getLogger(ClientController.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            ConnectionDatabase.closeConnection(con, stmt);
+            ConnectionDatabase.closeConnection(con, stmt, rs);
         }
-    return c;
+        return c;
     }
-    
+
     public ArrayList<Client> findByName(String name) {
-        
+
         Connection con = ConnectionDatabase.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        
+
         ArrayList<Client> listClients = new ArrayList<>();
-        
+
         try {
 
             stmt = con.prepareStatement("SELECT * FROM clients WHERE clientName LIKE \'%" + name + "%\' order by clientName");
             rs = stmt.executeQuery();
-            
-            while(rs.next()){
-                    Client c = new Client();
-                    
-                    c.setClientName(rs.getString("clientName"));
-                    c.setClientCode(rs.getString("clientCode"));
-                    c.setClientCPF(rs.getString("clientCPF"));
-                    c.setClientEmail(rs.getString("clientEmail"));
-                    c.setClientDtLastBuy(rs.getString("clientDtLastBuy"));
-                    c.setClientCellphone(rs.getString("clientCellphone"));
-                    c.setClientState(rs.getString("clientState"));
-                    
-                    listClients.add(c);
-                    
-                }
+
+            while (rs.next()) {
+                Client c = new Client();
+
+                c.setClientName(rs.getString("clientName"));
+                c.setClientCode(rs.getString("clientCode"));
+                c.setClientCPF(rs.getString("clientCPF"));
+                c.setClientEmail(rs.getString("clientEmail"));
+                c.setClientDtLastBuy(rs.getString("clientDtLastBuy"));
+                c.setClientCellphone(rs.getString("clientCellphone"));
+                c.setClientState(rs.getString("clientState"));
+
+                listClients.add(c);
+
+            }
         } catch (SQLException ex) {
 
             String err = "Ocorreu um erro não documentado. Impossível concluir a operação.\nDetalhes técnicos: " + ex;
             JOptionPane.showMessageDialog(null, err, "ERRO Desconhecido", ERROR_MESSAGE);
             Logger.getLogger(ClientController.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            ConnectionDatabase.closeConnection(con, stmt);
+            ConnectionDatabase.closeConnection(con, stmt, rs);
         }
-    return listClients;
+        return listClients;
     }
-    
+
     public ArrayList<Client> findByCode(String code) {
-        
+
         Connection con = ConnectionDatabase.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         ArrayList<Client> listClients = new ArrayList<>();
-        
+
         try {
 
             stmt = con.prepareStatement("SELECT * FROM clients WHERE clientCode LIKE \'%" + code + "%\' order by clientCode");
             rs = stmt.executeQuery();
-            
-            while(rs.next()){
-                    Client c = new Client();
-                    
-                    c.setClientName(rs.getString("clientName"));
-                    c.setClientCode(rs.getString("clientCode"));
-                    c.setClientCPF(rs.getString("clientCPF"));
-                    c.setClientEmail(rs.getString("clientEmail"));
-                    c.setClientDtLastBuy(rs.getString("clientDtLastBuy"));
-                    c.setClientCellphone(rs.getString("clientCellphone"));
-                    c.setClientState(rs.getString("clientState"));
-                    
-                    listClients.add(c);
-                    
-                }
+
+            while (rs.next()) {
+                Client c = new Client();
+
+                c.setClientName(rs.getString("clientName"));
+                c.setClientCode(rs.getString("clientCode"));
+                c.setClientCPF(rs.getString("clientCPF"));
+                c.setClientEmail(rs.getString("clientEmail"));
+                c.setClientDtLastBuy(rs.getString("clientDtLastBuy"));
+                c.setClientCellphone(rs.getString("clientCellphone"));
+                c.setClientState(rs.getString("clientState"));
+
+                listClients.add(c);
+
+            }
         } catch (SQLException ex) {
 
             String err = "Ocorreu um erro não documentado. Impossível concluir a operação.\nDetalhes técnicos: " + ex;
             JOptionPane.showMessageDialog(null, err, "ERRO Desconhecido", ERROR_MESSAGE);
             Logger.getLogger(ClientController.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            ConnectionDatabase.closeConnection(con, stmt);
+            ConnectionDatabase.closeConnection(con, stmt, rs);
         }
-    return listClients;
+        return listClients;
     }
-    
+
     public ArrayList<Client> findByCPF(String cpf) {
-        
+
         Connection con = ConnectionDatabase.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         ArrayList<Client> listClients = new ArrayList<>();
-        
+
         try {
 
             stmt = con.prepareStatement("SELECT * FROM clients WHERE clientCPF LIKE \'%" + cpf + "%\' order by clientCPF");
             rs = stmt.executeQuery();
-            
-            while(rs.next()){
-                    Client c = new Client();
-                    
-                    c.setClientName(rs.getString("clientName"));
-                    c.setClientCode(rs.getString("clientCode"));
-                    c.setClientCPF(rs.getString("clientCPF"));
-                    c.setClientEmail(rs.getString("clientEmail"));
-                    c.setClientDtLastBuy(rs.getString("clientDtLastBuy"));
-                    c.setClientCellphone(rs.getString("clientCellphone"));
-                    c.setClientState(rs.getString("clientState"));
-                    
-                    listClients.add(c);
-                    
-                }
+
+            while (rs.next()) {
+                Client c = new Client();
+
+                c.setClientName(rs.getString("clientName"));
+                c.setClientCode(rs.getString("clientCode"));
+                c.setClientCPF(rs.getString("clientCPF"));
+                c.setClientEmail(rs.getString("clientEmail"));
+                c.setClientDtLastBuy(rs.getString("clientDtLastBuy"));
+                c.setClientCellphone(rs.getString("clientCellphone"));
+                c.setClientState(rs.getString("clientState"));
+
+                listClients.add(c);
+
+            }
         } catch (SQLException ex) {
 
             String err = "Ocorreu um erro não documentado. Impossível concluir a operação.\nDetalhes técnicos: " + ex;
             JOptionPane.showMessageDialog(null, err, "ERRO Desconhecido", ERROR_MESSAGE);
             Logger.getLogger(ClientController.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            ConnectionDatabase.closeConnection(con, stmt);
+            ConnectionDatabase.closeConnection(con, stmt, rs);
         }
-    return listClients;
+        return listClients;
     }
-    
+
     public ArrayList<Client> findByEmail(String email) {
-        
+
         Connection con = ConnectionDatabase.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         ArrayList<Client> listClients = new ArrayList<>();
-        
+
         try {
 
             stmt = con.prepareStatement("SELECT * FROM clients WHERE clientEmail LIKE \'%" + email + "%\' order by clientEmail");
             rs = stmt.executeQuery();
-            
-            while(rs.next()){
-                    Client c = new Client();
-                    
-                    c.setClientName(rs.getString("clientName"));
-                    c.setClientCode(rs.getString("clientCode"));
-                    c.setClientCPF(rs.getString("clientCPF"));
-                    c.setClientEmail(rs.getString("clientEmail"));
-                    c.setClientDtLastBuy(rs.getString("clientDtLastBuy"));
-                    c.setClientCellphone(rs.getString("clientCellphone"));
-                    c.setClientState(rs.getString("clientState"));
-                    
-                    listClients.add(c);
-                    
-                }
+
+            while (rs.next()) {
+                Client c = new Client();
+
+                c.setClientName(rs.getString("clientName"));
+                c.setClientCode(rs.getString("clientCode"));
+                c.setClientCPF(rs.getString("clientCPF"));
+                c.setClientEmail(rs.getString("clientEmail"));
+                c.setClientDtLastBuy(rs.getString("clientDtLastBuy"));
+                c.setClientCellphone(rs.getString("clientCellphone"));
+                c.setClientState(rs.getString("clientState"));
+
+                listClients.add(c);
+
+            }
         } catch (SQLException ex) {
 
             String err = "Ocorreu um erro não documentado. Impossível concluir a operação.\nDetalhes técnicos: " + ex;
             JOptionPane.showMessageDialog(null, err, "ERRO Desconhecido", ERROR_MESSAGE);
             Logger.getLogger(ClientController.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            ConnectionDatabase.closeConnection(con, stmt);
+            ConnectionDatabase.closeConnection(con, stmt, rs);
         }
-    return listClients;
+        return listClients;
     }
-    
+
 }

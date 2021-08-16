@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package View;
 
 import Controller.ClientController;
@@ -12,20 +7,19 @@ import Util.SearchPostalcode;
 import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
-import static javax.swing.JOptionPane.WARNING_MESSAGE;
 
 public class JIFClients extends javax.swing.JInternalFrame {
 
     JDesktopPane windowManager;
     ClientController clientController = new ClientController();
-    
+
     public JIFClients() {
         initComponents();
 
     }
-    
-    private void disableForm(){
-        
+
+    private void disableForm() {
+
         JTFDistrict1.setEditable(false);
         jTFAddress1.setEditable(false);
         jTFCity1.setEditable(false);
@@ -45,14 +39,17 @@ public class JIFClients extends javax.swing.JInternalFrame {
         jTFEntEmail.setEditable(false);
         jTFEntEmail1.setEditable(false);
         jTFPostcode1.setEditable(false);
-        jBtnSave.setEnabled(false);      
-        
+        jBtnSave.setEnabled(false);
+        jBtnClear.setEnabled(false);
+        jCBClientState.setEnabled(false);
+        jCBUf1.setEnabled(false);
+
     }
-    
-    public void showObject(String cpf){
-        Client c = new Client ();
+
+    public void showObject(String cpf) {
+        Client c = new Client();
         c = clientController.findClient(cpf);
-        
+
         this.jTFClientName.setText(c.getClientName());
         this.jTFClientCode.setText(c.getClientCode());
         this.jTFClientCPF.setText(c.getClientCPF());
@@ -64,9 +61,9 @@ public class JIFClients extends javax.swing.JInternalFrame {
         this.jTFClientPostcode.setText(c.getClientPostcode());
         this.jTFClientCity.setText(c.getClientCity());
         this.jTFClientDistrict.setText(c.getClientDistrict());
-        
+
         disableForm();
-                
+
     }
 
     private void cleanForm() {
@@ -151,7 +148,7 @@ public class JIFClients extends javax.swing.JInternalFrame {
         jTFEntCPF = new javax.swing.JFormattedTextField();
         jTFEntCPF1 = new javax.swing.JFormattedTextField();
         jBtnSave = new javax.swing.JButton();
-        jBtnCanc = new javax.swing.JButton();
+        jBtnClear = new javax.swing.JButton();
 
         setClosable(true);
         setMaximizable(true);
@@ -506,10 +503,10 @@ public class JIFClients extends javax.swing.JInternalFrame {
             }
         });
 
-        jBtnCanc.setText("Cancelar");
-        jBtnCanc.addActionListener(new java.awt.event.ActionListener() {
+        jBtnClear.setText("Limpar");
+        jBtnClear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBtnCancActionPerformed(evt);
+                jBtnClearActionPerformed(evt);
             }
         });
 
@@ -524,7 +521,7 @@ public class JIFClients extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jBtnSave)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jBtnCanc)
+                        .addComponent(jBtnClear)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -536,7 +533,7 @@ public class JIFClients extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBtnSave)
-                    .addComponent(jBtnCanc))
+                    .addComponent(jBtnClear))
                 .addContainerGap())
         );
 
@@ -573,9 +570,9 @@ public class JIFClients extends javax.swing.JInternalFrame {
         if (form.ClientValidation(c) && (clientController.uniqueCPF(c.getClientCPF()) == true)) {
 
             clientController.saveClient(c);
-            JOptionPane.showMessageDialog(null, "Cliente salvo com sucesso!", "Informação Sistema", WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Cliente salvo com sucesso!", "Informação Sistema", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(null, "CPF já existente! Altere a informação do campo", "Informação Sistema", ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "CPF já existente! Altere a informação do campo", "Informação Sistema", JOptionPane.INFORMATION_MESSAGE);
 
         }
     }//GEN-LAST:event_jBtnSaveActionPerformed
@@ -592,15 +589,15 @@ public class JIFClients extends javax.swing.JInternalFrame {
         this.jCBClientState.setSelectedItem(c.getClientState());
     }//GEN-LAST:event_jTFClientPostcodeActionPerformed
 
-    private void jBtnCancActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnCancActionPerformed
+    private void jBtnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnClearActionPerformed
         cleanForm();
-    }//GEN-LAST:event_jBtnCancActionPerformed
+    }//GEN-LAST:event_jBtnClearActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea JTAObs;
     private javax.swing.JTextField JTFDistrict1;
-    private javax.swing.JButton jBtnCanc;
+    private javax.swing.JButton jBtnClear;
     private javax.swing.JButton jBtnSave;
     private javax.swing.JComboBox<String> jCBClientState;
     private javax.swing.JComboBox<String> jCBUf1;
