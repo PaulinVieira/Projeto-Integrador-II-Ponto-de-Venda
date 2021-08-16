@@ -6,6 +6,7 @@ import javax.swing.JInternalFrame;
 public class PositionForm {
     
     public void openForm(JInternalFrame frame, JDesktopPane desktop){
+        
         int lDesk = desktop.getWidth();
         int aDesk = desktop.getHeight();
         int lFrame = frame.getWidth();

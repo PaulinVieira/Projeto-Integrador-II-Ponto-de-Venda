@@ -2,6 +2,7 @@ package View;
 
 import Util.PositionForm;
 import java.beans.PropertyVetoException;
+import javax.swing.JDesktopPane;
 
 public class JFMainScreen extends javax.swing.JFrame {
     
@@ -33,6 +34,7 @@ public class JFMainScreen extends javax.swing.JFrame {
         jMenuBarPrin = new javax.swing.JMenuBar();
         jMRecords = new javax.swing.JMenu();
         jMIClients = new javax.swing.JMenuItem();
+        jMIFindClient = new javax.swing.JMenuItem();
         jMIProducts = new javax.swing.JMenuItem();
         jMPdv = new javax.swing.JMenu();
         jMReports = new javax.swing.JMenu();
@@ -54,13 +56,22 @@ public class JFMainScreen extends javax.swing.JFrame {
         jMRecords.setText("Cadastros");
 
         jMIClients.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
-        jMIClients.setText("Clientes");
+        jMIClients.setText("Cadastrar Cliente");
         jMIClients.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMIClientsActionPerformed(evt);
             }
         });
         jMRecords.add(jMIClients);
+
+        jMIFindClient.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
+        jMIFindClient.setText("Localizar Clientes");
+        jMIFindClient.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMIFindClientActionPerformed(evt);
+            }
+        });
+        jMRecords.add(jMIFindClient);
 
         jMIProducts.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
         jMIProducts.setText("Produtos");
@@ -96,7 +107,7 @@ public class JFMainScreen extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMIClientsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIClientsActionPerformed
-   
+        
         JIFClients jifClients;
         form.openForm(jifClients = new JIFClients(), jdpMain);
         
@@ -105,6 +116,13 @@ public class JFMainScreen extends javax.swing.JFrame {
     private void jMIProductsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIProductsActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMIProductsActionPerformed
+
+    private void jMIFindClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIFindClientActionPerformed
+        
+        JIFSearchClient jifSearchClient;
+        form.openForm(jifSearchClient = new JIFSearchClient(), jdpMain);
+        
+    }//GEN-LAST:event_jMIFindClientActionPerformed
 
    
     public static void main(String args[]) {
@@ -142,6 +160,7 @@ public class JFMainScreen extends javax.swing.JFrame {
 private JIFBackground Background = new JIFBackground();
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem jMIClients;
+    private javax.swing.JMenuItem jMIFindClient;
     private javax.swing.JMenuItem jMIProducts;
     private javax.swing.JMenu jMPdv;
     private javax.swing.JMenu jMRecords;
@@ -149,4 +168,12 @@ private JIFBackground Background = new JIFBackground();
     private javax.swing.JMenuBar jMenuBarPrin;
     private javax.swing.JDesktopPane jdpMain;
     // End of variables declaration//GEN-END:variables
+
+    public JDesktopPane getJdpMain() {
+        return jdpMain;
+    }
+
+    public void setJdpMain(JDesktopPane jdpMain) {
+        this.jdpMain = jdpMain;
+    }
 }

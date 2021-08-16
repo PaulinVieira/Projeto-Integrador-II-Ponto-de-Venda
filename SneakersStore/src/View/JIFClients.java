@@ -8,11 +8,8 @@ package View;
 import Controller.ClientController;
 import Model.Client;
 import Util.ClientForm;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import Util.SearchPostalcode;
 import javax.swing.JDesktopPane;
-import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.WARNING_MESSAGE;
@@ -20,18 +17,84 @@ import static javax.swing.JOptionPane.WARNING_MESSAGE;
 public class JIFClients extends javax.swing.JInternalFrame {
 
     JDesktopPane windowManager;
-
-    /**
-     * Creates new form JIFClients
-     */
+    ClientController clientController = new ClientController();
+    
     public JIFClients() {
         initComponents();
+
+    }
+    
+    private void disableForm(){
         
+        JTFDistrict1.setEditable(false);
+        jTFAddress1.setEditable(false);
+        jTFCity1.setEditable(false);
+        jTFClientAddress.setEditable(false);
+        jTFClientCPF.setEditable(false);
+        jTFClientCellPhone.setEditable(false);
+        jTFClientCity.setEditable(false);
+        jTFClientCode.setEditable(false);
+        jTFClientDistrict.setEditable(false);
+        jTFClientDtBirth.setEditable(false);
+        jTFClientDtLastBuy.setEditable(false);
+        jTFClientEmail.setEditable(false);
+        jTFClientName.setEditable(false);
+        jTFClientPostcode.setEditable(false);
+        jTFEntCPF.setEditable(false);
+        jTFEntCPF1.setEditable(false);
+        jTFEntEmail.setEditable(false);
+        jTFEntEmail1.setEditable(false);
+        jTFPostcode1.setEditable(false);
+        jBtnSave.setEnabled(false);      
+        
+    }
+    
+    public void showObject(String cpf){
+        Client c = new Client ();
+        c = clientController.findClient(cpf);
+        
+        this.jTFClientName.setText(c.getClientName());
+        this.jTFClientCode.setText(c.getClientCode());
+        this.jTFClientCPF.setText(c.getClientCPF());
+        this.jTFClientEmail.setText(c.getClientEmail());
+        this.jTFClientDtLastBuy.setText(c.getClientDtLastBuy());
+        this.jTFClientCellPhone.setText(c.getClientCellphone());
+        this.jCBClientState.setSelectedItem(c.getClientState());
+        this.jTFClientAddress.setText(c.getClientAddress());
+        this.jTFClientPostcode.setText(c.getClientPostcode());
+        this.jTFClientCity.setText(c.getClientCity());
+        this.jTFClientDistrict.setText(c.getClientDistrict());
+        
+        disableForm();
+                
     }
 
-    public void initComponentes(){
-        
+    private void cleanForm() {
+        JTFDistrict1.setText("");
+        jTFAddress1.setText("");
+        jTFCity1.setText("");
+        jTFClientAddress.setText("");
+        jTFClientCPF.setText("");
+        jTFClientCellPhone.setText("");
+        jTFClientCity.setText("");
+        jTFClientCode.setText("");
+        jTFClientDistrict.setText("");
+        jTFClientDtBirth.setText("");
+        jTFClientDtLastBuy.setText("");
+        jTFClientEmail.setText("");
+        jTFClientName.setText("");
+        jTFClientPostcode.setText("");
+        jTFEntCPF.setText("");
+        jTFEntCPF1.setText("");
+        jTFEntEmail.setText("");
+        jTFEntEmail1.setText("");
+        jTFPostcode1.setText("");
     }
+
+    public void initComponentes() {
+
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -65,7 +128,7 @@ public class JIFClients extends javax.swing.JInternalFrame {
         jLabel13 = new javax.swing.JLabel();
         jCBClientState = new javax.swing.JComboBox<>();
         jLabel14 = new javax.swing.JLabel();
-        jTFCity = new javax.swing.JTextField();
+        jTFClientCity = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel22 = new javax.swing.JLabel();
@@ -238,6 +301,11 @@ public class JIFClients extends javax.swing.JInternalFrame {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        jTFClientPostcode.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTFClientPostcodeActionPerformed(evt);
+            }
+        });
 
         jLabel11.setText("Endereço");
 
@@ -327,7 +395,7 @@ public class JIFClients extends javax.swing.JInternalFrame {
                                     .addGap(18, 18, 18)
                                     .addComponent(jLabel14)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jTFCity, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jTFClientCity, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(jPanel2Layout.createSequentialGroup()
                                     .addComponent(jLabel11)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -389,7 +457,7 @@ public class JIFClients extends javax.swing.JInternalFrame {
                             .addComponent(jLabel13)
                             .addComponent(jCBClientState, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel14)
-                            .addComponent(jTFCity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTFClientCity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel11)
@@ -439,6 +507,11 @@ public class JIFClients extends javax.swing.JInternalFrame {
         });
 
         jBtnCanc.setText("Cancelar");
+        jBtnCanc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnCancActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -480,11 +553,10 @@ public class JIFClients extends javax.swing.JInternalFrame {
 
     private void jBtnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnSaveActionPerformed
 
-        Client c = new Client();            
+        Client c = new Client();
         ClientForm form = new ClientForm();
         ClientController clientController = new ClientController();
-        
-       
+
         c.setClientCode(this.jTFClientCode.getText());
         c.setClientCPF(this.jTFClientCPF.getText());
         c.setClientName(this.jTFClientName.getText());
@@ -495,19 +567,34 @@ public class JIFClients extends javax.swing.JInternalFrame {
         c.setClientPostcode(this.jTFClientPostcode.getText());
         c.setClientAddress(this.jTFClientAddress.getText());
         c.setClientDistrict(this.jTFClientDistrict.getText());
-        c.setClientState((String)this.jCBClientState.getSelectedItem());
-        c.setClientCity(this.jTFCity.getText());
-        
-        if(form.ClientValidation(c) && (clientController.uniqueCPF(c.getClientCPF()) == true) ) {
-            
+        c.setClientState((String) this.jCBClientState.getSelectedItem());
+        c.setClientCity(this.jTFClientCity.getText());
+
+        if (form.ClientValidation(c) && (clientController.uniqueCPF(c.getClientCPF()) == true)) {
+
             clientController.saveClient(c);
-            JOptionPane.showMessageDialog(null, "Cliente salvo com sucesso!", "Informação Sistema", WARNING_MESSAGE);             
-        }else{
-            JOptionPane.showMessageDialog(null, "CPF já existente! Altere a informação do campo", "Informação Sistema", ERROR_MESSAGE); 
-            
+            JOptionPane.showMessageDialog(null, "Cliente salvo com sucesso!", "Informação Sistema", WARNING_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "CPF já existente! Altere a informação do campo", "Informação Sistema", ERROR_MESSAGE);
+
         }
-        
     }//GEN-LAST:event_jBtnSaveActionPerformed
+
+    private void jTFClientPostcodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFClientPostcodeActionPerformed
+        SearchPostalcode search = new SearchPostalcode();
+        Client c = new Client();
+
+        search.Search(this.jTFClientPostcode.getText(), c);
+
+        this.jTFClientAddress.setText(c.getClientAddress());
+        this.jTFClientDistrict.setText(c.getClientDistrict());
+        this.jTFClientCity.setText(c.getClientCity());
+        this.jCBClientState.setSelectedItem(c.getClientState());
+    }//GEN-LAST:event_jTFClientPostcodeActionPerformed
+
+    private void jBtnCancActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnCancActionPerformed
+        cleanForm();
+    }//GEN-LAST:event_jBtnCancActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -546,11 +633,11 @@ public class JIFClients extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField jTFAddress1;
-    private javax.swing.JTextField jTFCity;
     private javax.swing.JTextField jTFCity1;
     private javax.swing.JTextField jTFClientAddress;
     private javax.swing.JFormattedTextField jTFClientCPF;
     private javax.swing.JFormattedTextField jTFClientCellPhone;
+    private javax.swing.JTextField jTFClientCity;
     private javax.swing.JTextField jTFClientCode;
     private javax.swing.JTextField jTFClientDistrict;
     private javax.swing.JFormattedTextField jTFClientDtBirth;
