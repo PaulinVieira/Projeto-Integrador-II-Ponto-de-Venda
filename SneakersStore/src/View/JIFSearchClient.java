@@ -3,14 +3,19 @@ package View;
 import Controller.ClientController;
 import Model.Client;
 import Util.PositionForm;
+import static java.lang.Thread.sleep;
 import java.util.ArrayList;
+import static javax.management.Query.gt;
+import javax.swing.JButton;
 import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-
-public class JIFSearchClient extends javax.swing.JInternalFrame{
-   
+public class JIFSearchClient extends javax.swing.JInternalFrame {
+    
+ 
 
     PositionForm form = new PositionForm();
     JFMainScreen jfMain = new JFMainScreen();
@@ -18,9 +23,34 @@ public class JIFSearchClient extends javax.swing.JInternalFrame{
 
     public JIFSearchClient() {
         initComponents();
+        
+    //Thread, que de tempos em tempos 
+    //verifica se o conteudo do campo de pesquisa é diferente de vazio.
+    //Se for diferente, torna o botão "clicável".
+    
+        Thread t = new Thread(){
+    @Override
+    public void run(){
+        while (true){
+            if(!(jTFClientSearchText.getText().equals(""))){
+                jBtnFind.setEnabled(true);
+            } else {
+                jBtnFind.setEnabled(false); 
+            }
+            try {
+                sleep(500); //meio segundo
+            } catch (InterruptedException e) {}
+         }
+    }
+};
+     t.start();
+       
 
     }
+    
+    
 
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -44,7 +74,30 @@ public class JIFSearchClient extends javax.swing.JInternalFrame{
 
         jLabel2.setText("Digite o texto da pesquisa");
 
+        jTFClientSearchText.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                jTFClientSearchTextInputMethodTextChanged(evt);
+            }
+        });
+        jTFClientSearchText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTFClientSearchTextActionPerformed(evt);
+            }
+        });
+        jTFClientSearchText.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jTFClientSearchTextPropertyChange(evt);
+            }
+        });
+
         jBtnFind.setText("Localizar");
+        jBtnFind.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jBtnFindStateChanged(evt);
+            }
+        });
         jBtnFind.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBtnFindActionPerformed(evt);
@@ -195,6 +248,13 @@ public class JIFSearchClient extends javax.swing.JInternalFrame{
         }
     }
 
+    private void verifyRow() {
+        
+  //        DefaultTableModel model = (DefaultTableModel) jTListClients.getModel();
+  //      if (model.get);
+  //     JOptionPane.showMessageDialog(null, "Não foram encontrados registros correspondentes ao texto.", "Informação sistema", JOptionPane.INFORMATION_MESSAGE);
+    }
+
     private void reset() {
         DefaultTableModel model = (DefaultTableModel) jTListClients.getModel();
 
@@ -218,54 +278,66 @@ public class JIFSearchClient extends javax.swing.JInternalFrame{
     }//GEN-LAST:event_jRBClientEmailActionPerformed
 
     private void jBtnFindActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnFindActionPerformed
-        //futuramente (se possível) implementar strategy para melhorar a codificação.
-        ClientController clientController = new ClientController();
+            //futuramente (se possível) implementar strategy para melhorar a codificação.
+            
+            ClientController clientController = new ClientController();
 
-        if (selectedOption == 0) { // nada foi informado
-            JOptionPane.showMessageDialog(null, "Informe um parâmetro para pesquisa.");
-        }
-
-        if (selectedOption == 1) { // nome
-            reset();
-            addRowToTable(clientController.findByName(jTFClientSearchText.getText()));
-        }
-        if (selectedOption == 2) { // código
-            reset();
-            addRowToTable(clientController.findByCode(jTFClientSearchText.getText()));
-        }
-        if (selectedOption == 3) { // cpf
-            reset();
-            addRowToTable(clientController.findByCPF(jTFClientSearchText.getText()));
-        }
-        if (selectedOption == 4) { // e-mail
-            reset();
-            addRowToTable(clientController.findByEmail(jTFClientSearchText.getText()));
-        }
+            if (selectedOption == 0) { // nada foi informado
+                JOptionPane.showMessageDialog(null, "Informe um parâmetro para pesquisa.");
+            }
+            if (selectedOption == 1) { // nome
+                reset();
+                addRowToTable(clientController.findByName(jTFClientSearchText.getText()));
+                verifyRow();
+            }
+            if (selectedOption == 2) { // código
+                reset();
+                addRowToTable(clientController.findByCode(jTFClientSearchText.getText()));
+                verifyRow();
+            }
+            if (selectedOption == 3) { // cpf
+                reset();
+                addRowToTable(clientController.findByCPF(jTFClientSearchText.getText()));
+                verifyRow();
+            }
+            if (selectedOption == 4) { // e-mail
+                reset();
+                addRowToTable(clientController.findByEmail(jTFClientSearchText.getText()));
+                verifyRow();
+            }
 
     }//GEN-LAST:event_jBtnFindActionPerformed
 
     private void jTListClientsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTListClientsMouseClicked
         JIFClients jifClients = new JIFClients();
-        JDesktopPane desktop = getDesktopPane();      
+        JDesktopPane desktop = getDesktopPane();
         desktop.add(jifClients);
-        
-     
-        
-        Client c = new Client();
 
         int index = jTListClients.getSelectedRow();
 
         DefaultTableModel model = (DefaultTableModel) jTListClients.getModel();
         String cpf = model.getValueAt(index, 2).toString();
-       
-       
+
         jifClients.showObject(cpf);
-           jifClients.show();
-        
-        
-        
-        
+        jifClients.show();
+
     }//GEN-LAST:event_jTListClientsMouseClicked
+
+    private void jTFClientSearchTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFClientSearchTextActionPerformed
+
+    }//GEN-LAST:event_jTFClientSearchTextActionPerformed
+
+    private void jTFClientSearchTextInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_jTFClientSearchTextInputMethodTextChanged
+
+    }//GEN-LAST:event_jTFClientSearchTextInputMethodTextChanged
+
+    private void jTFClientSearchTextPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jTFClientSearchTextPropertyChange
+
+    }//GEN-LAST:event_jTFClientSearchTextPropertyChange
+
+    private void jBtnFindStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jBtnFindStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jBtnFindStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
