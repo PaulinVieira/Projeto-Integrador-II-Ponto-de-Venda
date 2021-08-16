@@ -248,17 +248,20 @@ public class JIFSearchClient extends javax.swing.JInternalFrame {
         }
     }
 
-    private void verifyRow() {
-        
-  //        DefaultTableModel model = (DefaultTableModel) jTListClients.getModel();
-  //      if (model.get);
-  //     JOptionPane.showMessageDialog(null, "Não foram encontrados registros correspondentes ao texto.", "Informação sistema", JOptionPane.INFORMATION_MESSAGE);
-    }
-
     private void reset() {
         DefaultTableModel model = (DefaultTableModel) jTListClients.getModel();
 
         model.setRowCount(0);
+
+    }
+    
+    private void verifyModel() {
+        DefaultTableModel model = (DefaultTableModel) jTListClients.getModel();
+
+        if(model.getRowCount() == 0){
+            JOptionPane.showMessageDialog(null, "Não existem registros com o parâmetro informado.", "Informação do Sistema", JOptionPane.INFORMATION_MESSAGE);
+            
+        }
 
     }
     private void jRBClientNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBClientNameActionPerformed
@@ -283,27 +286,27 @@ public class JIFSearchClient extends javax.swing.JInternalFrame {
             ClientController clientController = new ClientController();
 
             if (selectedOption == 0) { // nada foi informado
-                JOptionPane.showMessageDialog(null, "Informe um parâmetro para pesquisa.");
+                JOptionPane.showMessageDialog(null, "Informe um parâmetro para pesquisa.", "Informação do Sistema", JOptionPane.INFORMATION_MESSAGE);
             }
             if (selectedOption == 1) { // nome
                 reset();
                 addRowToTable(clientController.findByName(jTFClientSearchText.getText()));
-                verifyRow();
+                verifyModel();
             }
             if (selectedOption == 2) { // código
                 reset();
                 addRowToTable(clientController.findByCode(jTFClientSearchText.getText()));
-                verifyRow();
+                verifyModel();
             }
             if (selectedOption == 3) { // cpf
                 reset();
                 addRowToTable(clientController.findByCPF(jTFClientSearchText.getText()));
-                verifyRow();
+                verifyModel();
             }
             if (selectedOption == 4) { // e-mail
                 reset();
                 addRowToTable(clientController.findByEmail(jTFClientSearchText.getText()));
-                verifyRow();
+                verifyModel();
             }
 
     }//GEN-LAST:event_jBtnFindActionPerformed
