@@ -103,8 +103,10 @@ public class ProductController {
 
         try {
 
-            stmt = con.prepareStatement("SELECT * FROM clients WHERE productCode = \'" + code + "\'");
+            stmt = con.prepareStatement("SELECT * FROM products WHERE productCode = \'" + code + "\'");
             rs = stmt.executeQuery();
+            
+            rs.next();
             
             p.setProductCode(rs.getString("productCode"));
             p.setProductCategory(rs.getString("productCategory"));
@@ -112,6 +114,8 @@ public class ProductController {
             p.setProductLocation(rs.getString("productLocation"));
             p.setProductPrice(rs.getDouble("productPrice"));
             p.setProductQuantity(rs.getInt("productQuantityAvailable"));
+            p.setProductPrice(rs.getDouble("productPrice"));
+            p.setProductDtRegistration(rs.getTimestamp("productDtRegistration"));
             
             rs.next();
 
@@ -147,7 +151,8 @@ public class ProductController {
                 p.setProductDescription(rs.getString("productDescription"));
                 p.setProductQuantity(rs.getInt("productQuantityAvailable"));
                 p.setProductLocation(rs.getString("productLocation"));
-                p.setProductPrice(rs.getDouble("productPrice"));            
+                p.setProductPrice(rs.getDouble("productPrice"));    
+                p.setProductDtRegistration(rs.getTimestamp("productDtRegistration"));
                 
                 listProducts.add(p);
 
@@ -183,7 +188,8 @@ public class ProductController {
                 p.setProductDescription(rs.getString("productDescription"));
                 p.setProductQuantity(rs.getInt("productQuantityAvailable"));
                 p.setProductLocation(rs.getString("productLocation"));
-                p.setProductPrice(rs.getDouble("productPrice"));            
+                p.setProductPrice(rs.getDouble("productPrice")); 
+                p.setProductDtRegistration(rs.getTimestamp("productDtRegistration"));
                 
                 listProducts.add(p);
 
@@ -219,7 +225,8 @@ public class ProductController {
                 p.setProductDescription(rs.getString("productDescription"));
                 p.setProductQuantity(rs.getInt("productQuantityAvailable"));
                 p.setProductLocation(rs.getString("productLocation"));
-                p.setProductPrice(rs.getDouble("productPrice"));            
+                p.setProductPrice(rs.getDouble("productPrice"));
+                p.setProductDtRegistration(rs.getTimestamp("productDtRegistration"));
                 
                 listProducts.add(p);
 
@@ -255,7 +262,8 @@ public class ProductController {
                 p.setProductDescription(rs.getString("productDescription"));
                 p.setProductQuantity(rs.getInt("productQuantityAvailable"));
                 p.setProductLocation(rs.getString("productLocation"));
-                p.setProductPrice(rs.getDouble("productPrice"));            
+                p.setProductPrice(rs.getDouble("productPrice")); 
+                p.setProductDtRegistration(rs.getTimestamp("productDtRegistration"));
                 
                 listProducts.add(p);
 
@@ -291,7 +299,8 @@ public class ProductController {
                 p.setProductDescription(rs.getString("productDescription"));
                 p.setProductQuantity(rs.getInt("productQuantityAvailable"));
                 p.setProductLocation(rs.getString("productLocation"));
-                p.setProductPrice(rs.getDouble("productPrice"));            
+                p.setProductPrice(rs.getDouble("productPrice"));  
+                p.setProductDtRegistration(rs.getDate("productDtRegistration"));
                 
                 listProducts.add(p);
 

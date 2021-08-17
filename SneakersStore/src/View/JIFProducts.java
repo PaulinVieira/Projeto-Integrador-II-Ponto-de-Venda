@@ -1,15 +1,14 @@
 package View;
 
-import Controller.ClientController;
+
 import Controller.ProductController;
-import Model.Client;
 import Model.Product;
-import Util.ClientForm;
 import Util.ProductForm;
-import Util.SearchPostalcode;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
-import static javax.swing.JOptionPane.ERROR_MESSAGE;
 
 public class JIFProducts extends javax.swing.JInternalFrame {
 
@@ -21,13 +20,14 @@ public class JIFProducts extends javax.swing.JInternalFrame {
         initComponents();
         this.jRBInactive.setEnabled(false);
         this.jRBActive.setSelected(true);
+        this.jLabel4.setVisible(false);
+        this.jLDtRegistration.setVisible(false);
 
     }
 
     private void disableForm() {
 
         jTFProductCode.setEditable(false);
-        jTFProductDtRegistration.setEditable(false);
         jTFProductDescription.setEditable(false);
         jBtnSave.setEnabled(false);
         jBtnClear.setEnabled(false);
@@ -42,12 +42,12 @@ public class JIFProducts extends javax.swing.JInternalFrame {
         jRBTenis.setEnabled(false);
         jTFQTDInitial.setEnabled(false);
         jTFProductPrice.setEnabled(false);
+        jTFProductLocation.setEnabled(false);
 
     }
 
     private void cleanForm() {
         jTFProductCode.setText("");
-        jTFProductDtRegistration.setText("");
         jTFProductDescription.setText("");
         jBtnSave.setText("");
         jBtnClear.setText("");
@@ -70,10 +70,16 @@ public class JIFProducts extends javax.swing.JInternalFrame {
 
         this.jTFProductDescription.setText(p.getProductDescription());
         this.jTFProductCode.setText(p.getProductCode());
-        this.jTFProductDtRegistration.setValue(p.getProductDtRegistration());
+        
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        String dataFormatada = dateFormat.format(p.getProductDtRegistration());
+        
+        this.jLDtRegistration.setText(dataFormatada);
         this.jTFQTDInitial.setValue(p.getProductQuantity());
         this.jRBActive.setSelected(true);
-        this.jTFProdutLocation.setText(p.getProductLocation());
+        this.jTFProductLocation.setText(p.getProductLocation());
+        this.jLabel4.setVisible(true);
+        this.jLDtRegistration.setVisible(true);
 
         disableForm();
 
@@ -96,7 +102,6 @@ public class JIFProducts extends javax.swing.JInternalFrame {
         jLabel3 = new javax.swing.JLabel();
         jTFProductDescription = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jTFProductDtRegistration = new javax.swing.JFormattedTextField();
         jLabel6 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jTFProductPrice = new javax.swing.JFormattedTextField();
@@ -110,12 +115,13 @@ public class JIFProducts extends javax.swing.JInternalFrame {
         jRBMeias = new javax.swing.JRadioButton();
         jRBChinelo = new javax.swing.JRadioButton();
         jRBBota = new javax.swing.JRadioButton();
-        jTFProdutLocation = new javax.swing.JTextField();
+        jTFProductLocation = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jTFQTDInitial = new javax.swing.JFormattedTextField();
         jLabel7 = new javax.swing.JLabel();
         jRBActive = new javax.swing.JRadioButton();
         jRBInactive = new javax.swing.JRadioButton();
+        jLDtRegistration = new javax.swing.JLabel();
         jBtnSave = new javax.swing.JButton();
         jBtnClear = new javax.swing.JButton();
 
@@ -133,18 +139,7 @@ public class JIFProducts extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel4.setText("DT Cadastro");
-
-        try {
-            jTFProductDtRegistration.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
-        jTFProductDtRegistration.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTFProductDtRegistrationActionPerformed(evt);
-            }
-        });
+        jLabel4.setText("Data Cadastro:");
 
         jLabel6.setText("Preço de Venda");
 
@@ -282,11 +277,19 @@ public class JIFProducts extends javax.swing.JInternalFrame {
                             .addGroup(jFLayout.createSequentialGroup()
                                 .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTFProductLocation))
+                            .addGroup(jFLayout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jTFProductCode, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jFLayout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jFLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jFLayout.createSequentialGroup()
                                         .addComponent(jLabel4)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTFProductDtRegistration, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLDtRegistration, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jLabel6)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -295,15 +298,7 @@ public class JIFProducts extends javax.swing.JInternalFrame {
                                         .addComponent(jLabel2)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jTFQTDInitial, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jTFProdutLocation)))
-                            .addGroup(jFLayout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTFProductCode, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jFLayout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTFProductDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 643, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addComponent(jTFProductDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 643, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addGap(10, 10, 10))
         );
         jFLayout.setVerticalGroup(
@@ -321,16 +316,16 @@ public class JIFProducts extends javax.swing.JInternalFrame {
                     .addComponent(jTFProductDescription, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jFLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTFProductDtRegistration, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6)
                     .addComponent(jTFProductPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
-                    .addComponent(jTFQTDInitial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTFQTDInitial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLDtRegistration, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jFLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jTFProdutLocation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTFProductLocation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jFLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jRBActive)
@@ -398,7 +393,7 @@ public class JIFProducts extends javax.swing.JInternalFrame {
 
         p.setProductCode(this.jTFProductCode.getText());
         p.setProductDescription(this.jTFProductDescription.getText());
-        p.setProductLocation(this.jTFProdutLocation.getText());
+        p.setProductLocation(this.jTFProductLocation.getText());
         p.setProductCategory(productCategory);
            
         if(!this.jTFProductPrice.getText().equals("")){
@@ -428,10 +423,6 @@ public class JIFProducts extends javax.swing.JInternalFrame {
     private void jTFProductDescriptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFProductDescriptionActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTFProductDescriptionActionPerformed
-
-    private void jTFProductDtRegistrationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFProductDtRegistrationActionPerformed
-
-    }//GEN-LAST:event_jTFProductDtRegistrationActionPerformed
 
     private void jRBTenisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBTenisActionPerformed
             productCategory = "Tênis";        
@@ -465,6 +456,7 @@ public class JIFProducts extends javax.swing.JInternalFrame {
     private javax.swing.JButton jBtnClear;
     private javax.swing.JButton jBtnSave;
     private javax.swing.JPanel jF;
+    private javax.swing.JLabel jLDtRegistration;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -485,9 +477,8 @@ public class JIFProducts extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTFProductCode;
     private javax.swing.JTextField jTFProductDescription;
-    private javax.swing.JFormattedTextField jTFProductDtRegistration;
+    private javax.swing.JTextField jTFProductLocation;
     private javax.swing.JFormattedTextField jTFProductPrice;
-    private javax.swing.JTextField jTFProdutLocation;
     private javax.swing.JFormattedTextField jTFQTDInitial;
     private javax.swing.JTabbedPane jTabbedPane1;
     // End of variables declaration//GEN-END:variables
