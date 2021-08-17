@@ -75,6 +75,10 @@ public class ClientController {
         Connection con = ConnectionDatabase.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
+        
+        if(cpf == null || cpf.equals(""))
+            return false;
+       
         try {
 
             stmt = con.prepareStatement("SELECT id FROM clients WHERE clientCPF = \'" + cpf + "\'");

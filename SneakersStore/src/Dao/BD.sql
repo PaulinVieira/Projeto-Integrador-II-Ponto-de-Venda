@@ -17,3 +17,25 @@ clientState varchar(2) not null,
 clientCity varchar(255) not null,
 primary key(id)
 );
+
+CREATE TABLE inventory (
+  id int NOT NULL AUTO_INCREMENT,
+  productCode varchar(255) NOT NULL,
+  quantity int DEFAULT NULL,
+  productQuantityAvailable int DEFAULT NULL,
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE products (
+  id int NOT NULL AUTO_INCREMENT,
+  productCode varchar(255) NOT NULL,
+  productCategory varchar(14) NOT NULL,
+  productDescription varchar(255) NOT NULL,
+  productDtRegistration Datetime,
+  productQuantityAvailable int DEFAULT NULL,
+  productActive varchar(1) DEFAULT NULL,
+  productLocation varchar(255) NOT NULL,
+  productPrice double NOT NULL,
+  PRIMARY KEY (id),
+  UNIQUE KEY productCode (productCode)
+)

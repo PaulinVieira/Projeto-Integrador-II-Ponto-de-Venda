@@ -34,8 +34,9 @@ public class JFMainScreen extends javax.swing.JFrame {
         jMenuBarPrin = new javax.swing.JMenuBar();
         jMRecords = new javax.swing.JMenu();
         jMIClients = new javax.swing.JMenuItem();
-        jMIFindClient = new javax.swing.JMenuItem();
         jMIProducts = new javax.swing.JMenuItem();
+        jMIFindClient = new javax.swing.JMenuItem();
+        jMIFindProduct = new javax.swing.JMenuItem();
         jMPdv = new javax.swing.JMenu();
         jMReports = new javax.swing.JMenu();
 
@@ -64,7 +65,16 @@ public class JFMainScreen extends javax.swing.JFrame {
         });
         jMRecords.add(jMIClients);
 
-        jMIFindClient.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
+        jMIProducts.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
+        jMIProducts.setText("Cadastrar Produto");
+        jMIProducts.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMIProductsActionPerformed(evt);
+            }
+        });
+        jMRecords.add(jMIProducts);
+
+        jMIFindClient.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         jMIFindClient.setText("Localizar Clientes");
         jMIFindClient.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -73,14 +83,14 @@ public class JFMainScreen extends javax.swing.JFrame {
         });
         jMRecords.add(jMIFindClient);
 
-        jMIProducts.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
-        jMIProducts.setText("Produtos");
-        jMIProducts.addActionListener(new java.awt.event.ActionListener() {
+        jMIFindProduct.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        jMIFindProduct.setText("Localizar Produtos");
+        jMIFindProduct.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMIProductsActionPerformed(evt);
+                jMIFindProductActionPerformed(evt);
             }
         });
-        jMRecords.add(jMIProducts);
+        jMRecords.add(jMIFindProduct);
 
         jMenuBarPrin.add(jMRecords);
 
@@ -114,7 +124,8 @@ public class JFMainScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_jMIClientsActionPerformed
 
     private void jMIProductsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIProductsActionPerformed
-        // TODO add your handling code here:
+        JIFProducts jifProducts;
+        form.openForm(jifProducts = new JIFProducts(), jdpMain);
     }//GEN-LAST:event_jMIProductsActionPerformed
 
     private void jMIFindClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIFindClientActionPerformed
@@ -123,6 +134,12 @@ public class JFMainScreen extends javax.swing.JFrame {
         form.openForm(jifSearchClient = new JIFSearchClient(), jdpMain);
         
     }//GEN-LAST:event_jMIFindClientActionPerformed
+
+    private void jMIFindProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIFindProductActionPerformed
+       
+        JIFSearchProduct jifSearchProduct;
+        form.openForm(jifSearchProduct = new JIFSearchProduct(), jdpMain);
+    }//GEN-LAST:event_jMIFindProductActionPerformed
 
    
     public static void main(String args[]) {
@@ -161,6 +178,7 @@ private JIFBackground Background = new JIFBackground();
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem jMIClients;
     private javax.swing.JMenuItem jMIFindClient;
+    private javax.swing.JMenuItem jMIFindProduct;
     private javax.swing.JMenuItem jMIProducts;
     private javax.swing.JMenu jMPdv;
     private javax.swing.JMenu jMRecords;
