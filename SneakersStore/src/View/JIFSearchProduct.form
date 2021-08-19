@@ -48,6 +48,7 @@
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="jBtnFind" max="32767" attributes="0"/>
                           <Component id="jBtnDelete" max="32767" attributes="0"/>
+                          <Component id="jBtnUpdate" alignment="1" min="-2" pref="82" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="0" pref="20" max="32767" attributes="0"/>
                   </Group>
@@ -65,6 +66,8 @@
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
+                      <Component id="jBtnUpdate" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="jBtnDelete" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
                   </Group>
@@ -279,6 +282,15 @@
       <Events>
         <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="jBtnDeleteStateChanged"/>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBtnDeleteActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="jBtnUpdate">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Alterar"/>
+      </Properties>
+      <Events>
+        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="jBtnUpdateStateChanged"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBtnUpdateActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

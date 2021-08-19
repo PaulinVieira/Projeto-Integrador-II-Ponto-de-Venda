@@ -10,7 +10,7 @@ public class Product {
     private String productCode;
     private String productCategory;
     private int productQuantity;
-    private final int productQTDInitial = 0;
+    private int productQTDInitial;
     private String productActive;
     private Double productPrice;
     private String productDescription;

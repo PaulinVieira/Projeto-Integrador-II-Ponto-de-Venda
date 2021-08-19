@@ -1,14 +1,12 @@
 package Controller;
 
 import Dao.ConnectionDatabase;
-import Model.Client;
 import Model.Product;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -19,25 +17,26 @@ public class ProductController {
     public void saveProduct(Product p) {
         Connection con = ConnectionDatabase.getConnection();
         PreparedStatement stmt = null;
+
         try {            
             stmt = con.prepareStatement(
                     "insert into Products ("
                     + "productCode, productCategory, productDescription, productActive,"
-                    + "productLocation, productPrice, productDtRegistration)"
-                    + "values (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP());");
-
-            Calendar calendar; 
+                    + "productLocation, productPrice, productQuantityAvailable, productDtRegistration)"
+                    + "values (?, ?, ?, ?, ?, ?, ?,CURRENT_TIMESTAMP());");
+ 
             stmt.setString(1, p.getProductCode());
             stmt.setString(2, p.getProductCategory());
             stmt.setString(3, p.getProductDescription());
             stmt.setString(4, "S");
             stmt.setString(5, p.getProductLocation());
             stmt.setDouble(6, p.getProductPrice());
+            stmt.setInt(7, p.getProductQTDInitial());
             
             stmt.executeUpdate();
         } catch (SQLException ex) {
 
-            String err = "Ocorreu um erro não documentado ao salvar o cliente. Impossível continuar.\nDetalhes técnicos: " + ex;
+            String err = "Ocorreu um erro não documentado ao salvar o produto. Impossível continuar.\nDetalhes técnicos: " + ex;
             JOptionPane.showMessageDialog(null, err, "ERRO Desconhecido", ERROR_MESSAGE);
             Logger.getLogger(ProductController.class.getName()).log(Level.SEVERE, null, ex);
 
@@ -45,6 +44,36 @@ public class ProductController {
             ConnectionDatabase.closeConnection(con, stmt);
         }
     }
+    
+    public void updateProduct (Product p) {
+        Connection con = ConnectionDatabase.getConnection();
+        PreparedStatement stmt = null;
+
+        try {            
+            stmt = con.prepareStatement(
+                    "update products set productCategory = ?, productDescription = ?, "
+                    + "productActive = ?, productLocation = ?, productPrice = ? ");
+ 
+            stmt.setString(1, p.getProductCategory());
+            stmt.setString(2, p.getProductDescription());
+            //implementar inativar produto/cliente
+            stmt.setString(3, "S");
+            stmt.setString(4, p.getProductLocation());
+            stmt.setDouble(5, p.getProductPrice());
+            
+            stmt.executeUpdate();
+        } catch (SQLException ex) {
+
+            String err = "Ocorreu um erro não documentado ao salvar o produto. Impossível continuar.\nDetalhes técnicos: " + ex;
+            JOptionPane.showMessageDialog(null, err, "ERRO Desconhecido", ERROR_MESSAGE);
+            Logger.getLogger(ProductController.class.getName()).log(Level.SEVERE, null, ex);
+
+        } finally {
+            ConnectionDatabase.closeConnection(con, stmt);
+        }
+    }
+    
+    
 
     public void deleteByCode(String code) {
         Connection con = ConnectionDatabase.getConnection();

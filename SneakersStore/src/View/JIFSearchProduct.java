@@ -25,6 +25,7 @@ public class JIFSearchProduct extends javax.swing.JInternalFrame {
     public JIFSearchProduct() {
         initComponents();
         jBtnDelete.setVisible(false);
+        jBtnUpdate.setVisible(false);
 
         //Thread, que de tempos em tempos 
         //verifica se o conteudo do campo de pesquisa é diferente de vazio.
@@ -66,6 +67,7 @@ public class JIFSearchProduct extends javax.swing.JInternalFrame {
         jRBProductLocation = new javax.swing.JRadioButton();
         jRBProductAll = new javax.swing.JRadioButton();
         jBtnDelete = new javax.swing.JButton();
+        jBtnUpdate = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -213,6 +215,18 @@ public class JIFSearchProduct extends javax.swing.JInternalFrame {
             }
         });
 
+        jBtnUpdate.setText("Alterar");
+        jBtnUpdate.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jBtnUpdateStateChanged(evt);
+            }
+        });
+        jBtnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnUpdateActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -232,7 +246,8 @@ public class JIFSearchProduct extends javax.swing.JInternalFrame {
                                 .addGap(137, 137, 137)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jBtnFind, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jBtnDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jBtnDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jBtnUpdate, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 20, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -244,6 +259,8 @@ public class JIFSearchProduct extends javax.swing.JInternalFrame {
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jBtnUpdate)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jBtnDelete)
                         .addGap(2, 2, 2)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -288,8 +305,10 @@ public class JIFSearchProduct extends javax.swing.JInternalFrame {
 
         if (model.getRowCount() == 0) {
             JOptionPane.showMessageDialog(null, "Não existem registros com o parâmetro informado.", "Informação do Sistema", JOptionPane.INFORMATION_MESSAGE);
-
+        return;
         }
+        jBtnDelete.setVisible(true);
+        jBtnUpdate.setVisible(true);
 
     }
     private void jRBProductDescriptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBProductDescriptionActionPerformed
@@ -348,8 +367,7 @@ public class JIFSearchProduct extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jBtnFindActionPerformed
 
     private void jTListProductsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTListProductsMouseClicked
-        jBtnDelete.setVisible(true);
-
+        
         //só abrir a jifClients se houver um duplo clique, e se o evento não foi chamado anteriormente.
         if (evt.getClickCount() == 2 && !evt.isConsumed()) {
             evt.consume();
@@ -363,7 +381,7 @@ public class JIFSearchProduct extends javax.swing.JInternalFrame {
             DefaultTableModel model = (DefaultTableModel) jTListProducts.getModel();
             String code = model.getValueAt(index, 1).toString();
 
-            jifProducts.showObject(code);
+            jifProducts.showObject(code, 0);
             jifProducts.show();
         }
 
@@ -390,7 +408,12 @@ public class JIFSearchProduct extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jBtnDeleteStateChanged
 
     private void jBtnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnDeleteActionPerformed
-
+      
+        if(jTListProducts.getSelectedRow() != 0){
+        JOptionPane.showMessageDialog(null, "Selecione um produto para excluir.", "Informação sistema",  JOptionPane.INFORMATION_MESSAGE);
+        return;
+        }
+        
         int index = jTListProducts.getSelectedRow();
 
         DefaultTableModel model = (DefaultTableModel) jTListProducts.getModel();
@@ -411,11 +434,35 @@ public class JIFSearchProduct extends javax.swing.JInternalFrame {
          jTFProductSearchText.setEnabled(false);
     }//GEN-LAST:event_jRBProductAllActionPerformed
 
+    private void jBtnUpdateStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jBtnUpdateStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jBtnUpdateStateChanged
+
+    private void jBtnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnUpdateActionPerformed
+
+        if(jTListProducts.getSelectedRow() != 0){
+        JOptionPane.showMessageDialog(null, "Selecione um produto para alterar.", "Informação sistema",  JOptionPane.INFORMATION_MESSAGE);
+        return;
+       }
+        JIFProducts jifProducts = new JIFProducts();
+        JDesktopPane desktop = getDesktopPane();
+        desktop.add(jifProducts);
+
+        int index = jTListProducts.getSelectedRow();
+
+        DefaultTableModel model = (DefaultTableModel) jTListProducts.getModel();
+        String code = model.getValueAt(index, 1).toString();
+
+        jifProducts.showObject(code, 1);
+        jifProducts.show();
+    }//GEN-LAST:event_jBtnUpdateActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JButton jBtnDelete;
     private javax.swing.JButton jBtnFind;
+    private javax.swing.JButton jBtnUpdate;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JRadioButton jRBProductAll;

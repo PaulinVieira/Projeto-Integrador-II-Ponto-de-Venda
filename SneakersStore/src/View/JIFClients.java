@@ -6,15 +6,17 @@ import Util.ClientForm;
 import Util.SearchPostalcode;
 import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
-import static javax.swing.JOptionPane.ERROR_MESSAGE;
 
 public class JIFClients extends javax.swing.JInternalFrame {
 
     JDesktopPane windowManager;
     ClientController clientController = new ClientController();
+    ClientForm form = new ClientForm();
+
 
     public JIFClients() {
         initComponents();
+        jBtnUpdate.setVisible(false);
 
     }
 
@@ -70,7 +72,7 @@ public class JIFClients extends javax.swing.JInternalFrame {
         jTFPostcode1.setText("");
     }
     
-    public void showObject(String cpf) {
+    public void showObject(String cpf, int type) {
         Client c = new Client();
         c = clientController.findClient(cpf);
 
@@ -85,10 +87,15 @@ public class JIFClients extends javax.swing.JInternalFrame {
         this.jTFClientPostcode.setText(c.getClientPostcode());
         this.jTFClientCity.setText(c.getClientCity());
         this.jTFClientDistrict.setText(c.getClientDistrict());
-
+        
+        if(type == 0){
         disableForm();
-
-    }
+        } else {
+            this.jTFClientCPF.setEnabled(false);
+            this.jBtnSave.setVisible(false);
+            this.jBtnUpdate.setVisible(true);
+        }
+}
 
     public void initComponentes() {
 
@@ -153,6 +160,7 @@ public class JIFClients extends javax.swing.JInternalFrame {
         jButton2 = new javax.swing.JButton();
         jBtnSave = new javax.swing.JButton();
         jBtnClear = new javax.swing.JButton();
+        jBtnUpdate = new javax.swing.JButton();
 
         setClosable(true);
         setMaximizable(true);
@@ -527,7 +535,7 @@ public class JIFClients extends javax.swing.JInternalFrame {
 
         jTabbedPane1.addTab("Endereços", jPanel2);
 
-        jBtnSave.setText("Salvar (F2)");
+        jBtnSave.setText("Salvar");
         jBtnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBtnSaveActionPerformed(evt);
@@ -541,6 +549,13 @@ public class JIFClients extends javax.swing.JInternalFrame {
             }
         });
 
+        jBtnUpdate.setText("Alterar");
+        jBtnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnUpdateActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -550,6 +565,8 @@ public class JIFClients extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jTabbedPane1)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jBtnUpdate)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jBtnSave)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jBtnClear)
@@ -564,7 +581,8 @@ public class JIFClients extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBtnSave)
-                    .addComponent(jBtnClear))
+                    .addComponent(jBtnClear)
+                    .addComponent(jBtnUpdate))
                 .addContainerGap())
         );
 
@@ -582,8 +600,6 @@ public class JIFClients extends javax.swing.JInternalFrame {
     private void jBtnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnSaveActionPerformed
 
         Client c = new Client();
-        ClientForm form = new ClientForm();
-        ClientController clientController = new ClientController();
 
         c.setClientCode(this.jTFClientCode.getText());
         c.setClientCPF(this.jTFClientCPF.getText());
@@ -597,14 +613,16 @@ public class JIFClients extends javax.swing.JInternalFrame {
         c.setClientDistrict(this.jTFClientDistrict.getText());
         c.setClientState((String) this.jCBClientState.getSelectedItem());
         c.setClientCity(this.jTFClientCity.getText());
+        
 
-        if (form.ClientValidation(c) || (clientController.uniqueCPF(c.getClientCPF()) == true)) {
-
-            clientController.saveClient(c);
-            JOptionPane.showMessageDialog(null, "Cliente salvo com sucesso!", "Informação Sistema", JOptionPane.INFORMATION_MESSAGE);
-        } else {
+        if (clientController.uniqueCPF(c.getClientCPF()) == false) {
             JOptionPane.showMessageDialog(null, "CPF já existente! Altere a informação do campo", "Informação Sistema", JOptionPane.INFORMATION_MESSAGE);
-
+        } else {
+            
+            if(form.ClientValidation(c)){
+                clientController.saveClient(c);
+            JOptionPane.showMessageDialog(null, "Cliente salvo com sucesso!", "Informação Sistema", JOptionPane.INFORMATION_MESSAGE);
+            }
         }
     }//GEN-LAST:event_jBtnSaveActionPerformed
 
@@ -640,12 +658,36 @@ public class JIFClients extends javax.swing.JInternalFrame {
         this.jCBUf1.setSelectedItem(c.getClientState());
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jBtnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnUpdateActionPerformed
+        
+        Client c = new Client();
+
+        c.setClientCode(this.jTFClientCode.getText());
+        c.setClientCPF(this.jTFClientCPF.getText());
+        c.setClientName(this.jTFClientName.getText());
+        c.setClientEmail(this.jTFClientEmail.getText());
+        c.setClientDtBirth(this.jTFClientDtBirth.getText());
+        c.setClientCellphone(this.jTFClientCellPhone.getText());
+        //incluir método para buscar última compra
+        c.setClientPostcode(this.jTFClientPostcode.getText());
+        c.setClientAddress(this.jTFClientAddress.getText());
+        c.setClientDistrict(this.jTFClientDistrict.getText());
+        c.setClientState((String) this.jCBClientState.getSelectedItem());
+        c.setClientCity(this.jTFClientCity.getText());
+        
+        if(form.ClientValidation(c)){
+                clientController.updateClient(c);
+            JOptionPane.showMessageDialog(null, "Cliente salvo com sucesso!", "Informação Sistema", JOptionPane.INFORMATION_MESSAGE);
+            }
+    }//GEN-LAST:event_jBtnUpdateActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea JTAObs;
     private javax.swing.JTextField JTFDistrict1;
     private javax.swing.JButton jBtnClear;
     private javax.swing.JButton jBtnSave;
+    private javax.swing.JButton jBtnUpdate;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JComboBox<String> jCBClientState;

@@ -6,7 +6,6 @@ import Model.Product;
 import Util.ProductForm;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
 
@@ -15,6 +14,8 @@ public class JIFProducts extends javax.swing.JInternalFrame {
     JDesktopPane windowManager;
     ProductController productController = new ProductController();
     String productCategory = "Tênis";
+    ProductForm form = new ProductForm();
+    
 
     public JIFProducts() {
         initComponents();
@@ -22,6 +23,7 @@ public class JIFProducts extends javax.swing.JInternalFrame {
         this.jRBActive.setSelected(true);
         this.jLabel4.setVisible(false);
         this.jLDtRegistration.setVisible(false);
+        jBtnUpdate.setVisible(false);
 
     }
 
@@ -64,24 +66,31 @@ public class JIFProducts extends javax.swing.JInternalFrame {
         jTFProductPrice.setText("");
     }
 
-    public void showObject(String code) {
+    public void showObject(String code, int type) {
         Product p = new Product();
         p = productController.findProduct(code);
 
         this.jTFProductDescription.setText(p.getProductDescription());
         this.jTFProductCode.setText(p.getProductCode());
         
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        String dataFormatada = dateFormat.format(p.getProductDtRegistration());
+        DateFormat dtFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        String formattedDate = dtFormat.format(p.getProductDtRegistration());
         
-        this.jLDtRegistration.setText(dataFormatada);
+        this.jLDtRegistration.setText(formattedDate);
         this.jTFQTDInitial.setValue(p.getProductQuantity());
         this.jRBActive.setSelected(true);
         this.jTFProductLocation.setText(p.getProductLocation());
         this.jLabel4.setVisible(true);
         this.jLDtRegistration.setVisible(true);
 
-        disableForm();
+         if(type == 0){
+                 disableForm();
+        } else {
+            this.jTFProductCode.setEnabled(false);
+            this.jBtnSave.setVisible(false);
+            this.jBtnUpdate.setVisible(true);
+            this.jTFQTDInitial.setEnabled(false);
+        }
 
     }
 
@@ -124,6 +133,7 @@ public class JIFProducts extends javax.swing.JInternalFrame {
         jLDtRegistration = new javax.swing.JLabel();
         jBtnSave = new javax.swing.JButton();
         jBtnClear = new javax.swing.JButton();
+        jBtnUpdate = new javax.swing.JButton();
 
         setClosable(true);
         setMaximizable(true);
@@ -238,6 +248,11 @@ public class JIFProducts extends javax.swing.JInternalFrame {
         jLabel2.setText("Quantidade Inicial");
 
         jTFQTDInitial.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
+        jTFQTDInitial.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTFQTDInitialActionPerformed(evt);
+            }
+        });
 
         jLabel7.setText("Situação");
 
@@ -246,6 +261,11 @@ public class JIFProducts extends javax.swing.JInternalFrame {
 
         buttonGroup2.add(jRBInactive);
         jRBInactive.setText("Inativo");
+        jRBInactive.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRBInactiveActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jFLayout = new javax.swing.GroupLayout(jF);
         jF.setLayout(jFLayout);
@@ -315,13 +335,14 @@ public class JIFProducts extends javax.swing.JInternalFrame {
                     .addComponent(jLabel3)
                     .addComponent(jTFProductDescription, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jFLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(jTFProductPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(jTFQTDInitial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jFLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLDtRegistration, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jFLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel6)
+                        .addComponent(jTFProductPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel2)
+                        .addComponent(jTFQTDInitial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(jFLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
@@ -357,6 +378,13 @@ public class JIFProducts extends javax.swing.JInternalFrame {
             }
         });
 
+        jBtnUpdate.setText("Alterar");
+        jBtnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnUpdateActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -366,6 +394,9 @@ public class JIFProducts extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 725, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jBtnUpdate)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jBtnSave)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jBtnClear)))
@@ -379,7 +410,8 @@ public class JIFProducts extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBtnSave)
-                    .addComponent(jBtnClear))
+                    .addComponent(jBtnClear)
+                    .addComponent(jBtnUpdate))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -395,6 +427,7 @@ public class JIFProducts extends javax.swing.JInternalFrame {
         p.setProductDescription(this.jTFProductDescription.getText());
         p.setProductLocation(this.jTFProductLocation.getText());
         p.setProductCategory(productCategory);
+        p.setProductQTDInitial(Integer.valueOf(this.jTFQTDInitial.getText()));
            
         if(!this.jTFProductPrice.getText().equals("")){
         String price = this.jTFProductPrice.getText().replace(",", ".");
@@ -448,6 +481,37 @@ public class JIFProducts extends javax.swing.JInternalFrame {
             productCategory = "Bota";
     }//GEN-LAST:event_jRBBotaActionPerformed
 
+    private void jTFQTDInitialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFQTDInitialActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTFQTDInitialActionPerformed
+
+    private void jBtnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnUpdateActionPerformed
+        Product p = new Product();
+
+        p.setProductCode(this.jTFProductCode.getText());
+        p.setProductDescription(this.jTFProductDescription.getText());
+        p.setProductLocation(this.jTFProductLocation.getText());
+        p.setProductCategory(productCategory);
+        p.setProductQTDInitial(Integer.valueOf(this.jTFQTDInitial.getText()));
+           
+        if(!this.jTFProductPrice.getText().equals("")){
+        String price = this.jTFProductPrice.getText().replace(",", ".");
+            p.setProductPrice(Double.parseDouble(price));    
+        }
+            
+            
+             if (form.ProductValidation(p)) {
+                productController.updateProduct(p);
+                JOptionPane.showMessageDialog(null, "Produto salvo com sucesso!", "Informação Sistema", JOptionPane.INFORMATION_MESSAGE);
+            }
+                
+            
+    }//GEN-LAST:event_jBtnUpdateActionPerformed
+
+    private void jRBInactiveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBInactiveActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jRBInactiveActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea JTAObs;
@@ -455,6 +519,7 @@ public class JIFProducts extends javax.swing.JInternalFrame {
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JButton jBtnClear;
     private javax.swing.JButton jBtnSave;
+    private javax.swing.JButton jBtnUpdate;
     private javax.swing.JPanel jF;
     private javax.swing.JLabel jLDtRegistration;
     private javax.swing.JLabel jLabel1;

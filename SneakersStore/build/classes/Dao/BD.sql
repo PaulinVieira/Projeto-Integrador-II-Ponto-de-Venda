@@ -18,24 +18,53 @@ clientCity varchar(255) not null,
 primary key(id)
 );
 
-CREATE TABLE inventory (
-  id int NOT NULL AUTO_INCREMENT,
-  productCode varchar(255) NOT NULL,
-  quantity int DEFAULT NULL,
-  productQuantityAvailable int DEFAULT NULL,
-  PRIMARY KEY (id)
-);
-
 CREATE TABLE products (
   id int NOT NULL AUTO_INCREMENT,
   productCode varchar(255) NOT NULL,
   productCategory varchar(14) NOT NULL,
   productDescription varchar(255) NOT NULL,
   productDtRegistration Datetime,
-  productQuantityAvailable int DEFAULT NULL,
+  productQuantityAvailable int DEFAULT 0 NOT NULL,
   productActive varchar(1) DEFAULT NULL,
   productLocation varchar(255) NOT NULL,
   productPrice double NOT NULL,
   PRIMARY KEY (id),
   UNIQUE KEY productCode (productCode)
-)
+);
+
+
+// Implementação futura para o PDV aguardando tela
+
+CREATE TABLE inventory (
+  id int NOT NULL AUTO_INCREMENT,
+  productCode varchar(255) NOT NULL,
+  quantity int DEFAULT NULL,
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE itensSale(
+	id int not null auto_increment,
+	productCode VARCHAR(255) not null,
+	quantity int not null,
+primary key(id)
+);
+
+DELIMITER $
+CREATE TRIGGER TG_itensSale_I AFTER INSERT
+ON itensSale
+FOR EACH ROW
+BEGIN
+	UPDATE products SET productQuantityAvailable = productQuantityAvailable - NEW.quantity
+WHERE productCode = NEW.productCode;
+END$
+
+CREATE TRIGGER TG_ItensSale_D AFTER DELETE
+ON itensSale
+FOR EACH ROW
+BEGIN
+	UPDATE products SET productQuantityAvailable = productQuantityAvailable + OLD.quantity
+WHERE productCode = OLD.productCode;
+END$
+
+DELIMITER ;
+
