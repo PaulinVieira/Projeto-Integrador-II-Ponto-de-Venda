@@ -38,7 +38,7 @@ public class SearchPostalcode {
             
             
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Não possível possível fazer a busca de CEP automática. Detalhes técnicos:\n"+ e, "Erro sistema" , 0);
+            JOptionPane.showMessageDialog(null, "Verifique o CEP informado e teste novamente.", "Erro sistema" , 0);
             throw new RuntimeException(e);
         }
         return c;

@@ -409,7 +409,7 @@ public class JIFSearchProduct extends javax.swing.JInternalFrame {
 
     private void jBtnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnDeleteActionPerformed
       
-        if(jTListProducts.getSelectedRow() != 0){
+        if(jTListProducts.getSelectedRow() == -1){
         JOptionPane.showMessageDialog(null, "Selecione um produto para excluir.", "Informação sistema",  JOptionPane.INFORMATION_MESSAGE);
         return;
         }
@@ -440,7 +440,7 @@ public class JIFSearchProduct extends javax.swing.JInternalFrame {
 
     private void jBtnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnUpdateActionPerformed
 
-        if(jTListProducts.getSelectedRow() != 0){
+        if(jTListProducts.getSelectedRow() == -1){
         JOptionPane.showMessageDialog(null, "Selecione um produto para alterar.", "Informação sistema",  JOptionPane.INFORMATION_MESSAGE);
         return;
        }

@@ -33,7 +33,7 @@ public class JIFProducts extends javax.swing.JInternalFrame {
         jTFProductDescription.setEditable(false);
         jBtnSave.setEnabled(false);
         jBtnClear.setEnabled(false);
-        JTAObs.setEnabled(false);
+        JTAObs.setEditable(false);
         jRBActive.setEnabled(false);
         jRBInactive.setEnabled(false);
         jRBBota.setEnabled(false);
@@ -42,9 +42,9 @@ public class JIFProducts extends javax.swing.JInternalFrame {
         jRBMeias.setEnabled(false);
         jRBSapato.setEnabled(false);
         jRBTenis.setEnabled(false);
-        jTFQTDInitial.setEnabled(false);
-        jTFProductPrice.setEnabled(false);
-        jTFProductLocation.setEnabled(false);
+        jTFQTDInitial.setEditable(false);
+        jTFProductPrice.setEditable(false);
+        jTFProductLocation.setEditable(false);
 
     }
 
@@ -82,6 +82,7 @@ public class JIFProducts extends javax.swing.JInternalFrame {
         this.jTFProductLocation.setText(p.getProductLocation());
         this.jLabel4.setVisible(true);
         this.jLDtRegistration.setVisible(true);
+        this.jTFProductPrice.setText(p.getProductPrice().toString());
 
          if(type == 0){
                  disableForm();
@@ -310,20 +311,20 @@ public class JIFProducts extends javax.swing.JInternalFrame {
                             .addGroup(jFLayout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jFLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jFLayout.createSequentialGroup()
-                                        .addComponent(jLabel4)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLDtRegistration, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel6)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTFProductPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel2)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTFQTDInitial, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jTFProductDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 643, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLDtRegistration, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTFProductPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTFQTDInitial, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jFLayout.createSequentialGroup()
+                                .addGap(64, 64, 64)
+                                .addComponent(jTFProductDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 643, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(10, 10, 10))
         );
         jFLayout.setVerticalGroup(
@@ -341,13 +342,14 @@ public class JIFProducts extends javax.swing.JInternalFrame {
                     .addComponent(jTFProductDescription, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jFLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLDtRegistration, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jFLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel6)
                         .addComponent(jTFProductPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel2)
-                        .addComponent(jTFQTDInitial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jTFQTDInitial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jFLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jLDtRegistration, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(jFLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
@@ -366,6 +368,8 @@ public class JIFProducts extends javax.swing.JInternalFrame {
                         .addComponent(jLabel8)))
                 .addContainerGap(10, Short.MAX_VALUE))
         );
+
+        jFLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLDtRegistration, jLabel4});
 
         jTabbedPane1.addTab("Informações Gerais", jF);
 

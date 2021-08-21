@@ -414,7 +414,7 @@ public class JIFSearchClient extends javax.swing.JInternalFrame {
 
     private void jBtnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnDeleteActionPerformed
         
-        if(jTListClients.getSelectedRow() != 0){
+        if(jTListClients.getSelectedRow() == -1 ){
         JOptionPane.showMessageDialog(null, "Selecione um cliente para excluir.", "Informação sistema",  JOptionPane.INFORMATION_MESSAGE);
         return;
         }
@@ -445,7 +445,7 @@ public class JIFSearchClient extends javax.swing.JInternalFrame {
 
     private void jBtnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnUpdateActionPerformed
        
-        if(jTListClients.getSelectedRow() != 0){
+        if(jTListClients.getSelectedRow() == -1){
         JOptionPane.showMessageDialog(null, "Selecione um cliente para alterar.", "Informação sistema",  JOptionPane.INFORMATION_MESSAGE);
         return;
         }
