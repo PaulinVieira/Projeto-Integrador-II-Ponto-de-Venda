@@ -25,7 +25,7 @@ public class ProductForm {
             JOptionPane.showMessageDialog(null, "Preencha a localização física do produto.");
             return false;
         }
-
+        
         return true;
     }
 

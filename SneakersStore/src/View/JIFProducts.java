@@ -155,7 +155,12 @@ public class JIFProducts extends javax.swing.JInternalFrame {
 
         jLabel5.setText("Localização Fisica");
 
-        jTFProductPrice.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0"))));
+        jTFProductPrice.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
+        jTFProductPrice.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTFProductPriceActionPerformed(evt);
+            }
+        });
 
         jLabel8.setText("Observações");
 
@@ -427,11 +432,15 @@ public class JIFProducts extends javax.swing.JInternalFrame {
         p.setProductDescription(this.jTFProductDescription.getText());
         p.setProductLocation(this.jTFProductLocation.getText());
         p.setProductCategory(productCategory);
-        p.setProductQTDInitial(Integer.valueOf(this.jTFQTDInitial.getText()));
+       
+        if(!this.jTFQTDInitial.getText().equals("")){
+            p.setProductQTDInitial(Integer.valueOf(this.jTFQTDInitial.getText().replace(".", "")));
+        }
+
            
         if(!this.jTFProductPrice.getText().equals("")){
-        String price = this.jTFProductPrice.getText().replace(",", ".");
-            p.setProductPrice(Double.parseDouble(price));    
+        String price = this.jTFProductPrice.getText().replace(".", "");
+            p.setProductPrice(Double.parseDouble(price.replaceAll(",", ".")));    
         }
             
             if (productController.uniqueCode(p.getProductCode()) == false) {
@@ -495,8 +504,8 @@ public class JIFProducts extends javax.swing.JInternalFrame {
         p.setProductQTDInitial(Integer.valueOf(this.jTFQTDInitial.getText()));
            
         if(!this.jTFProductPrice.getText().equals("")){
-        String price = this.jTFProductPrice.getText().replace(",", ".");
-            p.setProductPrice(Double.parseDouble(price));    
+        p.setProductPrice(Double.parseDouble(jTFProductPrice.getText().replace("," , "." ).substring(3)));
+
         }
             
             
@@ -511,6 +520,10 @@ public class JIFProducts extends javax.swing.JInternalFrame {
     private void jRBInactiveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBInactiveActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jRBInactiveActionPerformed
+
+    private void jTFProductPriceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFProductPriceActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTFProductPriceActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
