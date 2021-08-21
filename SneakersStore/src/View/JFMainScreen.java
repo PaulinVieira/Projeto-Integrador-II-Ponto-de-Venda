@@ -5,27 +5,24 @@ import java.beans.PropertyVetoException;
 import javax.swing.JDesktopPane;
 
 public class JFMainScreen extends javax.swing.JFrame {
-    
+
     PositionForm form = new PositionForm();
-    
+
     public JFMainScreen() {
-      
+
         initComponents();
         this.setExtendedState(MAXIMIZED_BOTH);
-        
-                  try {            
-            jdpMain.add(Background);            
+
+        try {
+            jdpMain.add(Background);
             Background.setMaximum(true);
             Background.setVisible(true);
-            
+
         } catch (PropertyVetoException e) {
         }
-        
 
     }
-   
 
-   
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -117,33 +114,35 @@ public class JFMainScreen extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMIClientsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIClientsActionPerformed
-        
+
         JIFClients jifClients;
         form.openForm(jifClients = new JIFClients(), jdpMain);
-        
+
     }//GEN-LAST:event_jMIClientsActionPerformed
 
     private void jMIProductsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIProductsActionPerformed
+
         JIFProducts jifProducts;
         form.openForm(jifProducts = new JIFProducts(), jdpMain);
+
     }//GEN-LAST:event_jMIProductsActionPerformed
 
     private void jMIFindClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIFindClientActionPerformed
-        
+
         JIFSearchClient jifSearchClient;
         form.openForm(jifSearchClient = new JIFSearchClient(), jdpMain);
-        
+
     }//GEN-LAST:event_jMIFindClientActionPerformed
 
     private void jMIFindProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIFindProductActionPerformed
-       
+
         JIFSearchProduct jifSearchProduct;
         form.openForm(jifSearchProduct = new JIFSearchProduct(), jdpMain);
+
     }//GEN-LAST:event_jMIFindProductActionPerformed
 
-   
     public static void main(String args[]) {
-       
+
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
@@ -155,26 +154,19 @@ public class JFMainScreen extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(JFMainScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(JFMainScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(JFMainScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(JFMainScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
 
-    
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new JFMainScreen().setVisible(true);
-            }
+        //</editor-fold>
+        //</editor-fold>
+        java.awt.EventQueue.invokeLater(() -> {
+            new JFMainScreen().setVisible(true);
         });
     }
-private JIFBackground Background = new JIFBackground();
+    private JIFBackground Background = new JIFBackground();
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem jMIClients;
     private javax.swing.JMenuItem jMIFindClient;

@@ -33,6 +33,7 @@ public class InventoryController {
             Logger.getLogger(InventoryController.class.getName()).log(Level.SEVERE, null, ex);
 
         } finally {
+            
             ConnectionDatabase.closeConnection(con, stmt);
         }
     }

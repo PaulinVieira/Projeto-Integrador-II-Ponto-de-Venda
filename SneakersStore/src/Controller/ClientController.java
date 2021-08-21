@@ -48,8 +48,8 @@ public class ClientController {
             ConnectionDatabase.closeConnection(con, stmt);
         }
     }
-    
-     public void updateClient(Client c) {
+
+    public void updateClient(Client c) {
         Connection con = ConnectionDatabase.getConnection();
         PreparedStatement stmt = null;
         try {
@@ -99,6 +99,7 @@ public class ClientController {
             String err = "Ocorreu um erro não documentado. Impossível concluir a operação.\nDetalhes técnicos: " + ex;
             JOptionPane.showMessageDialog(null, err, "ERRO Desconhecido", ERROR_MESSAGE);
             Logger.getLogger(ClientController.class.getName()).log(Level.SEVERE, null, ex);
+
         } finally {
             ConnectionDatabase.closeConnection(con, stmt);
         }
@@ -110,21 +111,18 @@ public class ClientController {
         Connection con = ConnectionDatabase.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        
-        if(cpf == null || cpf.equals(""))
+
+        if (cpf == null || cpf.equals("")) {
             return false;
-       
+        }
+
         try {
 
             stmt = con.prepareStatement("SELECT id FROM clients WHERE clientCPF = \'" + cpf + "\'");
 
             rs = stmt.executeQuery();
 
-            if (rs.next()) {
-                uniqueCPF = false;
-            } else {
-                uniqueCPF = true;
-            }
+            uniqueCPF = !rs.next();
 
         } catch (SQLException ex) {
 
@@ -132,6 +130,7 @@ public class ClientController {
             JOptionPane.showMessageDialog(null, err, "ERRO Desconhecido", ERROR_MESSAGE);
             Logger.getLogger(ClientController.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
+
             ConnectionDatabase.closeConnection(con, stmt, rs);
         }
         return uniqueCPF;
@@ -169,6 +168,7 @@ public class ClientController {
             JOptionPane.showMessageDialog(null, err, "ERRO Desconhecido", ERROR_MESSAGE);
             Logger.getLogger(ClientController.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
+
             ConnectionDatabase.closeConnection(con, stmt, rs);
         }
         return c;
@@ -207,6 +207,7 @@ public class ClientController {
             JOptionPane.showMessageDialog(null, err, "ERRO Desconhecido", ERROR_MESSAGE);
             Logger.getLogger(ClientController.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
+
             ConnectionDatabase.closeConnection(con, stmt, rs);
         }
         return listClients;
@@ -281,6 +282,7 @@ public class ClientController {
             JOptionPane.showMessageDialog(null, err, "ERRO Desconhecido", ERROR_MESSAGE);
             Logger.getLogger(ClientController.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
+
             ConnectionDatabase.closeConnection(con, stmt, rs);
         }
         return listClients;
@@ -322,7 +324,7 @@ public class ClientController {
         }
         return listClients;
     }
-    
+
     public ArrayList<Client> findAll() {
 
         Connection con = ConnectionDatabase.getConnection();
@@ -355,6 +357,7 @@ public class ClientController {
             JOptionPane.showMessageDialog(null, err, "ERRO Desconhecido", ERROR_MESSAGE);
             Logger.getLogger(ClientController.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
+
             ConnectionDatabase.closeConnection(con, stmt, rs);
         }
         return listClients;

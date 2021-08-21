@@ -1,18 +1,12 @@
 package View;
 
-import Controller.ClientController;
 import Controller.ProductController;
-import Model.Client;
 import Model.Product;
 import Util.PositionForm;
 import static java.lang.Thread.sleep;
 import java.util.ArrayList;
-import static javax.management.Query.gt;
-import javax.swing.JButton;
 import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 public class JIFSearchProduct extends javax.swing.JInternalFrame {
@@ -305,7 +299,7 @@ public class JIFSearchProduct extends javax.swing.JInternalFrame {
 
         if (model.getRowCount() == 0) {
             JOptionPane.showMessageDialog(null, "Não existem registros com o parâmetro informado.", "Informação do Sistema", JOptionPane.INFORMATION_MESSAGE);
-        return;
+            return;
         }
         jBtnDelete.setVisible(true);
         jBtnUpdate.setVisible(true);
@@ -330,7 +324,7 @@ public class JIFSearchProduct extends javax.swing.JInternalFrame {
         jTFProductSearchText.setEnabled(true);
         selectedOption = 4;
     }//GEN-LAST:event_jRBProductLocationActionPerformed
-    
+
     private void jBtnFindActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnFindActionPerformed
         //futuramente (se possível) implementar strategy para melhorar a codificação.
 
@@ -362,12 +356,11 @@ public class JIFSearchProduct extends javax.swing.JInternalFrame {
             addRowToTable(productController.findAll());
             verifyModel();
         }
-        
 
     }//GEN-LAST:event_jBtnFindActionPerformed
 
     private void jTListProductsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTListProductsMouseClicked
-        
+
         //só abrir a jifClients se houver um duplo clique, e se o evento não foi chamado anteriormente.
         if (evt.getClickCount() == 2 && !evt.isConsumed()) {
             evt.consume();
@@ -408,12 +401,12 @@ public class JIFSearchProduct extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jBtnDeleteStateChanged
 
     private void jBtnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnDeleteActionPerformed
-      
-        if(jTListProducts.getSelectedRow() == -1){
-        JOptionPane.showMessageDialog(null, "Selecione um produto para excluir.", "Informação sistema",  JOptionPane.INFORMATION_MESSAGE);
-        return;
+
+        if (jTListProducts.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(null, "Selecione um produto para excluir.", "Informação sistema", JOptionPane.INFORMATION_MESSAGE);
+            return;
         }
-        
+
         int index = jTListProducts.getSelectedRow();
 
         DefaultTableModel model = (DefaultTableModel) jTListProducts.getModel();
@@ -422,16 +415,16 @@ public class JIFSearchProduct extends javax.swing.JInternalFrame {
         int input = JOptionPane.showConfirmDialog(null, "Deseja realmente excluir o produto selecionado?");
         if (input == 0) {
             productController.deleteByCode(code);
-            jBtnDelete.setVisible(false);       
-            JOptionPane.showMessageDialog(null, "Produto excluído com sucesso.", "Informação sistema",  JOptionPane.INFORMATION_MESSAGE);
+            jBtnDelete.setVisible(false);
+            JOptionPane.showMessageDialog(null, "Produto excluído com sucesso.", "Informação sistema", JOptionPane.INFORMATION_MESSAGE);
             reset();
         }
     }//GEN-LAST:event_jBtnDeleteActionPerformed
 
     private void jRBProductAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBProductAllActionPerformed
-         selectedOption = 5;
-         jTFProductSearchText.setText("");
-         jTFProductSearchText.setEnabled(false);
+        selectedOption = 5;
+        jTFProductSearchText.setText("");
+        jTFProductSearchText.setEnabled(false);
     }//GEN-LAST:event_jRBProductAllActionPerformed
 
     private void jBtnUpdateStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jBtnUpdateStateChanged
@@ -440,10 +433,10 @@ public class JIFSearchProduct extends javax.swing.JInternalFrame {
 
     private void jBtnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnUpdateActionPerformed
 
-        if(jTListProducts.getSelectedRow() == -1){
-        JOptionPane.showMessageDialog(null, "Selecione um produto para alterar.", "Informação sistema",  JOptionPane.INFORMATION_MESSAGE);
-        return;
-       }
+        if (jTListProducts.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(null, "Selecione um produto para alterar.", "Informação sistema", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
         JIFProducts jifProducts = new JIFProducts();
         JDesktopPane desktop = getDesktopPane();
         desktop.add(jifProducts);

@@ -18,13 +18,13 @@ public class ProductController {
         Connection con = ConnectionDatabase.getConnection();
         PreparedStatement stmt = null;
 
-        try {            
+        try {
             stmt = con.prepareStatement(
                     "insert into Products ("
                     + "productCode, productCategory, productDescription, productActive,"
                     + "productLocation, productPrice, productQuantityAvailable, productDtRegistration)"
                     + "values (?, ?, ?, ?, ?, ?, ?,CURRENT_TIMESTAMP());");
- 
+
             stmt.setString(1, p.getProductCode());
             stmt.setString(2, p.getProductCategory());
             stmt.setString(3, p.getProductDescription());
@@ -32,7 +32,7 @@ public class ProductController {
             stmt.setString(5, p.getProductLocation());
             stmt.setDouble(6, p.getProductPrice());
             stmt.setInt(7, p.getProductQTDInitial());
-            
+
             stmt.executeUpdate();
         } catch (SQLException ex) {
 
@@ -41,26 +41,27 @@ public class ProductController {
             Logger.getLogger(ProductController.class.getName()).log(Level.SEVERE, null, ex);
 
         } finally {
+
             ConnectionDatabase.closeConnection(con, stmt);
         }
     }
-    
-    public void updateProduct (Product p) {
+
+    public void updateProduct(Product p) {
         Connection con = ConnectionDatabase.getConnection();
         PreparedStatement stmt = null;
 
-        try {            
+        try {
             stmt = con.prepareStatement(
                     "update products set productCategory = ?, productDescription = ?, "
                     + "productActive = ?, productLocation = ?, productPrice = ? ");
- 
+
             stmt.setString(1, p.getProductCategory());
             stmt.setString(2, p.getProductDescription());
             //implementar inativar produto/cliente
             stmt.setString(3, "S");
             stmt.setString(4, p.getProductLocation());
             stmt.setDouble(5, p.getProductPrice());
-            
+
             stmt.executeUpdate();
         } catch (SQLException ex) {
 
@@ -69,16 +70,15 @@ public class ProductController {
             Logger.getLogger(ProductController.class.getName()).log(Level.SEVERE, null, ex);
 
         } finally {
+
             ConnectionDatabase.closeConnection(con, stmt);
         }
     }
-    
-    
 
     public void deleteByCode(String code) {
         Connection con = ConnectionDatabase.getConnection();
         PreparedStatement stmt = null;
-        
+
         try {
 
             stmt = con.prepareStatement("delete from products where productCode= \'" + code + "\'");
@@ -101,7 +101,7 @@ public class ProductController {
         Connection con = ConnectionDatabase.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        
+
         try {
 
             stmt = con.prepareStatement("SELECT id FROM products WHERE productCode = \'" + code + "\'");
@@ -117,7 +117,9 @@ public class ProductController {
             String err = "Ocorreu um erro não documentado. Impossível concluir a operação.\nDetalhes técnicos: " + ex;
             JOptionPane.showMessageDialog(null, err, "ERRO Desconhecido", ERROR_MESSAGE);
             Logger.getLogger(ProductController.class.getName()).log(Level.SEVERE, null, ex);
+
         } finally {
+
             ConnectionDatabase.closeConnection(con, stmt, rs);
         }
         return uniqueCode;
@@ -134,9 +136,9 @@ public class ProductController {
 
             stmt = con.prepareStatement("SELECT * FROM products WHERE productCode = \'" + code + "\'");
             rs = stmt.executeQuery();
-            
+
             rs.next();
-            
+
             p.setProductCode(rs.getString("productCode"));
             p.setProductCategory(rs.getString("productCategory"));
             p.setProductDescription(rs.getString("productDescription"));
@@ -145,7 +147,7 @@ public class ProductController {
             p.setProductQuantity(rs.getInt("productQuantityAvailable"));
             p.setProductPrice(rs.getDouble("productPrice"));
             p.setProductDtRegistration(rs.getTimestamp("productDtRegistration"));
-            
+
             rs.next();
 
         } catch (SQLException ex) {
@@ -154,6 +156,7 @@ public class ProductController {
             JOptionPane.showMessageDialog(null, err, "ERRO Desconhecido", ERROR_MESSAGE);
             Logger.getLogger(ProductController.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
+
             ConnectionDatabase.closeConnection(con, stmt, rs);
         }
         return p;
@@ -174,15 +177,15 @@ public class ProductController {
 
             while (rs.next()) {
                 Product p = new Product();
-                
+
                 p.setProductCode(rs.getString("productCode"));
                 p.setProductCategory(rs.getString("productCategory"));
                 p.setProductDescription(rs.getString("productDescription"));
                 p.setProductQuantity(rs.getInt("productQuantityAvailable"));
                 p.setProductLocation(rs.getString("productLocation"));
-                p.setProductPrice(rs.getDouble("productPrice"));    
+                p.setProductPrice(rs.getDouble("productPrice"));
                 p.setProductDtRegistration(rs.getTimestamp("productDtRegistration"));
-                
+
                 listProducts.add(p);
 
             }
@@ -192,6 +195,7 @@ public class ProductController {
             JOptionPane.showMessageDialog(null, err, "ERRO Desconhecido", ERROR_MESSAGE);
             Logger.getLogger(ProductController.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
+
             ConnectionDatabase.closeConnection(con, stmt, rs);
         }
         return listProducts;
@@ -217,9 +221,9 @@ public class ProductController {
                 p.setProductDescription(rs.getString("productDescription"));
                 p.setProductQuantity(rs.getInt("productQuantityAvailable"));
                 p.setProductLocation(rs.getString("productLocation"));
-                p.setProductPrice(rs.getDouble("productPrice")); 
+                p.setProductPrice(rs.getDouble("productPrice"));
                 p.setProductDtRegistration(rs.getTimestamp("productDtRegistration"));
-                
+
                 listProducts.add(p);
 
             }
@@ -229,12 +233,13 @@ public class ProductController {
             JOptionPane.showMessageDialog(null, err, "ERRO Desconhecido", ERROR_MESSAGE);
             Logger.getLogger(ProductController.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
+
             ConnectionDatabase.closeConnection(con, stmt, rs);
         }
         return listProducts;
     }
 
-     public ArrayList<Product> findByCategory(String category) {
+    public ArrayList<Product> findByCategory(String category) {
 
         Connection con = ConnectionDatabase.getConnection();
         PreparedStatement stmt = null;
@@ -256,7 +261,7 @@ public class ProductController {
                 p.setProductLocation(rs.getString("productLocation"));
                 p.setProductPrice(rs.getDouble("productPrice"));
                 p.setProductDtRegistration(rs.getTimestamp("productDtRegistration"));
-                
+
                 listProducts.add(p);
 
             }
@@ -266,6 +271,7 @@ public class ProductController {
             JOptionPane.showMessageDialog(null, err, "ERRO Desconhecido", ERROR_MESSAGE);
             Logger.getLogger(ProductController.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
+
             ConnectionDatabase.closeConnection(con, stmt, rs);
         }
         return listProducts;
@@ -291,9 +297,9 @@ public class ProductController {
                 p.setProductDescription(rs.getString("productDescription"));
                 p.setProductQuantity(rs.getInt("productQuantityAvailable"));
                 p.setProductLocation(rs.getString("productLocation"));
-                p.setProductPrice(rs.getDouble("productPrice")); 
+                p.setProductPrice(rs.getDouble("productPrice"));
                 p.setProductDtRegistration(rs.getTimestamp("productDtRegistration"));
-                
+
                 listProducts.add(p);
 
             }
@@ -303,11 +309,12 @@ public class ProductController {
             JOptionPane.showMessageDialog(null, err, "ERRO Desconhecido", ERROR_MESSAGE);
             Logger.getLogger(ProductController.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
+
             ConnectionDatabase.closeConnection(con, stmt, rs);
         }
         return listProducts;
     }
-    
+
     public ArrayList<Product> findAll() {
 
         Connection con = ConnectionDatabase.getConnection();
@@ -328,9 +335,9 @@ public class ProductController {
                 p.setProductDescription(rs.getString("productDescription"));
                 p.setProductQuantity(rs.getInt("productQuantityAvailable"));
                 p.setProductLocation(rs.getString("productLocation"));
-                p.setProductPrice(rs.getDouble("productPrice"));  
+                p.setProductPrice(rs.getDouble("productPrice"));
                 p.setProductDtRegistration(rs.getDate("productDtRegistration"));
-                
+
                 listProducts.add(p);
 
             }
@@ -340,6 +347,7 @@ public class ProductController {
             JOptionPane.showMessageDialog(null, err, "ERRO Desconhecido", ERROR_MESSAGE);
             Logger.getLogger(ProductController.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
+
             ConnectionDatabase.closeConnection(con, stmt, rs);
         }
         return listProducts;

@@ -5,12 +5,8 @@ import Model.Client;
 import Util.PositionForm;
 import static java.lang.Thread.sleep;
 import java.util.ArrayList;
-import static javax.management.Query.gt;
-import javax.swing.JButton;
 import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 public class JIFSearchClient extends javax.swing.JInternalFrame {
@@ -300,20 +296,14 @@ public class JIFSearchClient extends javax.swing.JInternalFrame {
 
     private void verifyModel() {
         DefaultTableModel model = (DefaultTableModel) jTListClients.getModel();
-        
+
         if (model.getRowCount() == 0) {
             JOptionPane.showMessageDialog(null, "Não existem registros com o parâmetro informado.", "Informação do Sistema", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
-        
+
         jBtnDelete.setVisible(true);
         jBtnUpdate.setVisible(true);
-        
-        
-        
-                    
-        
-        
 
     }
     private void jRBClientNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBClientNameActionPerformed
@@ -335,7 +325,7 @@ public class JIFSearchClient extends javax.swing.JInternalFrame {
         jTFClientSearchText.setEnabled(true);
         selectedOption = 4;
     }//GEN-LAST:event_jRBClientEmailActionPerformed
-    
+
     private void jBtnFindActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnFindActionPerformed
         //futuramente (se possível) implementar strategy para melhorar a codificação.
 
@@ -367,12 +357,11 @@ public class JIFSearchClient extends javax.swing.JInternalFrame {
             addRowToTable(clientController.findAll());
             verifyModel();
         }
-        
 
     }//GEN-LAST:event_jBtnFindActionPerformed
 
     private void jTListClientsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTListClientsMouseClicked
-       
+
         //só abrir a jifClients se houver um duplo clique, e se o evento não foi chamado anteriormente.
         if (evt.getClickCount() == 2 && !evt.isConsumed()) {
             evt.consume();
@@ -386,7 +375,7 @@ public class JIFSearchClient extends javax.swing.JInternalFrame {
             DefaultTableModel model = (DefaultTableModel) jTListClients.getModel();
             String cpf = model.getValueAt(index, 2).toString();
 
-            jifClients.showObject(cpf,0);
+            jifClients.showObject(cpf, 0);
             jifClients.show();
         }
 
@@ -413,12 +402,12 @@ public class JIFSearchClient extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jBtnDeleteStateChanged
 
     private void jBtnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnDeleteActionPerformed
-        
-        if(jTListClients.getSelectedRow() == -1 ){
-        JOptionPane.showMessageDialog(null, "Selecione um cliente para excluir.", "Informação sistema",  JOptionPane.INFORMATION_MESSAGE);
-        return;
+
+        if (jTListClients.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(null, "Selecione um cliente para excluir.", "Informação sistema", JOptionPane.INFORMATION_MESSAGE);
+            return;
         }
-        
+
         int index = jTListClients.getSelectedRow();
 
         DefaultTableModel model = (DefaultTableModel) jTListClients.getModel();
@@ -427,16 +416,16 @@ public class JIFSearchClient extends javax.swing.JInternalFrame {
         int input = JOptionPane.showConfirmDialog(null, "Deseja realmente excluir o cliente selecionado?");
         if (input == 0) {
             clientController.deleteByCPF(cpf);
-            jBtnDelete.setVisible(false);       
-            JOptionPane.showMessageDialog(null, "Cliente excluído com sucesso.", "Informação sistema",  JOptionPane.INFORMATION_MESSAGE);
+            jBtnDelete.setVisible(false);
+            JOptionPane.showMessageDialog(null, "Cliente excluído com sucesso.", "Informação sistema", JOptionPane.INFORMATION_MESSAGE);
             reset();
         }
     }//GEN-LAST:event_jBtnDeleteActionPerformed
 
     private void jRBClientAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBClientAllActionPerformed
-         selectedOption = 5;
-         jTFClientSearchText.setText("");
-         jTFClientSearchText.setEnabled(false);
+        selectedOption = 5;
+        jTFClientSearchText.setText("");
+        jTFClientSearchText.setEnabled(false);
     }//GEN-LAST:event_jRBClientAllActionPerformed
 
     private void jBtnUpdateStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jBtnUpdateStateChanged
@@ -444,22 +433,22 @@ public class JIFSearchClient extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jBtnUpdateStateChanged
 
     private void jBtnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnUpdateActionPerformed
-       
-        if(jTListClients.getSelectedRow() == -1){
-        JOptionPane.showMessageDialog(null, "Selecione um cliente para alterar.", "Informação sistema",  JOptionPane.INFORMATION_MESSAGE);
-        return;
+
+        if (jTListClients.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(null, "Selecione um cliente para alterar.", "Informação sistema", JOptionPane.INFORMATION_MESSAGE);
+            return;
         }
-            JIFClients jifClients = new JIFClients();
-            JDesktopPane desktop = getDesktopPane();
-            desktop.add(jifClients);
+        JIFClients jifClients = new JIFClients();
+        JDesktopPane desktop = getDesktopPane();
+        desktop.add(jifClients);
 
-            int index = jTListClients.getSelectedRow();
+        int index = jTListClients.getSelectedRow();
 
-            DefaultTableModel model = (DefaultTableModel) jTListClients.getModel();
-            String cpf = model.getValueAt(index, 2).toString();
+        DefaultTableModel model = (DefaultTableModel) jTListClients.getModel();
+        String cpf = model.getValueAt(index, 2).toString();
 
-            jifClients.showObject(cpf, 1);
-            jifClients.show();
+        jifClients.showObject(cpf, 1);
+        jifClients.show();
     }//GEN-LAST:event_jBtnUpdateActionPerformed
 
 

@@ -1,6 +1,5 @@
 package View;
 
-
 import Controller.ProductController;
 import Model.Product;
 import Util.ProductForm;
@@ -15,7 +14,6 @@ public class JIFProducts extends javax.swing.JInternalFrame {
     ProductController productController = new ProductController();
     String productCategory = "Tênis";
     ProductForm form = new ProductForm();
-    
 
     public JIFProducts() {
         initComponents();
@@ -67,15 +65,14 @@ public class JIFProducts extends javax.swing.JInternalFrame {
     }
 
     public void showObject(String code, int type) {
-        Product p = new Product();
-        p = productController.findProduct(code);
+        Product p = p = productController.findProduct(code);
 
         this.jTFProductDescription.setText(p.getProductDescription());
         this.jTFProductCode.setText(p.getProductCode());
-        
+
         DateFormat dtFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         String formattedDate = dtFormat.format(p.getProductDtRegistration());
-        
+
         this.jLDtRegistration.setText(formattedDate);
         this.jTFQTDInitial.setValue(p.getProductQuantity());
         this.jRBActive.setSelected(true);
@@ -84,8 +81,8 @@ public class JIFProducts extends javax.swing.JInternalFrame {
         this.jLDtRegistration.setVisible(true);
         this.jTFProductPrice.setText(p.getProductPrice().toString());
 
-         if(type == 0){
-                 disableForm();
+        if (type == 0) {
+            disableForm();
         } else {
             this.jTFProductCode.setEnabled(false);
             this.jBtnSave.setVisible(false);
@@ -430,36 +427,33 @@ public class JIFProducts extends javax.swing.JInternalFrame {
     private void jBtnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnSaveActionPerformed
 
         Product p = new Product();
-        ProductForm form = new ProductForm();
 
         p.setProductCode(this.jTFProductCode.getText());
         p.setProductDescription(this.jTFProductDescription.getText());
         p.setProductLocation(this.jTFProductLocation.getText());
         p.setProductCategory(productCategory);
-       
-        if(!this.jTFQTDInitial.getText().equals("")){
+
+        if (!this.jTFQTDInitial.getText().equals("")) {
             p.setProductQTDInitial(Integer.valueOf(this.jTFQTDInitial.getText().replace(".", "")));
         }
 
-           
-        if(!this.jTFProductPrice.getText().equals("")){
-        String price = this.jTFProductPrice.getText().replace(".", "");
-            p.setProductPrice(Double.parseDouble(price.replaceAll(",", ".")));    
+        if (!this.jTFProductPrice.getText().equals("")) {
+            String price = this.jTFProductPrice.getText().replace(".", "");
+            p.setProductPrice(Double.parseDouble(price.replaceAll(",", ".")));
         }
-            
-            if (productController.uniqueCode(p.getProductCode()) == false) {
-                JOptionPane.showMessageDialog(null, "Código já existente! Altere a informação do campo", "Informação Sistema", JOptionPane.INFORMATION_MESSAGE);
-            } else{
-            
-             if (form.ProductValidation(p)) {
+
+        if (productController.uniqueCode(p.getProductCode()) == false) {
+            JOptionPane.showMessageDialog(null, "Código já existente! Altere a informação do campo", "Informação Sistema", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+
+            if (form.ProductValidation(p)) {
                 productController.saveProduct(p);
                 JOptionPane.showMessageDialog(null, "Produto salvo com sucesso!", "Informação Sistema", JOptionPane.INFORMATION_MESSAGE);
             }
-                
-            }
-            
-            
-        
+
+        }
+
+
     }//GEN-LAST:event_jBtnSaveActionPerformed
 
     private void jBtnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnClearActionPerformed
@@ -471,27 +465,27 @@ public class JIFProducts extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jTFProductDescriptionActionPerformed
 
     private void jRBTenisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBTenisActionPerformed
-            productCategory = "Tênis";        
+        productCategory = "Tênis";
     }//GEN-LAST:event_jRBTenisActionPerformed
 
     private void jRBEsportivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBEsportivoActionPerformed
-            productCategory = "Esportivo";
+        productCategory = "Esportivo";
     }//GEN-LAST:event_jRBEsportivoActionPerformed
 
     private void jRBSapatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBSapatoActionPerformed
-            productCategory = "Sapato";
+        productCategory = "Sapato";
     }//GEN-LAST:event_jRBSapatoActionPerformed
 
     private void jRBMeiasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBMeiasActionPerformed
-            productCategory = "Meias";
+        productCategory = "Meias";
     }//GEN-LAST:event_jRBMeiasActionPerformed
 
     private void jRBChineloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBChineloActionPerformed
-            productCategory = "Chinelo";
+        productCategory = "Chinelo";
     }//GEN-LAST:event_jRBChineloActionPerformed
 
     private void jRBBotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBBotaActionPerformed
-            productCategory = "Bota";
+        productCategory = "Bota";
     }//GEN-LAST:event_jRBBotaActionPerformed
 
     private void jTFQTDInitialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFQTDInitialActionPerformed
@@ -506,19 +500,17 @@ public class JIFProducts extends javax.swing.JInternalFrame {
         p.setProductLocation(this.jTFProductLocation.getText());
         p.setProductCategory(productCategory);
         p.setProductQTDInitial(Integer.valueOf(this.jTFQTDInitial.getText()));
-           
-        if(!this.jTFProductPrice.getText().equals("")){
-        p.setProductPrice(Double.parseDouble(jTFProductPrice.getText().replace("," , "." ).substring(3)));
+
+        if (!this.jTFProductPrice.getText().equals("")) {
+            p.setProductPrice(Double.parseDouble(jTFProductPrice.getText().replace(",", ".").substring(3)));
 
         }
-            
-            
-             if (form.ProductValidation(p)) {
-                productController.updateProduct(p);
-                JOptionPane.showMessageDialog(null, "Produto alterado com sucesso!", "Informação Sistema", JOptionPane.INFORMATION_MESSAGE);
-            }
-                
-            
+        if (form.ProductValidation(p)) {
+            productController.updateProduct(p);
+            JOptionPane.showMessageDialog(null, "Produto alterado com sucesso!", "Informação Sistema", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+
     }//GEN-LAST:event_jBtnUpdateActionPerformed
 
     private void jRBInactiveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBInactiveActionPerformed

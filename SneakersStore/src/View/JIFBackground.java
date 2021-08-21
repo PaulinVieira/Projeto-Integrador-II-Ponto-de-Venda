@@ -10,18 +10,20 @@ public class JIFBackground extends javax.swing.JInternalFrame {
     public JIFBackground() {
         super(null, false, false, false);
         initComponents();
-        
+
         try {
-            background = javax.imageio.ImageIO.read(new java.net.URL(getClass().getResource("img--background.png"), "img--background.png"));           
+            background = javax.imageio.ImageIO.read(new java.net.URL(getClass().getResource("img--background.png"), "img--background.png"));
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Não foi possível carregar a imagem de fundo, contate o suporte", "Erro - Imagem fundo", 0);
         }
     }
-        public void paint(Graphics Background){
-    
-            Background.drawImage(background, 0, 0, getWidth(), getHeight(), this);
-        }
-    
+
+    @Override
+    public void paint(Graphics Background) {
+
+        Background.drawImage(background, 0, 0, getWidth(), getHeight(), this);
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -40,8 +42,8 @@ public class JIFBackground extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-protected static Image background;
-    
+    protected static Image background;
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }

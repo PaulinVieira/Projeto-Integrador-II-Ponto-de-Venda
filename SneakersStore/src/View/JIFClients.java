@@ -13,7 +13,6 @@ public class JIFClients extends javax.swing.JInternalFrame {
     ClientController clientController = new ClientController();
     ClientForm form = new ClientForm();
 
-
     public JIFClients() {
         initComponents();
         jBtnUpdate.setVisible(false);
@@ -49,8 +48,8 @@ public class JIFClients extends javax.swing.JInternalFrame {
         jButton2.setEnabled(false);
 
     }
-    
-     private void cleanForm() {
+
+    private void cleanForm() {
         JTFDistrict1.setText("");
         jTFAddress1.setText("");
         jTFCity1.setText("");
@@ -71,10 +70,9 @@ public class JIFClients extends javax.swing.JInternalFrame {
         jTFEntEmail1.setText("");
         jTFPostcode1.setText("");
     }
-    
+
     public void showObject(String cpf, int type) {
-        Client c = new Client();
-        c = clientController.findClient(cpf);
+        Client c = c = clientController.findClient(cpf);
 
         this.jTFClientName.setText(c.getClientName());
         this.jTFClientCode.setText(c.getClientCode());
@@ -88,15 +86,17 @@ public class JIFClients extends javax.swing.JInternalFrame {
         this.jTFClientCity.setText(c.getClientCity());
         this.jTFClientDistrict.setText(c.getClientDistrict());
         this.jTFClientDtBirth.setText(c.getClientDistrict());
-        
-        if(type == 0){
-        disableForm();
+
+        if (type == 0) {
+            disableForm();
+
         } else {
+
             this.jTFClientCPF.setEnabled(false);
             this.jBtnSave.setVisible(false);
             this.jBtnUpdate.setVisible(true);
         }
-}
+    }
 
     public void initComponentes() {
 
@@ -614,21 +614,20 @@ public class JIFClients extends javax.swing.JInternalFrame {
         c.setClientDistrict(this.jTFClientDistrict.getText());
         c.setClientState((String) this.jCBClientState.getSelectedItem());
         c.setClientCity(this.jTFClientCity.getText());
-        
 
         if (clientController.uniqueCPF(c.getClientCPF()) == false) {
             JOptionPane.showMessageDialog(null, "CPF já existente! Altere a informação do campo", "Informação Sistema", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            
-            if(form.ClientValidation(c)){
+
+            if (form.ClientValidation(c)) {
                 clientController.saveClient(c);
-            JOptionPane.showMessageDialog(null, "Cliente salvo com sucesso!", "Informação Sistema", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Cliente salvo com sucesso!", "Informação Sistema", JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }//GEN-LAST:event_jBtnSaveActionPerformed
 
     private void jTFClientPostcodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFClientPostcodeActionPerformed
-        
+
     }//GEN-LAST:event_jTFClientPostcodeActionPerformed
 
     private void jBtnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnClearActionPerformed
@@ -636,7 +635,7 @@ public class JIFClients extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jBtnClearActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       SearchPostalcode search = new SearchPostalcode();
+        SearchPostalcode search = new SearchPostalcode();
         Client c = new Client();
 
         search.Search(this.jTFClientPostcode.getText(), c);
@@ -660,7 +659,7 @@ public class JIFClients extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jBtnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnUpdateActionPerformed
-        
+
         Client c = new Client();
 
         c.setClientCode(this.jTFClientCode.getText());
@@ -675,11 +674,11 @@ public class JIFClients extends javax.swing.JInternalFrame {
         c.setClientDistrict(this.jTFClientDistrict.getText());
         c.setClientState((String) this.jCBClientState.getSelectedItem());
         c.setClientCity(this.jTFClientCity.getText());
-        
-        if(form.ClientValidation(c)){
-                clientController.updateClient(c);
+
+        if (form.ClientValidation(c)) {
+            clientController.updateClient(c);
             JOptionPane.showMessageDialog(null, "Cliente alterado com sucesso!", "Informação Sistema", JOptionPane.INFORMATION_MESSAGE);
-            }
+        }
     }//GEN-LAST:event_jBtnUpdateActionPerformed
 
 
