@@ -373,7 +373,7 @@ public class JIFProducts extends javax.swing.JInternalFrame {
 
         jTabbedPane1.addTab("Informações Gerais", jF);
 
-        jBtnSave.setText("Salvar (F2)");
+        jBtnSave.setText("Salvar");
         jBtnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBtnSaveActionPerformed(evt);
@@ -515,7 +515,7 @@ public class JIFProducts extends javax.swing.JInternalFrame {
             
              if (form.ProductValidation(p)) {
                 productController.updateProduct(p);
-                JOptionPane.showMessageDialog(null, "Produto salvo com sucesso!", "Informação Sistema", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Produto alterado com sucesso!", "Informação Sistema", JOptionPane.INFORMATION_MESSAGE);
             }
                 
             

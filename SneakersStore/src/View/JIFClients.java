@@ -87,6 +87,7 @@ public class JIFClients extends javax.swing.JInternalFrame {
         this.jTFClientPostcode.setText(c.getClientPostcode());
         this.jTFClientCity.setText(c.getClientCity());
         this.jTFClientDistrict.setText(c.getClientDistrict());
+        this.jTFClientDtBirth.setText(c.getClientDistrict());
         
         if(type == 0){
         disableForm();
@@ -419,7 +420,7 @@ public class JIFClients extends javax.swing.JInternalFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCBClientState, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jCBClientState, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel26)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -677,7 +678,7 @@ public class JIFClients extends javax.swing.JInternalFrame {
         
         if(form.ClientValidation(c)){
                 clientController.updateClient(c);
-            JOptionPane.showMessageDialog(null, "Cliente salvo com sucesso!", "Informação Sistema", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Cliente alterado com sucesso!", "Informação Sistema", JOptionPane.INFORMATION_MESSAGE);
             }
     }//GEN-LAST:event_jBtnUpdateActionPerformed
 
