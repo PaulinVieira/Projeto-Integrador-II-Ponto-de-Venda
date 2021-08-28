@@ -31,6 +31,7 @@ public class JFMainScreen extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
         jdpMain = new javax.swing.JDesktopPane();
         jMenuBarPrin = new javax.swing.JMenuBar();
         jMRecords = new javax.swing.JMenu();
@@ -41,6 +42,8 @@ public class JFMainScreen extends javax.swing.JFrame {
         jMPdv = new javax.swing.JMenu();
         jMIPointSale = new javax.swing.JMenuItem();
         jMReports = new javax.swing.JMenu();
+
+        jLabel1.setText("jLabel1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Snakers Store");
@@ -214,6 +217,7 @@ public class JFMainScreen extends javax.swing.JFrame {
     }
     private JIFBackground Background = new JIFBackground();
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuItem jMIClients;
     private javax.swing.JMenuItem jMIFindClient;
     private javax.swing.JMenuItem jMIFindProduct;
