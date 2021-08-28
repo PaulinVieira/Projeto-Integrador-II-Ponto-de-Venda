@@ -13,7 +13,9 @@ public class JIFSearchClient extends javax.swing.JInternalFrame {
 
     PositionForm form = new PositionForm();
     JFMainScreen jfMain = new JFMainScreen();
+
     ClientController clientController = new ClientController();
+    JIFPointOfSale jifPointOfSale = new JIFPointOfSale();
     int selectedOption = 0;
 
     public JIFSearchClient() {
@@ -451,6 +453,15 @@ public class JIFSearchClient extends javax.swing.JInternalFrame {
         jifClients.show();
     }//GEN-LAST:event_jBtnUpdateActionPerformed
 
+    public Client sendObject(String cpf){
+        Client c = new Client();
+        
+        c = clientController.findClient(cpf);
+        
+        return c;
+        
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup2;

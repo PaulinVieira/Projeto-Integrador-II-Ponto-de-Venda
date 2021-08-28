@@ -16,7 +16,6 @@ public class JIFClients extends javax.swing.JInternalFrame {
     public JIFClients() {
         initComponents();
         jBtnUpdate.setVisible(false);
-
     }
 
     private void disableForm() {
@@ -166,6 +165,12 @@ public class JIFClients extends javax.swing.JInternalFrame {
         setClosable(true);
         setMaximizable(true);
         setResizable(true);
+
+        jTFClientCode.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTFClientCodeActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Código");
 
@@ -680,6 +685,10 @@ public class JIFClients extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "Cliente alterado com sucesso!", "Informação Sistema", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_jBtnUpdateActionPerformed
+
+    private void jTFClientCodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFClientCodeActionPerformed
+        
+    }//GEN-LAST:event_jTFClientCodeActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

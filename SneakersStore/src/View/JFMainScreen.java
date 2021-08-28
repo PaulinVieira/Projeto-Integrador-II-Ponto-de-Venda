@@ -2,11 +2,15 @@ package View;
 
 import Util.PositionForm;
 import java.beans.PropertyVetoException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JDesktopPane;
+import javax.swing.JOptionPane;
 
 public class JFMainScreen extends javax.swing.JFrame {
 
     PositionForm form = new PositionForm();
+    JIFPointOfSale jifPointOfSale;
 
     public JFMainScreen() {
 
@@ -35,6 +39,7 @@ public class JFMainScreen extends javax.swing.JFrame {
         jMIFindClient = new javax.swing.JMenuItem();
         jMIFindProduct = new javax.swing.JMenuItem();
         jMPdv = new javax.swing.JMenu();
+        jMIPointSale = new javax.swing.JMenuItem();
         jMReports = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -92,6 +97,16 @@ public class JFMainScreen extends javax.swing.JFrame {
         jMenuBarPrin.add(jMRecords);
 
         jMPdv.setText("PDV");
+
+        jMIPointSale.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        jMIPointSale.setText("Ponto de Venda");
+        jMIPointSale.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMIPointSaleActionPerformed(evt);
+            }
+        });
+        jMPdv.add(jMIPointSale);
+
         jMenuBarPrin.add(jMPdv);
 
         jMReports.setText("Relatórios");
@@ -141,6 +156,37 @@ public class JFMainScreen extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jMIFindProductActionPerformed
 
+    private void jMIPointSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIPointSaleActionPerformed
+        
+        
+        if (jifPointOfSale == null) {
+            jifPointOfSale = new JIFPointOfSale();
+            
+            form.openForm(jifPointOfSale = new JIFPointOfSale(), jdpMain);
+
+            jifPointOfSale.show();
+            try {
+                jifPointOfSale.setMaximum(true);
+            } catch (PropertyVetoException ex) {
+                Logger.getLogger(JFMainScreen.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else if (!jifPointOfSale.isVisible()) {
+            
+            form.openForm(jifPointOfSale = new JIFPointOfSale(), jdpMain);
+
+            jifPointOfSale.show();
+            
+            try {
+                jifPointOfSale.setMaximum(true);
+            } catch (PropertyVetoException ex) {
+                Logger.getLogger(JFMainScreen.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Tela já aberta.", "Informação sistema", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+    }//GEN-LAST:event_jMIPointSaleActionPerformed
+
     public static void main(String args[]) {
 
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -171,6 +217,7 @@ public class JFMainScreen extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMIClients;
     private javax.swing.JMenuItem jMIFindClient;
     private javax.swing.JMenuItem jMIFindProduct;
+    private javax.swing.JMenuItem jMIPointSale;
     private javax.swing.JMenuItem jMIProducts;
     private javax.swing.JMenu jMPdv;
     private javax.swing.JMenu jMRecords;

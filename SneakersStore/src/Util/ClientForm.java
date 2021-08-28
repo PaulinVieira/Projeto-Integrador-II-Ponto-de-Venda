@@ -9,14 +9,11 @@ public class ClientForm {
         EmailValidation emailValidation = new EmailValidation();
     
       public boolean ClientValidation(Client c){
-          //Tentar incluir uma Design Patern para diminuir a quantidade de IF
-          //para uma boa manutenção.
           
           if(c.getClientCode().isEmpty() || c.getClientCode().equals("")){
               JOptionPane.showMessageDialog(null, "Preencha o código do cliente.");
           return false; 
           }
-          //incluir validação para CPF ÚNICO -> data 13/08/2021, prazo 15/08/2021
           if(c.getClientCPF().contains(" ")){
               JOptionPane.showMessageDialog(null, "Informe um CPF válido.");
           return false; 
