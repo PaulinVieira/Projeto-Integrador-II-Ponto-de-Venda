@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import lombok.Data;
 
+@Data
 public class JIFSearchProduct extends javax.swing.JInternalFrame {
 
     PositionForm form = new PositionForm();
@@ -20,6 +22,7 @@ public class JIFSearchProduct extends javax.swing.JInternalFrame {
         initComponents();
         jBtnDelete.setVisible(false);
         jBtnUpdate.setVisible(false);
+        jButton1.setVisible(false);
 
         //Thread, que de tempos em tempos 
         //verifica se o conteudo do campo de pesquisa é diferente de vazio.
@@ -43,6 +46,13 @@ public class JIFSearchProduct extends javax.swing.JInternalFrame {
         t.start();
 
     }
+    
+     private Product selectedProduct(String code){
+        
+        Product p = productController.findProduct(code);
+        
+        return p;
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -62,6 +72,7 @@ public class JIFSearchProduct extends javax.swing.JInternalFrame {
         jRBProductAll = new javax.swing.JRadioButton();
         jBtnDelete = new javax.swing.JButton();
         jBtnUpdate = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -221,6 +232,13 @@ public class JIFSearchProduct extends javax.swing.JInternalFrame {
             }
         });
 
+        jButton1.setText("Selecionar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -234,7 +252,10 @@ public class JIFSearchProduct extends javax.swing.JInternalFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTFProductSearchText, javax.swing.GroupLayout.PREFERRED_SIZE, 371, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jTFProductSearchText, javax.swing.GroupLayout.PREFERRED_SIZE, 371, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(137, 137, 137)))
@@ -242,7 +263,7 @@ public class JIFSearchProduct extends javax.swing.JInternalFrame {
                             .addComponent(jBtnFind, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jBtnDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jBtnUpdate, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 20, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -260,7 +281,8 @@ public class JIFSearchProduct extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jTFProductSearchText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jBtnFind))
+                    .addComponent(jBtnFind)
+                    .addComponent(jButton1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE)
                 .addContainerGap())
@@ -269,42 +291,44 @@ public class JIFSearchProduct extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void addRowToTable(ArrayList<Product> list) {
+        private void addRowToTable(ArrayList<Product> list) {
 
-        DefaultTableModel model = (DefaultTableModel) jTListProducts.getModel();
+            DefaultTableModel model = (DefaultTableModel) jTListProducts.getModel();
 
-        Object rowData[] = new Object[7];
+            Object rowData[] = new Object[7];
 
-        for (int i = 0; i < list.size(); i++) {
+            for (int i = 0; i < list.size(); i++) {
 
-            rowData[0] = list.get(i).getProductDescription();
-            rowData[1] = list.get(i).getProductCode();
-            rowData[2] = list.get(i).getProductCategory();
-            rowData[3] = list.get(i).getProductLocation();
-            rowData[4] = list.get(i).getProductPrice();
-            rowData[5] = list.get(i).getProductQuantity();
+                rowData[0] = list.get(i).getProductDescription();
+                rowData[1] = list.get(i).getProductCode();
+                rowData[2] = list.get(i).getProductCategory();
+                rowData[3] = list.get(i).getProductLocation();
+                rowData[4] = list.get(i).getProductPrice();
+                rowData[5] = list.get(i).getProductQuantity();
 
-            model.addRow(rowData);
+                model.addRow(rowData);
+            }
         }
-    }
 
-    private void reset() {
-        DefaultTableModel model = (DefaultTableModel) jTListProducts.getModel();
+        private void reset() {
+            DefaultTableModel model = (DefaultTableModel) jTListProducts.getModel();
 
-        model.setRowCount(0);
-    }
-
-    private void verifyModel() {
-        DefaultTableModel model = (DefaultTableModel) jTListProducts.getModel();
-
-        if (model.getRowCount() == 0) {
-            JOptionPane.showMessageDialog(null, "Não existem registros com o parâmetro informado.", "Informação do Sistema", JOptionPane.INFORMATION_MESSAGE);
-            return;
+            model.setRowCount(0);
         }
-        jBtnDelete.setVisible(true);
-        jBtnUpdate.setVisible(true);
 
-    }
+        private void verifyModel(int type) {
+            DefaultTableModel model = (DefaultTableModel) jTListProducts.getModel();
+
+            if (model.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(null, "Não existem registros com o parâmetro informado.", "Informação do Sistema", JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+            if (type == 0) {
+                jBtnDelete.setVisible(true);
+                jBtnUpdate.setVisible(true);
+            }
+
+        }
     private void jRBProductDescriptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBProductDescriptionActionPerformed
         jTFProductSearchText.setEnabled(true);
         selectedOption = 1;
@@ -334,27 +358,27 @@ public class JIFSearchProduct extends javax.swing.JInternalFrame {
         if (selectedOption == 1) { // nome
             reset();
             addRowToTable(productController.findByDescription(jTFProductSearchText.getText()));
-            verifyModel();
+            verifyModel(1);
         }
         if (selectedOption == 2) { // código
             reset();
             addRowToTable(productController.findByCode(jTFProductSearchText.getText()));
-            verifyModel();
+            verifyModel(1);
         }
         if (selectedOption == 3) { // cpf
             reset();
             addRowToTable(productController.findByCategory(jTFProductSearchText.getText()));
-            verifyModel();
+            verifyModel(1);
         }
         if (selectedOption == 4) { // e-mail
             reset();
             addRowToTable(productController.findByLocation(jTFProductSearchText.getText()));
-            verifyModel();
+            verifyModel(1);
         }
         if (selectedOption == 5) { // todos
             reset();
             addRowToTable(productController.findAll());
-            verifyModel();
+            verifyModel(1);
         }
 
     }//GEN-LAST:event_jBtnFindActionPerformed
@@ -450,12 +474,27 @@ public class JIFSearchProduct extends javax.swing.JInternalFrame {
         jifProducts.show();
     }//GEN-LAST:event_jBtnUpdateActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if (jTListProducts.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(null, "Selecione um produto.", "Informação sistema", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        int index = jTListProducts.getSelectedRow();
+
+        DefaultTableModel model = (DefaultTableModel) jTListProducts.getModel();
+        String code = model.getValueAt(index, 1).toString();
+        selectedProduct(code);
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JButton jBtnDelete;
     private javax.swing.JButton jBtnFind;
     private javax.swing.JButton jBtnUpdate;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JRadioButton jRBProductAll;

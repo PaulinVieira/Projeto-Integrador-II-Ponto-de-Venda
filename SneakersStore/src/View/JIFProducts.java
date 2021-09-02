@@ -502,7 +502,7 @@ public class JIFProducts extends javax.swing.JInternalFrame {
         p.setProductQTDInitial(Integer.valueOf(this.jTFQTDInitial.getText()));
 
         if (!this.jTFProductPrice.getText().equals("")) {
-            p.setProductPrice(Double.parseDouble(jTFProductPrice.getText().replace(",", ".").substring(3)));
+            p.setProductPrice(Double.parseDouble(jTFProductPrice.getText().replaceAll("\\.", "").replaceAll(",", ".")));
 
         }
         if (form.ProductValidation(p)) {

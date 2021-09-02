@@ -163,7 +163,6 @@ public class JFMainScreen extends javax.swing.JFrame {
         
         
         if (jifPointOfSale == null) {
-            jifPointOfSale = new JIFPointOfSale();
             
             form.openForm(jifPointOfSale = new JIFPointOfSale(), jdpMain);
 

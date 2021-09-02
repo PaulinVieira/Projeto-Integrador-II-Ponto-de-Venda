@@ -5,25 +5,30 @@ import Controller.ProductController;
 import Model.Client;
 import Model.Product;
 import Util.PositionForm;
-import java.awt.event.KeyEvent;
-import static java.lang.String.valueOf;
 import java.text.DecimalFormat;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
 
 public class JIFPointOfSale extends javax.swing.JInternalFrame {
 
     PositionForm form = new PositionForm();
     Client c = new Client();
+    JIFSearchProduct jifSearchProduct;
     ClientController clientController = new ClientController();
     ProductController productController = new ProductController();
     DecimalFormat df = new DecimalFormat("###,###.00");
 
     public JIFPointOfSale() {
         initComponents();
-        
+
         jTFTotalItem.setEditable(false);
+
+    } 
+    
+    private void selectedProduct(String code){
+        
+        Product p = productController.findProduct(code);
+        showObjectP(p);
 
     }
 
@@ -92,6 +97,7 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
         jTFQtd = new javax.swing.JFormattedTextField();
         jTFVlUnit = new javax.swing.JFormattedTextField();
         jTFVlDesc = new javax.swing.JFormattedTextField();
+        jButton1 = new javax.swing.JButton();
         jBtnAdd = new javax.swing.JButton();
         jSPPreview = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -306,42 +312,59 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
             }
         });
 
+        jButton1.setText("Pesquisa");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTFProductCode, javax.swing.GroupLayout.PREFERRED_SIZE, 446, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jTFVlDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTFTotalItem, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel12)
-                                .addGap(133, 133, 133))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jTFVlDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTFTotalItem, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel11)
-                                    .addComponent(jTFQtd, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel13)
-                            .addComponent(jLabel10)
-                            .addComponent(jTFVlUnit))))
-                .addGap(10, 10, 10))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel12)
+                                        .addGap(133, 133, 133))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel11)
+                                            .addComponent(jTFQtd, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(18, 18, 18)))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTFVlUnit)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel10)
+                                            .addComponent(jLabel13))
+                                        .addGap(0, 0, Short.MAX_VALUE)))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jTFProductCode, javax.swing.GroupLayout.PREFERRED_SIZE, 374, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTFProductCode, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTFProductCode, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -474,17 +497,12 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jTFProductCodeFocusGained
 
     private void jTFProductCodeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFProductCodeFocusLost
-        Product p = new Product();
+
         if (!jTFProductCode.getText().equals("") && !jTFProductCode.getText().equals("Informe o código do produto")) {
 
-            p = productController.findProduct(jTFProductCode.getText());
+            Product p = productController.findProduct(jTFProductCode.getText());
             showObjectP(p);
-        } else {
-            JOptionPane.showMessageDialog(null, "Digite um código para pesquisar o produto!!!", "", JOptionPane.INFORMATION_MESSAGE);
-            jTFProductCode.requestFocus();
-
         }
-
 
     }//GEN-LAST:event_jTFProductCodeFocusLost
 
@@ -508,6 +526,31 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
         }
         updateFinalValue();
     }//GEN-LAST:event_jTFVlDescCaretUpdate
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+        if (jifSearchProduct == null) {
+
+            JDesktopPane desktop = getDesktopPane();
+
+            form.openForm(jifSearchProduct = new JIFSearchProduct(), desktop);
+
+            jifSearchProduct.show();
+            jifSearchProduct.getJButton1().setVisible(true);
+        } else if (!jifSearchProduct.isVisible()) {
+
+            JDesktopPane desktop = getDesktopPane();
+
+            form.openForm(jifSearchProduct = new JIFSearchProduct(), desktop);
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Tela já aberta.", "Informação sistema", JOptionPane.INFORMATION_MESSAGE);
+            jifSearchProduct.toFront();
+            jifSearchProduct.requestFocus();
+        }
+
+
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -549,6 +592,7 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
     private javax.swing.JButton jBtnAdd;
     private javax.swing.JButton jBtnClear;
     private javax.swing.JButton jBtnFinish;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLClientEmail;
     private javax.swing.JLabel jLClientName;
     private javax.swing.JLabel jLProductName;
