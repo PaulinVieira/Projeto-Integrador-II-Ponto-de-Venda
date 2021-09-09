@@ -3,11 +3,14 @@ package View;
 import Controller.ClientController;
 import Controller.ProductController;
 import Model.Client;
+import Model.ItemsBuy;
 import Model.Product;
 import Util.PositionForm;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 public class JIFPointOfSale extends javax.swing.JInternalFrame {
 
@@ -17,16 +20,74 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
     ClientController clientController = new ClientController();
     ProductController productController = new ProductController();
     DecimalFormat df = new DecimalFormat("###,###.00");
+    ArrayList<ItemsBuy> listProduct = new ArrayList<>();
 
     public JIFPointOfSale() {
         initComponents();
 
         jTFTotalItem.setEditable(false);
+        jLSub.setText(""); 
+        jLVlDesc.setText("");
+        jLTotal.setText("");
 
-    } 
-    
-    private void selectedProduct(String code){
+    }
+
+    private void cleanForm() {
+        jLProductName.setText("");
+        jTFProductCode.setText("Informe o código do produto");
+        jTFVlDesc.setText("0");
+        jTFTotalItem.setText("0");
+        jTFVlUnit.setText("0");
+        jTFQtd.setText("0");
+    }
+
+    private void addRowToTable(Product p) {
+        ItemsBuy iBuy = new ItemsBuy();
         
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+
+        Object rowData[] = new Object[5];
+
+        rowData[0] = p.getProductCode();
+        rowData[1] = p.getProductDescription();
+        rowData[2] = jTFQtd.getText();
+        rowData[3] = jTFVlDesc.getText();
+        rowData[4] = jTFTotalItem.getText();
+        
+        model.addRow(rowData);
+        
+        iBuy.setP(p);
+        iBuy.setQuantidade(Integer.valueOf(jTFQtd.getText()));
+        iBuy.setVlDesc(Double.valueOf(formatString(jTFVlDesc.getText())));
+        iBuy.setVlTotal(Double.valueOf(formatString(jTFTotalItem.getText())));
+        
+        listProduct.add(iBuy);
+        
+    }
+    
+    private void attValues(){
+        
+        Double subTotal = null;
+        Double vlDesc = null;
+        
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        Object rowData[] = new Object[4];
+        
+        for (ItemsBuy listProduct1 : listProduct) {
+            
+            subTotal = listProduct1.getVlTotal();
+            vlDesc = listProduct1.getVlDesc();
+            
+        }
+        
+        jLSub.setText(formatString(subTotal.toString()));
+        jLVlDesc.setText(formatString(vlDesc.toString()));
+        jLTotal.setText(formatString(subTotal.toString()));
+        
+    }
+
+    private void selectedProduct(String code) {
+
         Product p = productController.findProduct(code);
         showObjectP(p);
 
@@ -79,10 +140,10 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
         jBtnClear = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
+        jLTotal = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        jLVlDesc = new javax.swing.JLabel();
+        jLSub = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -164,15 +225,15 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
         jLabel3.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel3.setText("Total a Pagar");
 
-        jLabel9.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel9.setText("jLabel7");
+        jLTotal.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLTotal.setText("jLabel7");
 
         jLabel2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel2.setText("Desconto");
 
-        jLabel8.setText("jLabel7");
+        jLVlDesc.setText("jLabel7");
 
-        jLabel7.setText("jLabel7");
+        jLSub.setText("jLabel7");
 
         jLabel4.setText("R$");
 
@@ -189,25 +250,25 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel3))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLVlDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel6)
+                        .addComponent(jLabel6))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLSub, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel3)
+                    .addComponent(jLTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -218,14 +279,14 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
                     .addComponent(jLabel1)
                     .addComponent(jLabel3)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel7))
+                    .addComponent(jLSub))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jLabel5)
-                    .addComponent(jLabel8)
+                    .addComponent(jLVlDesc)
                     .addComponent(jLabel6)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -384,6 +445,11 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
 
         jBtnAdd.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jBtnAdd.setText("Adicionar");
+        jBtnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnAddActionPerformed(evt);
+            }
+        });
 
         jTable1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jTable1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -392,7 +458,7 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Quantidade", "Nome Produto", "Sub - Total"
+                "Código Produto", "Nome Produto", "Quantidade", "Desconto total", "Sub - Total"
             }
         ));
         jSPPreview.setViewportView(jTable1);
@@ -552,6 +618,24 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jBtnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAddActionPerformed
+        Product p = new Product();
+
+        p.setProductCode(jTFProductCode.getText());
+        p.setProductDescription(jLProductName.getText());
+
+        try {
+            addRowToTable(p);
+            cleanForm();
+            attValues();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Ocorreu um erro não documentado ao adicionar!!", "Informação sistema", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+
+    }//GEN-LAST:event_jBtnAddActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -596,6 +680,9 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLClientEmail;
     private javax.swing.JLabel jLClientName;
     private javax.swing.JLabel jLProductName;
+    private javax.swing.JLabel jLSub;
+    private javax.swing.JLabel jLTotal;
+    private javax.swing.JLabel jLVlDesc;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -606,9 +693,6 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
