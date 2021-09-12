@@ -137,19 +137,18 @@ public class ProductController {
             stmt = con.prepareStatement("SELECT * FROM products WHERE productCode = \'" + code + "\'");
             rs = stmt.executeQuery();
 
-            rs.next();
-
-            p.setProductCode(rs.getString("productCode"));
-            p.setProductCategory(rs.getString("productCategory"));
-            p.setProductDescription(rs.getString("productDescription"));
-            p.setProductLocation(rs.getString("productLocation"));
-            p.setProductPrice(rs.getDouble("productPrice"));
-            p.setProductQuantity(rs.getInt("productQuantityAvailable"));
-            p.setProductPrice(rs.getDouble("productPrice"));
-            p.setProductDtRegistration(rs.getTimestamp("productDtRegistration"));
-
-            rs.next();
-
+            if (rs.next()) {
+                p.setProductCode(rs.getString("productCode"));
+                p.setProductCategory(rs.getString("productCategory"));
+                p.setProductDescription(rs.getString("productDescription"));
+                p.setProductLocation(rs.getString("productLocation"));
+                p.setProductPrice(rs.getDouble("productPrice"));
+                p.setProductQuantity(rs.getInt("productQuantityAvailable"));
+                p.setProductPrice(rs.getDouble("productPrice"));
+                p.setProductDtRegistration(rs.getTimestamp("productDtRegistration"));
+            } else {
+                JOptionPane.showMessageDialog(null, "Não existem registros!!.", "Informação sistema", JOptionPane.INFORMATION_MESSAGE);
+            }
         } catch (SQLException ex) {
 
             String err = "Ocorreu um erro não documentado. Impossível concluir a operação.\nDetalhes técnicos: " + ex;

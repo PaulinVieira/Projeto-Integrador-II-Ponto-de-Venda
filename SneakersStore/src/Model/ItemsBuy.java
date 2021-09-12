@@ -12,5 +12,6 @@ public class ItemsBuy {
     int quantidade;
     Double vlDesc;
     Double vlTotal;
+    Double vlTUnit;
     
 }
