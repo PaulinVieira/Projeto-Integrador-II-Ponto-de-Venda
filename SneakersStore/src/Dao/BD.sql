@@ -1,4 +1,5 @@
-//CRIAR BANCO DE DADOS E TABELA CLIENTE
+--CRIAR BANCO DE DADOS E TABELA CLIENTE
+--Executar o comado de alter table apenas nas tabelas de Clients e Products
 create database sneakersstore
 
 create table clients(
