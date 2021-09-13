@@ -619,6 +619,7 @@ public class JIFClients extends javax.swing.JInternalFrame {
         c.setClientDistrict(this.jTFClientDistrict.getText());
         c.setClientState((String) this.jCBClientState.getSelectedItem());
         c.setClientCity(this.jTFClientCity.getText());
+        c.setClientObs(this.JTAObs.getText());
 
         if (clientController.uniqueCPF(c.getClientCPF()) == false) {
             JOptionPane.showMessageDialog(null, "CPF já existente! Altere a informação do campo", "Informação Sistema", JOptionPane.INFORMATION_MESSAGE);

@@ -22,8 +22,8 @@ public class ProductController {
             stmt = con.prepareStatement(
                     "insert into Products ("
                     + "productCode, productCategory, productDescription, productActive,"
-                    + "productLocation, productPrice, productQuantityAvailable, productDtRegistration)"
-                    + "values (?, ?, ?, ?, ?, ?, ?,CURRENT_TIMESTAMP());");
+                    + "productLocation, productPrice, productQuantityAvailable, productSize, productObs, productDtRegistration)"
+                    + "values (?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP());");
 
             stmt.setString(1, p.getProductCode());
             stmt.setString(2, p.getProductCategory());
@@ -32,7 +32,8 @@ public class ProductController {
             stmt.setString(5, p.getProductLocation());
             stmt.setDouble(6, p.getProductPrice());
             stmt.setInt(7, p.getProductQTDInitial());
-
+            stmt.setString(8, p.getProductSize());
+            stmt.setString(9, p.getProductObs());
             stmt.executeUpdate();
         } catch (SQLException ex) {
 

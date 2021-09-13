@@ -17,4 +17,6 @@ public class Product {
     private Date productDtRegistration;
     private String productLocation;
   //private productPicture;
+    private String productSize;
+    private String productObs;
 }

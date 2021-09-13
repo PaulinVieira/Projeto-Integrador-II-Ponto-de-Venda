@@ -22,7 +22,7 @@ public class ClientController {
                     "insert into Clients ("
                     + "clientCode, clientCPF, clientName, clientDtBirth, clientEmail,"
                     + "clientCellphone, clientDtLastBuy, clientPostcode, clientAddress, clientDistrict,"
-                    + "clientState, clientCity) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
+                    + "clientState, clientCity, clientObs) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
 
             stmt.setString(1, c.getClientCode());
             stmt.setString(2, c.getClientCPF());
@@ -36,6 +36,7 @@ public class ClientController {
             stmt.setString(10, c.getClientDistrict());
             stmt.setString(11, c.getClientState());
             stmt.setString(12, c.getClientCity());
+            stmt.setString(13, c.getClientObs());
 
             stmt.executeUpdate();
         } catch (SQLException ex) {

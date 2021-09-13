@@ -15,8 +15,14 @@ clientAddress varchar(255) not null,
 clientDistrict varchar(255) not null,
 clientState varchar(2) not null,
 clientCity varchar(255) not null,
+clientObs LONGTEXT,
 primary key(id)
 );
+
+-- ALTER TABLE `sneakersstore`.`clients` 
+-- ADD COLUMN `clientObs` LONGTEXT NULL AFTER `clientCity`;
+
+
 
 CREATE TABLE products (
   id int NOT NULL AUTO_INCREMENT,
@@ -28,9 +34,18 @@ CREATE TABLE products (
   productActive varchar(1) DEFAULT NULL,
   productLocation varchar(255) NOT NULL,
   productPrice double NOT NULL,
+  producSize char(2) NOT NULL,
+  productObs longtext,
   PRIMARY KEY (id),
   UNIQUE KEY productCode (productCode)
 );
+
+-- ALTER TABLE `sneakersstore`.`products` 
+-- ADD COLUMN `productSize` CHAR(2) NOT NULL AFTER `productPrice`;
+
+-- ALTER TABLE `sneakersstore`.`products` 
+-- ADD COLUMN `productObs` LONGTEXT NULL AFTER `productSize`;
+
 
 
 // Implementação futura para o PDV aguardando tela

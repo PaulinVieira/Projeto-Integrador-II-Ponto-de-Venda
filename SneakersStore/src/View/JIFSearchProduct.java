@@ -47,11 +47,11 @@ public class JIFSearchProduct extends javax.swing.JInternalFrame {
         t.start();
 
     }
-    
-     private Product selectedProduct(String code){
-        
+
+    private Product selectedProduct(String code) {
+
         Product p = productController.findProduct(code);
-        
+
         return p;
     }
 
@@ -292,44 +292,44 @@ public class JIFSearchProduct extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-        private void addRowToTable(ArrayList<Product> list) {
+    private void addRowToTable(ArrayList<Product> list) {
 
-            DefaultTableModel model = (DefaultTableModel) jTListProducts.getModel();
+        DefaultTableModel model = (DefaultTableModel) jTListProducts.getModel();
 
-            Object rowData[] = new Object[7];
+        Object rowData[] = new Object[7];
 
-            for (int i = 0; i < list.size(); i++) {
+        for (int i = 0; i < list.size(); i++) {
 
-                rowData[0] = list.get(i).getProductDescription();
-                rowData[1] = list.get(i).getProductCode();
-                rowData[2] = list.get(i).getProductCategory();
-                rowData[3] = list.get(i).getProductLocation();
-                rowData[4] = list.get(i).getProductPrice();
-                rowData[5] = list.get(i).getProductQuantity();
+            rowData[0] = list.get(i).getProductDescription();
+            rowData[1] = list.get(i).getProductCode();
+            rowData[2] = list.get(i).getProductCategory();
+            rowData[3] = list.get(i).getProductLocation();
+            rowData[4] = list.get(i).getProductPrice();
+            rowData[5] = list.get(i).getProductQuantity();
 
-                model.addRow(rowData);
-            }
+            model.addRow(rowData);
+        }
+    }
+
+    private void reset() {
+        DefaultTableModel model = (DefaultTableModel) jTListProducts.getModel();
+
+        model.setRowCount(0);
+    }
+
+    private void verifyModel() {
+        DefaultTableModel model = (DefaultTableModel) jTListProducts.getModel();
+
+        if (model.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(null, "Não existem registros com o parâmetro informado.", "Informação do Sistema", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        if (type == 0) {
+            jBtnDelete.setVisible(true);
+            jBtnUpdate.setVisible(true);
         }
 
-        private void reset() {
-            DefaultTableModel model = (DefaultTableModel) jTListProducts.getModel();
-
-            model.setRowCount(0);
-        }
-
-        private void verifyModel() {
-            DefaultTableModel model = (DefaultTableModel) jTListProducts.getModel();
-
-            if (model.getRowCount() == 0) {
-                JOptionPane.showMessageDialog(null, "Não existem registros com o parâmetro informado.", "Informação do Sistema", JOptionPane.INFORMATION_MESSAGE);
-                return;
-            }
-            if (type == 0) {
-                jBtnDelete.setVisible(true);
-                jBtnUpdate.setVisible(true);
-            }
-
-        }
+    }
     private void jRBProductDescriptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBProductDescriptionActionPerformed
         jTFProductSearchText.setEnabled(true);
         selectedOption = 1;
@@ -482,11 +482,14 @@ public class JIFSearchProduct extends javax.swing.JInternalFrame {
         }
 
         int index = jTListProducts.getSelectedRow();
-
+        JIFPointOfSale jPS = new JIFPointOfSale();
         DefaultTableModel model = (DefaultTableModel) jTListProducts.getModel();
-        String code = model.getValueAt(index, 1).toString();
-        selectedProduct(code);
         
+        jPS.selectedProduct(model.getValueAt(index, 1).toString());    
+        JIFSearchProduct.this.dispose();
+        jPS.getJTFProductCode().requestFocus();
+        jPS.getJTFProductCode().grabFocus();
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
 

@@ -8,15 +8,18 @@ import Model.Product;
 import Util.PositionForm;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import lombok.Data;
 
+@Data
 public class JIFPointOfSale extends javax.swing.JInternalFrame {
 
     PositionForm form = new PositionForm();
-    Client c = new Client();
+    Client c;
+    Product p;
     JIFSearchProduct jifSearchProduct;
+    JIFSearchClient jifSearchClient;
     ClientController clientController = new ClientController();
     ProductController productController = new ProductController();
     DecimalFormat df = new DecimalFormat("###,###.00");
@@ -24,9 +27,9 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
 
     public JIFPointOfSale() {
         initComponents();
-
         jTFTotalItem.setEditable(false);
-        jLVlTUnit.setText(""); 
+        jLProductName.setText("");
+        jLVlTUnit.setText("");
         jLVlDesc.setText("");
         jLTotal.setText("");
 
@@ -42,57 +45,64 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
     }
 
     private void addRowToTable(Product p) {
-        ItemsBuy iBuy = new ItemsBuy();
-        
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        if (!jLProductName.getText().equals("")) {
 
-        Object rowData[] = new Object[5];
+            ItemsBuy iBuy = new ItemsBuy();
 
-        rowData[0] = p.getProductCode();
-        rowData[1] = p.getProductDescription();
-        rowData[2] = jTFQtd.getText();
-        rowData[3] = jTFVlDesc.getText();
-        rowData[4] = jTFTotalItem.getText();
-        
-        model.addRow(rowData);
-        
-        iBuy.setP(p);
-        iBuy.setQuantidade(Integer.valueOf(jTFQtd.getText()));
-        iBuy.setVlDesc(Double.valueOf(formatString(jTFVlDesc.getText())));
-        
-        Double vlTUnit = Double.valueOf(formatString(jTFVlUnit.getText())) * Integer.valueOf(jTFQtd.getText());
-        
-        iBuy.setVlTUnit(vlTUnit);
-        iBuy.setVlTotal(Double.valueOf(formatString(jTFTotalItem.getText())));
-        
-        listProduct.add(iBuy);
-        
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+
+            Object rowData[] = new Object[5];
+
+            rowData[0] = p.getProductCode();
+            rowData[1] = p.getProductDescription();
+            rowData[2] = jTFQtd.getText();
+            rowData[3] = jTFVlDesc.getText();
+            rowData[4] = jTFTotalItem.getText();
+
+            model.addRow(rowData);
+
+            iBuy.setP(p);
+            iBuy.setQuantidade(Integer.valueOf(jTFQtd.getText()));
+            iBuy.setVlDesc(Double.valueOf(formatString(jTFVlDesc.getText())));
+
+            Double vlTUnit = Double.valueOf(formatString(jTFVlUnit.getText())) * Integer.valueOf(jTFQtd.getText());
+
+            iBuy.setVlTUnit(vlTUnit);
+            iBuy.setVlTotal(Double.valueOf(formatString(jTFTotalItem.getText())));
+
+            listProduct.add(iBuy);
+
+            cleanForm();
+            attValues();
+        } else {
+            JOptionPane.showMessageDialog(null, "Pesquise um produto antes!!", "Informação sistema", JOptionPane.INFORMATION_MESSAGE);
+        }
+
     }
-    
-    
-    private void attValues(){
-        
+
+    private void attValues() {
+
         Double subTotal = 0.;
         Double vlDesc = 0.;
-        Double vlTUnit= 0.;
-        
+        Double vlTUnit = 0.;
+
         for (ItemsBuy listProduct1 : listProduct) {
-            
+
             subTotal += listProduct1.getVlTotal();
             vlDesc += listProduct1.getVlDesc();
             vlTUnit += listProduct1.getVlTUnit();
-            
+
         }
-        
-        jLVlTUnit.setText(df.format(vlTUnit));  
+
+        jLVlTUnit.setText(df.format(vlTUnit));
         jLVlDesc.setText(df.format(vlDesc));
         jLTotal.setText(df.format(subTotal));
-        
+
     }
 
-    private void selectedProduct(String code) {
+    void selectedProduct(String code) {
 
-        Product p = productController.findProduct(code);
+        p = productController.findProduct(code);
         showObjectP(p);
 
     }
@@ -117,16 +127,15 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
         }
     }
 
-    private void showObject(Client c) {
+    private void showObjectC(Client c) {
         jTFClientCPF.setText(c.getClientCPF());
         jLClientEmail.setText(c.getClientEmail());
         jLClientName.setText(c.getClientName());
     }
 
-    private void showObjectP(Product p) {
+    public void showObjectP(Product p) {
         jLProductName.setText(p.getProductDescription());
         jTFVlUnit.setText(df.format(p.getProductPrice()));
-
     }
 
     @SuppressWarnings("unchecked")
@@ -139,6 +148,7 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
         jTFClientCPF = new javax.swing.JFormattedTextField();
         jLClientEmail = new javax.swing.JLabel();
         jLClientName = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
         jBtnFinish = new javax.swing.JButton();
         jBtnClear = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
@@ -161,7 +171,6 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
         jTFQtd = new javax.swing.JFormattedTextField();
         jTFVlUnit = new javax.swing.JFormattedTextField();
         jTFVlDesc = new javax.swing.JFormattedTextField();
-        jButton1 = new javax.swing.JButton();
         jBtnAdd = new javax.swing.JButton();
         jSPPreview = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -178,10 +187,22 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        jTFClientCPF.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTFClientCPFFocusLost(evt);
+            }
+        });
+        jTFClientCPF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTFClientCPFActionPerformed(evt);
+            }
+        });
 
         jLClientEmail.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
 
         jLClientName.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+
+        jLabel7.setText("CPF do Cliente");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -190,21 +211,27 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTFClientCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLClientName, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLClientEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLClientName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTFClientCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jLClientEmail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTFClientCPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTFClientCPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                .addComponent(jLClientName, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLClientName, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLClientEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addContainerGap(49, Short.MAX_VALUE))
         );
 
         jBtnFinish.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
@@ -379,13 +406,6 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
             }
         });
 
-        jButton1.setText("Pesquisa");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -419,17 +439,14 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jTFProductCode, javax.swing.GroupLayout.PREFERRED_SIZE, 374, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTFProductCode, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addComponent(jTFProductCode, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -480,14 +497,14 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
                         .addComponent(jLProductName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(336, 336, 336))
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addGap(77, 77, 77)
                                 .addComponent(jBtnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jBtnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                             .addComponent(jSPPreview, javax.swing.GroupLayout.PREFERRED_SIZE, 971, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -570,16 +587,15 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
 
     private void jTFProductCodeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFProductCodeFocusLost
 
-        if (!jTFProductCode.getText().equals("") && !jTFProductCode.getText().equals("Informe o código do produto")) {
-
-            try {
-                Product p = productController.findProduct(jTFProductCode.getText());
+        try {
+            if (!jTFProductCode.getText().equals("") && !jTFProductCode.getText().equals("Informe o código do produto")) {
+                p = productController.findProduct(jTFProductCode.getText());
                 showObjectP(p);
-            } catch (Exception e) {
             }
-            
-        }
 
+        } catch (Exception e) {
+
+        }
     }//GEN-LAST:event_jTFProductCodeFocusLost
 
     private void jTFQtdCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTFQtdCaretUpdate
@@ -600,45 +616,24 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
         if (jTFVlDesc.getText().equals("")) {
             return;
         }
+
         updateFinalValue();
     }//GEN-LAST:event_jTFVlDescCaretUpdate
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jBtnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAddActionPerformed
 
-        if (jifSearchProduct == null) {
-
-            JDesktopPane desktop = getDesktopPane();
-
-            form.openForm(jifSearchProduct = new JIFSearchProduct(), desktop);
-
-            jifSearchProduct.show();
-            jifSearchProduct.getJButton1().setVisible(true);
-        } else if (!jifSearchProduct.isVisible()) {
-
-            JDesktopPane desktop = getDesktopPane();
-
-            form.openForm(jifSearchProduct = new JIFSearchProduct(), desktop);
-
-        } else {
-            JOptionPane.showMessageDialog(null, "Tela já aberta.", "Informação sistema", JOptionPane.INFORMATION_MESSAGE);
-            jifSearchProduct.toFront();
-            jifSearchProduct.requestFocus();
+        if (jTFTotalItem.getText().equals("0")) {
+            JOptionPane.showMessageDialog(null, "Desconto total atingido!! Redigite os valores.", "Informação sistema", JOptionPane.INFORMATION_MESSAGE);
+            return;
         }
 
-
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jBtnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAddActionPerformed
-        Product p = new Product();
+        p = new Product();
 
         p.setProductCode(jTFProductCode.getText());
         p.setProductDescription(jLProductName.getText());
 
         try {
             addRowToTable(p);
-            cleanForm();
-            attValues();
-
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Ocorreu um erro não documentado ao adicionar!!", "Informação sistema", JOptionPane.INFORMATION_MESSAGE);
             System.out.println(e);
@@ -646,6 +641,22 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
 
 
     }//GEN-LAST:event_jBtnAddActionPerformed
+
+    private void jTFClientCPFFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFClientCPFFocusLost
+        if (!jTFClientCPF.getText().contains(" ")) {
+            try {
+                c = clientController.findClient(jTFClientCPF.getText());
+                showObjectC(c);
+            } catch (Exception e) {
+            }
+
+        }
+
+    }//GEN-LAST:event_jTFClientCPFFocusLost
+
+    private void jTFClientCPFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFClientCPFActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTFClientCPFActionPerformed
 
     /**
      * @param args the command line arguments
@@ -687,7 +698,6 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
     private javax.swing.JButton jBtnAdd;
     private javax.swing.JButton jBtnClear;
     private javax.swing.JButton jBtnFinish;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLClientEmail;
     private javax.swing.JLabel jLClientName;
     private javax.swing.JLabel jLProductName;
@@ -704,6 +714,7 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

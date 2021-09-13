@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import lombok.Data;
 
+@Data
 public class JIFSearchClient extends javax.swing.JInternalFrame {
 
     PositionForm form = new PositionForm();
@@ -22,7 +24,7 @@ public class JIFSearchClient extends javax.swing.JInternalFrame {
         initComponents();
         jBtnDelete.setVisible(false);
         jBtnUpdate.setVisible(false);
-
+        jButton1.setVisible(false);
         //Thread, que de tempos em tempos 
         //verifica se o conteudo do campo de pesquisa é diferente de vazio.
         //Se for diferente, torna o botão "clicável".
@@ -64,6 +66,7 @@ public class JIFSearchClient extends javax.swing.JInternalFrame {
         jRBClientAll = new javax.swing.JRadioButton();
         jBtnDelete = new javax.swing.JButton();
         jBtnUpdate = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -223,6 +226,13 @@ public class JIFSearchClient extends javax.swing.JInternalFrame {
             }
         });
 
+        jButton1.setText("Selecionar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -239,7 +249,9 @@ public class JIFSearchClient extends javax.swing.JInternalFrame {
                                 .addComponent(jTFClientSearchText, javax.swing.GroupLayout.PREFERRED_SIZE, 371, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(137, 137, 137)))
+                                .addGap(46, 46, 46)
+                                .addComponent(jButton1)
+                                .addGap(18, 18, 18)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jBtnFind, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jBtnDelete, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -255,7 +267,9 @@ public class JIFSearchClient extends javax.swing.JInternalFrame {
                         .addContainerGap()
                         .addComponent(jBtnUpdate)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jBtnDelete))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jBtnDelete)
+                            .addComponent(jButton1)))
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(8, 8, 8)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -453,21 +467,17 @@ public class JIFSearchClient extends javax.swing.JInternalFrame {
         jifClients.show();
     }//GEN-LAST:event_jBtnUpdateActionPerformed
 
-    public Client sendObject(String cpf){
-        Client c = new Client();
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         
-        c = clientController.findClient(cpf);
         
-        return c;
-        
-    }
-    
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JButton jBtnDelete;
     private javax.swing.JButton jBtnFind;
     private javax.swing.JButton jBtnUpdate;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JRadioButton jRBClientAll;

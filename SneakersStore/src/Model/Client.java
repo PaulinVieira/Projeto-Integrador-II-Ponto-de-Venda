@@ -18,5 +18,6 @@ public class Client {
     private String clientDistrict;
     private String clientState;
     private String clientCity;
+    private String clientObs;
 
 }
