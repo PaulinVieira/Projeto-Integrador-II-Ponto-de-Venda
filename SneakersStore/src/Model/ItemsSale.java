@@ -4,14 +4,13 @@ package Model;
 import lombok.Data;
 
 @Data
-public class ItemsBuy {
+public class ItemsSale {
     
     int id;
     Product p;
     
     int quantidade;
+    Double vlTUnit;
     Double vlDesc;
     Double vlTotal;
-    Double vlTUnit;
-    
 }

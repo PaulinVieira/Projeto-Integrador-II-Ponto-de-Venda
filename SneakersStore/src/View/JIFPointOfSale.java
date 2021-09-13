@@ -3,11 +3,13 @@ package View;
 import Controller.ClientController;
 import Controller.ProductController;
 import Model.Client;
-import Model.ItemsBuy;
+import Model.ItemsSale;
 import Model.Product;
+import Model.Sale;
 import Util.PositionForm;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import lombok.Data;
@@ -19,11 +21,12 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
     Client c;
     Product p;
     JIFSearchProduct jifSearchProduct;
+    JIFSale jifSale;
     JIFSearchClient jifSearchClient;
     ClientController clientController = new ClientController();
     ProductController productController = new ProductController();
     DecimalFormat df = new DecimalFormat("###,###.00");
-    ArrayList<ItemsBuy> listProduct = new ArrayList<>();
+    ArrayList<ItemsSale> listProduct = new ArrayList<>();
 
     public JIFPointOfSale() {
         initComponents();
@@ -47,7 +50,7 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
     private void addRowToTable(Product p) {
         if (!jLProductName.getText().equals("")) {
 
-            ItemsBuy iBuy = new ItemsBuy();
+            ItemsSale iBuy = new ItemsSale();
 
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
 
@@ -86,7 +89,7 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
         Double vlDesc = 0.;
         Double vlTUnit = 0.;
 
-        for (ItemsBuy listProduct1 : listProduct) {
+        for (ItemsSale listProduct1 : listProduct) {
 
             subTotal += listProduct1.getVlTotal();
             vlDesc += listProduct1.getVlDesc();
@@ -558,7 +561,46 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jBtnClearActionPerformed
 
     private void jBtnFinishActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnFinishActionPerformed
-        // TODO add your handling code here:
+
+        JDesktopPane jdpMain = getDesktopPane();
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+
+        if (jifSale == null) {
+
+            form.openForm(jifSale = new JIFSale(), jdpMain);
+
+            jifSale.getJLabel1().setText(c.getClientName());
+            jifSale.getJLabel2().setText(c.getClientCPF());
+            jifSale.getJLabel3().setText(c.getClientEmail());
+            jifSale.getJLabel4().setText(c.getClientAddress());
+            jifSale.getJLabel5().setText(c.getClientDistrict());
+            jifSale.getJLabel12().setText(c.getClientPostcode());
+            jifSale.getJLabel13().setText(c.getClientState());
+            jifSale.getJLabel14().setText(c.getClientCity());
+            
+            jifSale.getJLTotal2().setText(jLVlTUnit.getText());
+            jifSale.getJLTotal5().setText(jLVlDesc.getText());
+            jifSale.getJLTotal6().setText(jLTotal.getText());
+            
+            jifSale.getJTable1().setModel(model);
+            
+            
+            
+            jifSale.sale = new Sale();
+            
+            jifSale.sale.setC(clientController.findClient(jTFClientCPF.getText()));
+            jifSale.sale.setItemsSale(listProduct);
+            jifSale.sale.setVlDesc(Double.valueOf(formatString(jLVlDesc.getText())));
+            jifSale.sale.setVlTotal(Double.valueOf(formatString(jLVlTUnit.getText())));
+            
+            jifSale.show();
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Tela já aberta.", "Informação sistema", JOptionPane.INFORMATION_MESSAGE);
+        }
+        
+        JIFPointOfSale.this.dispose();
+
     }//GEN-LAST:event_jBtnFinishActionPerformed
 
     private void jTFProductCodeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFProductCodeKeyPressed
@@ -631,6 +673,8 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
 
         p.setProductCode(jTFProductCode.getText());
         p.setProductDescription(jLProductName.getText());
+        
+       
 
         try {
             addRowToTable(p);

@@ -58,12 +58,30 @@ CREATE TABLE inventory (
   PRIMARY KEY (id)
 );
 
-CREATE TABLE itensSale(
-	id int not null auto_increment,
-	productCode VARCHAR(255) not null,
-	quantity int not null,
-primary key(id)
-);
+create table sale(
+`idSale` int not null auto_increment,
+`clientCPF` varchar(14) not null,
+`formaPagamento` char(2) not null,
+`vlTotal` double not null,
+`vlDesc` double not null,
+`postcode` varchar(255) NOT NULL,
+`address` varchar(255) NOT NULL,
+`district` varchar(255) NOT NULL,
+`state` varchar(2) NOT NULL,
+`city` varchar(255) NOT NULL,
+`date` DATETIME,
+primary key(idSale)
+)
+
+CREATE TABLE `itenssale` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `idSale` int not null,
+  `productCode` varchar(255) NOT NULL,
+  `quantity` int NOT NULL,
+  `vlUnit` double not null,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (idSale) REFERENCES sale(idSale)
+)
 
 DELIMITER $
 CREATE TRIGGER TG_itensSale_I AFTER INSERT
