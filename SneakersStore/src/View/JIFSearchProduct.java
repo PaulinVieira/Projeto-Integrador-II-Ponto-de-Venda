@@ -17,6 +17,7 @@ public class JIFSearchProduct extends javax.swing.JInternalFrame {
     JFMainScreen jfMain = new JFMainScreen();
     ProductController productController = new ProductController();
     int selectedOption = 0;
+    int type;
 
     public JIFSearchProduct() {
         initComponents();
@@ -316,7 +317,7 @@ public class JIFSearchProduct extends javax.swing.JInternalFrame {
             model.setRowCount(0);
         }
 
-        private void verifyModel(int type) {
+        private void verifyModel() {
             DefaultTableModel model = (DefaultTableModel) jTListProducts.getModel();
 
             if (model.getRowCount() == 0) {
@@ -358,27 +359,27 @@ public class JIFSearchProduct extends javax.swing.JInternalFrame {
         if (selectedOption == 1) { // nome
             reset();
             addRowToTable(productController.findByDescription(jTFProductSearchText.getText()));
-            verifyModel(1);
+            verifyModel();
         }
         if (selectedOption == 2) { // código
             reset();
             addRowToTable(productController.findByCode(jTFProductSearchText.getText()));
-            verifyModel(1);
+            verifyModel();
         }
         if (selectedOption == 3) { // cpf
             reset();
             addRowToTable(productController.findByCategory(jTFProductSearchText.getText()));
-            verifyModel(1);
+            verifyModel();
         }
         if (selectedOption == 4) { // e-mail
             reset();
             addRowToTable(productController.findByLocation(jTFProductSearchText.getText()));
-            verifyModel(1);
+            verifyModel();
         }
         if (selectedOption == 5) { // todos
             reset();
             addRowToTable(productController.findAll());
-            verifyModel(1);
+            verifyModel();
         }
 
     }//GEN-LAST:event_jBtnFindActionPerformed

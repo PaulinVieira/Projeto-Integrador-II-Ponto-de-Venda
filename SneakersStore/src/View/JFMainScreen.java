@@ -156,7 +156,8 @@ public class JFMainScreen extends javax.swing.JFrame {
 
         JIFSearchProduct jifSearchProduct;
         form.openForm(jifSearchProduct = new JIFSearchProduct(), jdpMain);
-
+        jifSearchProduct.setType(0);
+        
     }//GEN-LAST:event_jMIFindProductActionPerformed
 
     private void jMIPointSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIPointSaleActionPerformed
