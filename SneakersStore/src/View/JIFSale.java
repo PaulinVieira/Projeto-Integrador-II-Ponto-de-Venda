@@ -51,7 +51,7 @@ public class JIFSale extends javax.swing.JInternalFrame {
         jLabel11 = new javax.swing.JLabel();
         jLTotal6 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jCBPayment = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
 
         setClosable(true);
@@ -307,21 +307,21 @@ public class JIFSale extends javax.swing.JInternalFrame {
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Forma de Pagamento"));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cartão de Débito", "Cartão de Crédito", "Boleto", "PIX", " " }));
+        jCBPayment.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cartão de Débito", "Cartão de Crédito", "Boleto", "PIX" }));
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jCBPayment, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jCBPayment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(65, Short.MAX_VALUE))
         );
 
@@ -377,6 +377,8 @@ public class JIFSale extends javax.swing.JInternalFrame {
         
         SaleRepository saleRepository = new SaleRepository();
         
+        sale.setPayment( (String) jCBPayment.getSelectedItem());
+        
         saleRepository.saveSale(sale);
         JIFSale.this.dispose();
         
@@ -385,7 +387,7 @@ public class JIFSale extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jCBPayment;
     private javax.swing.JLabel jLClientAddress;
     private javax.swing.JLabel jLClientCPF;
     private javax.swing.JLabel jLClientCity;

@@ -37,11 +37,11 @@ public class SaleRepository {
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("insert into sale (clientCPF, formaPagamento, vlTotal, vlDesc, postcode, address, district, state, city, date) values(?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP())",
+            stmt = con.prepareStatement("insert into sale (clientCPF, payment, vlTotal, vlDesc, postcode, address, district, state, city, date) values(?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP())",
                     Statement.RETURN_GENERATED_KEYS);
 
             stmt.setString(1, s.getC().getClientCPF());
-            stmt.setString(2, "1");
+            stmt.setString(2, s.getPayment());
             stmt.setDouble(3, s.getVlTotal());
             stmt.setDouble(4, s.getVlDesc());
             stmt.setString(5, s.getC().getClientPostcode());

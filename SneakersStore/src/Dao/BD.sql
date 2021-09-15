@@ -66,7 +66,7 @@ CREATE TABLE inventory (
 create table sale(
 `idSale` int not null auto_increment,
 `clientCPF` varchar(14) not null,
-`formaPagamento` char(2) not null,
+`payment` varchar(255) not null,
 `vlTotal` double not null,
 `vlDesc` double not null,
 `postcode` varchar(255) NOT NULL,
@@ -77,6 +77,8 @@ create table sale(
 `date` DATETIME,
 primary key(idSale)
 )
+-- ALTER TABLE `sneakersstore`.`sale` 
+-- CHANGE COLUMN `formaPagamento` `payment` VARCHAR(255) NOT NULL ;
 
 CREATE TABLE `itenssale` (
   `id` int NOT NULL AUTO_INCREMENT,

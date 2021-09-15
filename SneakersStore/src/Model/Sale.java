@@ -10,7 +10,7 @@ public class Sale {
     private int idSale;
     private Client c;
     
-    private char formaPgto;
+    private String payment;
     private Double vlTotal;
     private Double vlDesc;
     private Date date;
