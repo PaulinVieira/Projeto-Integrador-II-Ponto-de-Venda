@@ -4,6 +4,8 @@ import Controller.ClientController;
 import Model.Client;
 import Util.ClientForm;
 import Util.SearchPostalcode;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
 
@@ -16,6 +18,7 @@ public class JIFClients extends javax.swing.JInternalFrame {
     public JIFClients() {
         initComponents();
         jBtnUpdate.setVisible(false);
+        jTFClientDtLastBuy.setEditable(false);
     }
 
     private void disableForm() {
@@ -71,13 +74,23 @@ public class JIFClients extends javax.swing.JInternalFrame {
     }
 
     public void showObject(String cpf, int type) {
-        Client c = c = clientController.findClient(cpf);
+
+        DateFormat df = new SimpleDateFormat("ddMMyyyy");
+
+        Client c = clientController.findClient(cpf);
 
         this.jTFClientName.setText(c.getClientName());
         this.jTFClientCode.setText(c.getClientCode());
         this.jTFClientCPF.setText(c.getClientCPF());
         this.jTFClientEmail.setText(c.getClientEmail());
-        this.jTFClientDtLastBuy.setText(c.getClientDtLastBuy());
+        
+        if (c.getClientDtLastBuy() == null) {
+            this.jTFClientDtLastBuy.setText("");
+        }else{
+            this.jTFClientDtLastBuy.setText(df.format(c.getClientDtLastBuy()));
+        }
+        
+        
         this.jTFClientCellPhone.setText(c.getClientCellphone());
         this.jCBClientState.setSelectedItem(c.getClientState());
         this.jTFClientAddress.setText(c.getClientAddress());
@@ -220,7 +233,7 @@ public class JIFClients extends javax.swing.JInternalFrame {
         JTAObs.setRows(5);
         jScrollPane1.setViewportView(JTAObs);
 
-        jLabel9.setText("DT Ultima Compra");
+        jLabel9.setText("Data da Última Compra");
 
         try {
             jTFClientDtLastBuy.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
@@ -246,7 +259,7 @@ public class JIFClients extends javax.swing.JInternalFrame {
                         .addGap(51, 51, 51)
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTFClientDtLastBuy, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jTFClientDtLastBuy, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jFLayout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -269,7 +282,7 @@ public class JIFClients extends javax.swing.JInternalFrame {
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jTFClientCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(92, Short.MAX_VALUE))
+                .addContainerGap(100, Short.MAX_VALUE))
         );
         jFLayout.setVerticalGroup(
             jFLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -688,9 +701,8 @@ public class JIFClients extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jBtnUpdateActionPerformed
 
     private void jTFClientCodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFClientCodeActionPerformed
-        
-    }//GEN-LAST:event_jTFClientCodeActionPerformed
 
+    }//GEN-LAST:event_jTFClientCodeActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea JTAObs;

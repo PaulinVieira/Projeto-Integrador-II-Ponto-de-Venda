@@ -10,18 +10,36 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+import javax.swing.JOptionPane;
 
 public class SaleRepository {
 
-    public void saveBuy(Sale s) {
+    public void updateLastBuy(Sale s) {
+
         Connection con = ConnectionDatabase.getConnection();
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("insert into sale (clientCPF, formaPagamento, vlTotal, vlDesc, postcode, address, district, state, city, date) values(?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP())", 
-            Statement.RETURN_GENERATED_KEYS);
+            stmt = con.prepareStatement("update Clients set clientDtLastBuy = CURRENT_TIMESTAMP() where clientCPF = ?");
+        
+            stmt.setString(1, s.getC().getClientCPF());
+            stmt.executeUpdate();
             
+        } catch (SQLException ex) {
+            Logger.getLogger(SaleRepository.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionDatabase.closeConnection(con, stmt);
+        }
+    }
+
+    public void saveSale(Sale s) {
+        Connection con = ConnectionDatabase.getConnection();
+        PreparedStatement stmt = null;
+
+        try {
+            stmt = con.prepareStatement("insert into sale (clientCPF, formaPagamento, vlTotal, vlDesc, postcode, address, district, state, city, date) values(?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP())",
+                    Statement.RETURN_GENERATED_KEYS);
+
             stmt.setString(1, s.getC().getClientCPF());
             stmt.setString(2, "1");
             stmt.setDouble(3, s.getVlTotal());
@@ -33,12 +51,15 @@ public class SaleRepository {
             stmt.setString(9, s.getC().getClientCity());
             stmt.executeUpdate();
 
+            updateLastBuy(s);
+            
             ResultSet generatedKeys = stmt.getGeneratedKeys();
             if (generatedKeys.next()) {
                 int idSale = generatedKeys.getInt(1);
                 s.getItemsSale().forEach(item -> salvarItens(item, idSale));
             }
 
+            JOptionPane.showMessageDialog(null, "Venda salva com sucesso!!", "Informação sistema", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException ex) {
             Logger.getLogger(SaleRepository.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -50,7 +71,7 @@ public class SaleRepository {
         Connection con = ConnectionDatabase.getConnection();
         PreparedStatement stmt = null;
         try {
-            
+
             stmt = con.prepareStatement("insert into itenssale (idSale, productCode, quantity, vlUnit) values(?,?,?,?)");
             stmt.setInt(1, idSale);
             stmt.setString(2, itemsSale.getP().getProductCode());

@@ -21,7 +21,7 @@ public class ClientController {
             stmt = con.prepareStatement(
                     "insert into Clients ("
                     + "clientCode, clientCPF, clientName, clientDtBirth, clientEmail,"
-                    + "clientCellphone, clientDtLastBuy, clientPostcode, clientAddress, clientDistrict,"
+                    + "clientCellphone, clientPostcode, clientAddress, clientDistrict,"
                     + "clientState, clientCity, clientObs) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
 
             stmt.setString(1, c.getClientCode());
@@ -30,13 +30,12 @@ public class ClientController {
             stmt.setString(4, c.getClientDtBirth());
             stmt.setString(5, c.getClientEmail());
             stmt.setString(6, c.getClientCellphone());
-            stmt.setString(7, c.getClientDtLastBuy());
-            stmt.setString(8, c.getClientPostcode());
-            stmt.setString(9, c.getClientAddress());
-            stmt.setString(10, c.getClientDistrict());
-            stmt.setString(11, c.getClientState());
-            stmt.setString(12, c.getClientCity());
-            stmt.setString(13, c.getClientObs());
+            stmt.setString(7, c.getClientPostcode());
+            stmt.setString(8, c.getClientAddress());
+            stmt.setString(9, c.getClientDistrict());
+            stmt.setString(10, c.getClientState());
+            stmt.setString(11, c.getClientCity());
+            stmt.setString(12, c.getClientObs());
 
             stmt.executeUpdate();
         } catch (SQLException ex) {
@@ -155,7 +154,7 @@ public class ClientController {
             c.setClientCode(rs.getString("clientCode"));
             c.setClientCPF(rs.getString("clientCPF"));
             c.setClientEmail(rs.getString("clientEmail"));
-            c.setClientDtLastBuy(rs.getString("clientDtLastBuy"));
+            c.setClientDtLastBuy(rs.getDate("clientDtLastBuy"));
             c.setClientCellphone(rs.getString("clientCellphone"));
             c.setClientState(rs.getString("clientState"));
             c.setClientAddress(rs.getString("clientAddress"));
@@ -195,7 +194,7 @@ public class ClientController {
                 c.setClientCode(rs.getString("clientCode"));
                 c.setClientCPF(rs.getString("clientCPF"));
                 c.setClientEmail(rs.getString("clientEmail"));
-                c.setClientDtLastBuy(rs.getString("clientDtLastBuy"));
+                c.setClientDtLastBuy(rs.getDate("clientDtLastBuy"));
                 c.setClientCellphone(rs.getString("clientCellphone"));
                 c.setClientState(rs.getString("clientState"));
 
@@ -233,7 +232,7 @@ public class ClientController {
                 c.setClientCode(rs.getString("clientCode"));
                 c.setClientCPF(rs.getString("clientCPF"));
                 c.setClientEmail(rs.getString("clientEmail"));
-                c.setClientDtLastBuy(rs.getString("clientDtLastBuy"));
+                c.setClientDtLastBuy(rs.getDate("clientDtLastBuy"));
                 c.setClientCellphone(rs.getString("clientCellphone"));
                 c.setClientState(rs.getString("clientState"));
 
@@ -270,7 +269,7 @@ public class ClientController {
                 c.setClientCode(rs.getString("clientCode"));
                 c.setClientCPF(rs.getString("clientCPF"));
                 c.setClientEmail(rs.getString("clientEmail"));
-                c.setClientDtLastBuy(rs.getString("clientDtLastBuy"));
+                c.setClientDtLastBuy(rs.getDate("clientDtLastBuy"));
                 c.setClientCellphone(rs.getString("clientCellphone"));
                 c.setClientState(rs.getString("clientState"));
 
@@ -308,7 +307,7 @@ public class ClientController {
                 c.setClientCode(rs.getString("clientCode"));
                 c.setClientCPF(rs.getString("clientCPF"));
                 c.setClientEmail(rs.getString("clientEmail"));
-                c.setClientDtLastBuy(rs.getString("clientDtLastBuy"));
+                c.setClientDtLastBuy(rs.getDate("clientDtLastBuy"));
                 c.setClientCellphone(rs.getString("clientCellphone"));
                 c.setClientState(rs.getString("clientState"));
 
@@ -345,7 +344,7 @@ public class ClientController {
                 c.setClientCode(rs.getString("clientCode"));
                 c.setClientCPF(rs.getString("clientCPF"));
                 c.setClientEmail(rs.getString("clientEmail"));
-                c.setClientDtLastBuy(rs.getString("clientDtLastBuy"));
+                c.setClientDtLastBuy(rs.getDate("clientDtLastBuy"));
                 c.setClientCellphone(rs.getString("clientCellphone"));
                 c.setClientState(rs.getString("clientState"));
 

@@ -7,7 +7,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
+import lombok.Data;
 
+@Data
 public class JIFProducts extends javax.swing.JInternalFrame {
 
     JDesktopPane windowManager;

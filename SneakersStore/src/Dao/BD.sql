@@ -10,7 +10,7 @@ clientName varchar(255) not null,
 clientDtBirth varchar(10),
 clientEmail varchar(255) not null,
 clientCellphone varchar(20),
-clientDtLastBuy varchar(10),
+clientDtLastBuy DATE,
 clientPostcode varchar(255) not null,
 clientAddress varchar(255) not null,
 clientDistrict varchar(255) not null,
@@ -19,6 +19,11 @@ clientCity varchar(255) not null,
 clientObs LONGTEXT,
 primary key(id)
 );
+
+-- ALTER TABLE `sneakersstore`.`clients` 
+-- CHANGE COLUMN `clientDtLastBuy` `clientDtLastBuy` DATE
+
+
 
 -- ALTER TABLE `sneakersstore`.`clients` 
 -- ADD COLUMN `clientObs` LONGTEXT NULL AFTER `clientCity`;

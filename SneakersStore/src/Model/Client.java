@@ -1,5 +1,6 @@
 package Model;
 
+import java.sql.Date;
 import lombok.Data;
 
 @Data
@@ -12,7 +13,7 @@ public class Client {
     private String clientDtBirth; 
     private String clientEmail;
     private String clientCellphone;
-    private String clientDtLastBuy;
+    private Date   clientDtLastBuy;
     private String clientPostcode;
     private String clientAddress;
     private String clientDistrict;

@@ -377,7 +377,8 @@ public class JIFSale extends javax.swing.JInternalFrame {
         
         SaleRepository saleRepository = new SaleRepository();
         
-        saleRepository.saveBuy(sale);
+        saleRepository.saveSale(sale);
+        JIFSale.this.dispose();
         
     }//GEN-LAST:event_jButton1ActionPerformed
 

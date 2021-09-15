@@ -4,6 +4,8 @@ import Controller.ClientController;
 import Model.Client;
 import Util.PositionForm;
 import static java.lang.Thread.sleep;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
@@ -288,15 +290,22 @@ public class JIFSearchClient extends javax.swing.JInternalFrame {
 
         DefaultTableModel model = (DefaultTableModel) jTListClients.getModel();
 
+         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+         
         Object rowData[] = new Object[7];
 
         for (int i = 0; i < list.size(); i++) {
-
+            
             rowData[0] = list.get(i).getClientName();
             rowData[1] = list.get(i).getClientCode();
             rowData[2] = list.get(i).getClientCPF();
             rowData[3] = list.get(i).getClientEmail();
-            rowData[4] = list.get(i).getClientDtLastBuy();
+            if(list.get(i).getClientDtLastBuy() != null){
+                rowData[4] = df.format(list.get(i).getClientDtLastBuy());
+            }else{
+                rowData[4] = list.get(i).getClientDtLastBuy();
+            }
+            
             rowData[5] = list.get(i).getClientCellphone();
             rowData[6] = list.get(i).getClientState();
 
