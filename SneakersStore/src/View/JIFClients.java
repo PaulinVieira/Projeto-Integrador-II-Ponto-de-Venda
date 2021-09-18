@@ -240,6 +240,11 @@ public class JIFClients extends javax.swing.JInternalFrame {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        jTFClientDtLastBuy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTFClientDtLastBuyActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jFLayout = new javax.swing.GroupLayout(jF);
         jF.setLayout(jFLayout);
@@ -259,7 +264,7 @@ public class JIFClients extends javax.swing.JInternalFrame {
                         .addGap(51, 51, 51)
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTFClientDtLastBuy, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jTFClientDtLastBuy, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jFLayout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -554,6 +559,7 @@ public class JIFClients extends javax.swing.JInternalFrame {
 
         jTabbedPane1.addTab("Endereços", jPanel2);
 
+        jBtnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Icons/salve-.png"))); // NOI18N
         jBtnSave.setText("Salvar");
         jBtnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -561,6 +567,7 @@ public class JIFClients extends javax.swing.JInternalFrame {
             }
         });
 
+        jBtnClear.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Icons/cancelar.png"))); // NOI18N
         jBtnClear.setText("Limpar");
         jBtnClear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -568,6 +575,7 @@ public class JIFClients extends javax.swing.JInternalFrame {
             }
         });
 
+        jBtnUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Icons/atualizada.png"))); // NOI18N
         jBtnUpdate.setText("Alterar");
         jBtnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -703,6 +711,10 @@ public class JIFClients extends javax.swing.JInternalFrame {
     private void jTFClientCodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFClientCodeActionPerformed
 
     }//GEN-LAST:event_jTFClientCodeActionPerformed
+
+    private void jTFClientDtLastBuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFClientDtLastBuyActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTFClientDtLastBuyActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea JTAObs;

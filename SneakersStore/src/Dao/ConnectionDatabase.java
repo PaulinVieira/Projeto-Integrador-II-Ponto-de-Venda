@@ -16,7 +16,7 @@ public class ConnectionDatabase {
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
     private static final String URL = "jdbc:mysql://localhost:3306/sneakersstore?serverTimezone=UTC";
     private static final String USER = "root";
-    private static final String PASSWORD = "admin";
+    private static final String PASSWORD = "ROOT";
 
     public static Connection getConnection() {
 	try {

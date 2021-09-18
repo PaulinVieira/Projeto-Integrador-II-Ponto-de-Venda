@@ -325,7 +325,8 @@ public class JIFSale extends javax.swing.JInternalFrame {
                 .addContainerGap(65, Short.MAX_VALUE))
         );
 
-        jButton1.setText("Finalizar Compra");
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Icons/carrinho-de-compras-de-design-xadrez.png"))); // NOI18N
+        jButton1.setText("  Finalizar Compra");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);

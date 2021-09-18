@@ -384,6 +384,7 @@ public class JIFProducts extends javax.swing.JInternalFrame {
 
         jTabbedPane1.addTab("Informações Gerais", jF);
 
+        jBtnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Icons/salve-.png"))); // NOI18N
         jBtnSave.setText("Salvar");
         jBtnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -391,6 +392,7 @@ public class JIFProducts extends javax.swing.JInternalFrame {
             }
         });
 
+        jBtnClear.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Icons/cancelar.png"))); // NOI18N
         jBtnClear.setText("Limpar");
         jBtnClear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -398,6 +400,7 @@ public class JIFProducts extends javax.swing.JInternalFrame {
             }
         });
 
+        jBtnUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Icons/atualizada.png"))); // NOI18N
         jBtnUpdate.setText("Alterar");
         jBtnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
