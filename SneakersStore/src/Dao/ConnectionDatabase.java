@@ -27,8 +27,7 @@ public class ConnectionDatabase {
             String err = "Não foi possível conectar-se ao banco de dados, o sistema será encerrado\nDetalhes técnicos: " +e;
             JOptionPane.showMessageDialog(null, err, "ERRO BANCO DE DADOS", ERROR_MESSAGE);
             System.exit(0);
-            throw new RuntimeException("Saída console: Falha na conexão com o banco de dados." + e);
-            
+            throw new RuntimeException("Saída console: Falha na conexão com o banco de dados." + e);      
 	}
     }
 

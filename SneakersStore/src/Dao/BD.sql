@@ -40,7 +40,7 @@ CREATE TABLE products (
   productActive varchar(1) DEFAULT NULL,
   productLocation varchar(255) NOT NULL,
   productPrice double NOT NULL,
-  producSize char(2) NOT NULL,
+  productSize char(2) NOT NULL,
   productObs longtext,
   PRIMARY KEY (id),
   UNIQUE KEY productCode (productCode)

@@ -145,8 +145,9 @@ public class ProductController {
                 p.setProductLocation(rs.getString("productLocation"));
                 p.setProductPrice(rs.getDouble("productPrice"));
                 p.setProductQuantity(rs.getInt("productQuantityAvailable"));
-                p.setProductPrice(rs.getDouble("productPrice"));
+                p.setProductSize(rs.getString("productSize"));
                 p.setProductDtRegistration(rs.getTimestamp("productDtRegistration"));
+                p.setProductObs(rs.getString("productObs"));
             } else {
                 JOptionPane.showMessageDialog(null, "Não existem registros!!.", "Informação sistema", JOptionPane.INFORMATION_MESSAGE);
             }

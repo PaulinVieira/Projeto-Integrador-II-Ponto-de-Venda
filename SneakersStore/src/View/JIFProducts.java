@@ -34,18 +34,13 @@ public class JIFProducts extends javax.swing.JInternalFrame {
         jBtnSave.setEnabled(false);
         jBtnClear.setEnabled(false);
         JTAObs.setEditable(false);
+        jSpinner1.setEnabled(false);
         jRBActive.setEnabled(false);
         jRBInactive.setEnabled(false);
-        jRBBota.setEnabled(false);
-        jRBChinelo.setEnabled(false);
-        jRBEsportivo.setEnabled(false);
-        jRBMeias.setEnabled(false);
-        jRBSapato.setEnabled(false);
-        jRBTenis.setEnabled(false);
         jTFQTDInitial.setEditable(false);
         jTFProductPrice.setEditable(false);
         jTFProductLocation.setEditable(false);
-
+        
     }
 
     private void cleanForm() {
@@ -65,9 +60,80 @@ public class JIFProducts extends javax.swing.JInternalFrame {
         jTFQTDInitial.setText("");
         jTFProductPrice.setText("");
     }
+    
+    //implementar busca utilizando collections/filter
+    private void verifySelectRadio(Product p){
+        if(jRBBota.getText().equals(p.getProductCategory())){
+            jRBBota.setSelected(true);
+        
+        jRBChinelo.setEnabled(false);
+        jRBEsportivo.setEnabled(false);
+        jRBMeias.setEnabled(false);
+        jRBSapato.setEnabled(false);
+        jRBTenis.setEnabled(false);
+        }
+        
+        if(jRBChinelo.getText().equals(p.getProductCategory())){
+            jRBChinelo.setSelected(true);
+        
+        jRBBota.setEnabled(false);
+        jRBEsportivo.setEnabled(false);
+        jRBMeias.setEnabled(false);
+        jRBSapato.setEnabled(false);
+        jRBTenis.setEnabled(false);
+        
+            
+        }
+        
+        if(jRBEsportivo.getText().equals(p.getProductCategory())){
+            jRBEsportivo.setSelected(true);
+            
+        jRBChinelo.setEnabled(false);
+        jRBBota.setEnabled(false);
+        jRBMeias.setEnabled(false);
+        jRBSapato.setEnabled(false);
+        jRBTenis.setEnabled(false);
+        
+        }
+        
+        if(jRBMeias.getText().equals(p.getProductCategory())){
+            jRBMeias.setSelected(true);
+        
+        jRBChinelo.setEnabled(false);
+        jRBBota.setEnabled(false);
+        jRBSapato.setEnabled(false);
+        jRBTenis.setEnabled(false);
+        jRBEsportivo.setEnabled(false);
+            
+            
+        }
+        
+        if(jRBSapato.getText().equals(p.getProductCategory())){
+            jRBSapato.setSelected(true);
+            
+        jRBChinelo.setEnabled(false);
+        jRBBota.setEnabled(false);
+        jRBTenis.setEnabled(false);
+        jRBEsportivo.setEnabled(false);
+        jRBMeias.setEnabled(false);
+        }
+        
+        if(jRBTenis.getText().equals(p.getProductCategory())){
+            jRBTenis.setSelected(true);
+            
+        
+        jRBChinelo.setEnabled(false);
+        jRBBota.setEnabled(false);
+        jRBTenis.setEnabled(false);
+        jRBEsportivo.setEnabled(false);
+        jRBMeias.setEnabled(false);
+        
+        }
+        
+    }
 
     public void showObject(String code, int type) {
-        Product p = p = productController.findProduct(code);
+        Product p = productController.findProduct(code);
 
         this.jTFProductDescription.setText(p.getProductDescription());
         this.jTFProductCode.setText(p.getProductCode());
@@ -82,6 +148,10 @@ public class JIFProducts extends javax.swing.JInternalFrame {
         this.jLabel4.setVisible(true);
         this.jLDtRegistration.setVisible(true);
         this.jTFProductPrice.setText(p.getProductPrice().toString());
+        this.JTAObs.setText(p.getProductObs());
+        verifySelectRadio(p);
+        
+        this.jSpinner1.getModel().setValue(Integer.valueOf(p.getProductSize()));
 
         if (type == 0) {
             disableForm();
@@ -469,10 +539,8 @@ public class JIFProducts extends javax.swing.JInternalFrame {
                 productController.saveProduct(p);
                 JOptionPane.showMessageDialog(null, "Produto salvo com sucesso!", "Informação Sistema", JOptionPane.INFORMATION_MESSAGE);
             }
-
         }
-
-
+        
     }//GEN-LAST:event_jBtnSaveActionPerformed
 
     private void jBtnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnClearActionPerformed
