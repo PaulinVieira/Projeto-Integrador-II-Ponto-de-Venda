@@ -521,6 +521,7 @@ public class JIFProducts extends javax.swing.JInternalFrame {
         p.setProductCategory(productCategory);
         p.setProductSize(this.jSpinner1.getValue().toString());
         p.setProductObs(this.JTAObs.getText());
+        p.setProductQuantity(Integer.valueOf(this.jTFQTDInitial.getText()));
 
         if (!this.jTFQTDInitial.getText().equals("")) {
             p.setProductQTDInitial(Integer.valueOf(this.jTFQTDInitial.getText().replace(".", "")));

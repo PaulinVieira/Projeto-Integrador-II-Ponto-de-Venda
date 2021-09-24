@@ -1,7 +1,7 @@
 package Controller;
 
 import Dao.ConnectionDatabase;
-import Model.Product;
+import Model.Inventory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -12,19 +12,18 @@ import static javax.swing.JOptionPane.ERROR_MESSAGE;
 
 public class InventoryController {
 
- public void createMovi(Product p) {
+ public void createMovi(Inventory i) {
         Connection con = ConnectionDatabase.getConnection();
         PreparedStatement stmt = null;
        
         try {            
             stmt = con.prepareStatement(
-                    "insert into inventory ("
-                    + "productCode, quantity, productQuantityAvailable)"
-                    + "values (?, ?, ?);");
+                    "insert into inventory (productCode, quantity) "
+                            + "values (?, ?);");
             
-            stmt.setString(1, p.getProductCode());
-            stmt.setInt(2, 0);
-            stmt.setInt(3, 0);
+            stmt.setString(1, i.getProductCode());
+            stmt.setInt(2, i.getQuantity());
+            
             stmt.executeUpdate();
         } catch (SQLException ex) {
 
@@ -38,30 +37,27 @@ public class InventoryController {
         }
     }
  
- public void firstMovi(Product p) {
+  public void updateMovi(Inventory i) {
         Connection con = ConnectionDatabase.getConnection();
         PreparedStatement stmt = null;
        
         try {            
             stmt = con.prepareStatement(
-                    "insert into inventory ("
-                    + "productCode, quantity, productQuantityAvailable)"
-                    + "values (?, ?, ?);");
+                    "update inventory set quantity = quantity + ? where productCode = ?");
             
-            stmt.setString(1, p.getProductCode());
-            stmt.setInt(2, 0);
-            stmt.setInt(3, 0);
+            stmt.setInt(1, i.getQuantity());
+            stmt.setString(2, i.getProductCode());
+            
             stmt.executeUpdate();
         } catch (SQLException ex) {
 
-            String err = "Ocorreu um erro não documentado ao salvar amovi. Impossível continuar.\nDetalhes técnicos: " + ex;
+            String err = "Ocorreu um erro não documentado ao salvar o produto. Impossível continuar.\nDetalhes técnicos: " + ex;
             JOptionPane.showMessageDialog(null, err, "ERRO Desconhecido", ERROR_MESSAGE);
             Logger.getLogger(InventoryController.class.getName()).log(Level.SEVERE, null, ex);
 
         } finally {
+            
             ConnectionDatabase.closeConnection(con, stmt);
         }
-    }
-
-    
+    }  
 }

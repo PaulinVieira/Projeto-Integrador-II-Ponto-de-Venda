@@ -59,7 +59,7 @@ CREATE TABLE products (
 CREATE TABLE inventory (
   id int NOT NULL AUTO_INCREMENT,
   productCode varchar(255) NOT NULL,
-  quantity int DEFAULT NULL,
+  quantity int DEFAULT null,
   PRIMARY KEY (id)
 );
 

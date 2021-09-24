@@ -1,6 +1,7 @@
 package Controller;
 
 import Dao.ConnectionDatabase;
+import Model.Inventory;
 import Model.Product;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,10 +20,11 @@ public class ProductController {
         PreparedStatement stmt = null;
 
         try {
+            InventoryController inventory = new InventoryController();
             stmt = con.prepareStatement(
                     "insert into Products ("
                     + "productCode, productCategory, productDescription, productActive,"
-                    + "productLocation, productPrice, productQuantityAvailable, productSize, productObs, productDtRegistration)"
+                    + "productLocation, productPrice, productSize, productObs, productDtRegistration)"
                     + "values (?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP());");
 
             stmt.setString(1, p.getProductCode());
@@ -31,9 +33,15 @@ public class ProductController {
             stmt.setString(4, "S");
             stmt.setString(5, p.getProductLocation());
             stmt.setDouble(6, p.getProductPrice());
-            stmt.setInt(7, p.getProductQTDInitial());
             stmt.setString(8, p.getProductSize());
             stmt.setString(9, p.getProductObs());
+            
+            Inventory i = new Inventory();
+            
+            i.setProductCode(p.getProductCode());
+            i.setQuantity(p.getProductQuantity());
+            
+            inventory.createMovi(i);
             stmt.executeUpdate();
         } catch (SQLException ex) {
 
@@ -149,7 +157,7 @@ public class ProductController {
                 p.setProductDtRegistration(rs.getTimestamp("productDtRegistration"));
                 p.setProductObs(rs.getString("productObs"));
             } else {
-                JOptionPane.showMessageDialog(null, "Não existem registros!!.", "Informação sistema", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Não existem registros!!", "Informação sistema", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (SQLException ex) {
 
