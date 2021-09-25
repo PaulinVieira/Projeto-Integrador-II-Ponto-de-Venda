@@ -11,6 +11,7 @@ public class JFMainScreen extends javax.swing.JFrame {
 
     PositionForm form = new PositionForm();
     JIFPointOfSale jifPointOfSale;
+    JIFInventory jifInventory;
 
     public JFMainScreen() {
 
@@ -42,6 +43,8 @@ public class JFMainScreen extends javax.swing.JFrame {
         jMPdv = new javax.swing.JMenu();
         jMIPointSale = new javax.swing.JMenuItem();
         jMReports = new javax.swing.JMenu();
+        jMInventory = new javax.swing.JMenu();
+        Inventário = new javax.swing.JMenuItem();
 
         jLabel1.setText("jLabel1");
 
@@ -114,6 +117,18 @@ public class JFMainScreen extends javax.swing.JFrame {
 
         jMReports.setText("Relatórios");
         jMenuBarPrin.add(jMReports);
+
+        jMInventory.setText("Estoque");
+
+        Inventário.setText("Inventário");
+        Inventário.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                InventárioActionPerformed(evt);
+            }
+        });
+        jMInventory.add(Inventário);
+
+        jMenuBarPrin.add(jMInventory);
 
         setJMenuBar(jMenuBarPrin);
 
@@ -190,6 +205,24 @@ public class JFMainScreen extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jMIPointSaleActionPerformed
 
+    private void InventárioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InventárioActionPerformed
+        if (jifInventory == null) {
+            
+            form.openForm(jifInventory = new JIFInventory(), jdpMain);
+
+            jifInventory.show();
+          
+        } else if (!jifInventory.isVisible()) {
+            
+            form.openForm(jifInventory = new JIFInventory(), jdpMain);
+
+            jifInventory.show();
+            
+        } else {
+            JOptionPane.showMessageDialog(null, "Tela já aberta.", "Informação sistema", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_InventárioActionPerformed
+
     public static void main(String args[]) {
 
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -217,12 +250,14 @@ public class JFMainScreen extends javax.swing.JFrame {
     }
     private JIFBackground Background = new JIFBackground();
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem Inventário;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuItem jMIClients;
     private javax.swing.JMenuItem jMIFindClient;
     private javax.swing.JMenuItem jMIFindProduct;
     private javax.swing.JMenuItem jMIPointSale;
     private javax.swing.JMenuItem jMIProducts;
+    private javax.swing.JMenu jMInventory;
     private javax.swing.JMenu jMPdv;
     private javax.swing.JMenu jMRecords;
     private javax.swing.JMenu jMReports;

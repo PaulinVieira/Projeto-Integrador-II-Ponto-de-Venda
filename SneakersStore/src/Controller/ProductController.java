@@ -1,6 +1,7 @@
 package Controller;
 
 import Dao.ConnectionDatabase;
+import Model.Inventory;
 import Model.Product;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,11 +20,12 @@ public class ProductController {
         PreparedStatement stmt = null;
 
         try {
+            InventoryController inventory = new InventoryController();
             stmt = con.prepareStatement(
                     "insert into Products ("
                     + "productCode, productCategory, productDescription, productActive,"
-                    + "productLocation, productPrice, productQuantityAvailable, productSize, productObs, productDtRegistration)"
-                    + "values (?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP());");
+                    + "productLocation, productPrice, productSize, productObs, productDtRegistration)"
+                    + "values (?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP());");
 
             stmt.setString(1, p.getProductCode());
             stmt.setString(2, p.getProductCategory());
@@ -31,10 +33,17 @@ public class ProductController {
             stmt.setString(4, "S");
             stmt.setString(5, p.getProductLocation());
             stmt.setDouble(6, p.getProductPrice());
-            stmt.setInt(7, p.getProductQTDInitial());
-            stmt.setString(8, p.getProductSize());
-            stmt.setString(9, p.getProductObs());
+            stmt.setString(7, p.getProductSize());
+            stmt.setString(8, p.getProductObs());
+
             stmt.executeUpdate();
+
+            Inventory i = new Inventory();
+
+            i.setProductCode(p.getProductCode());
+            i.setQuantity(p.getProductQuantity());
+
+            inventory.createMovi(i);
         } catch (SQLException ex) {
 
             String err = "Ocorreu um erro não documentado ao salvar o produto. Impossível continuar.\nDetalhes técnicos: " + ex;
@@ -145,10 +154,11 @@ public class ProductController {
                 p.setProductLocation(rs.getString("productLocation"));
                 p.setProductPrice(rs.getDouble("productPrice"));
                 p.setProductQuantity(rs.getInt("productQuantityAvailable"));
-                p.setProductPrice(rs.getDouble("productPrice"));
+                p.setProductSize(rs.getString("productSize"));
                 p.setProductDtRegistration(rs.getTimestamp("productDtRegistration"));
+                p.setProductObs(rs.getString("productObs"));
             } else {
-                JOptionPane.showMessageDialog(null, "Não existem registros!!.", "Informação sistema", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Não existem registros!!", "Informação sistema", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (SQLException ex) {
 

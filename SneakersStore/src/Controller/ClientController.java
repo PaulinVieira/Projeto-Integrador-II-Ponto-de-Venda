@@ -22,7 +22,7 @@ public class ClientController {
                     "insert into Clients ("
                     + "clientCode, clientCPF, clientName, clientDtBirth, clientEmail,"
                     + "clientCellphone, clientPostcode, clientAddress, clientDistrict,"
-                    + "clientState, clientCity, clientObs) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
+                    + "clientState, clientCity, clientObs) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
 
             stmt.setString(1, c.getClientCode());
             stmt.setString(2, c.getClientCPF());
