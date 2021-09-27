@@ -307,14 +307,47 @@ public class JIFInventory extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jTextField1KeyPressed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-            InventoryController inventoryController = new InventoryController();
-            Inventory i = new Inventory ();
-            
-            i.setProductCode(jTextField1.getText());
-            i.setQuantity(Integer.valueOf(jFormattedTextField1.getText()));
-            
-            inventoryController.updateMovi(i);
-            
+
+        InventoryController inventoryController = new InventoryController();
+        Inventory i = new Inventory();
+
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+
+        if (model.getRowCount() == 1) {
+
+            int input = JOptionPane.showConfirmDialog(null, "Deseja realmente incluir esta quantidade? \nQuantidade: " + jFormattedTextField1.getText() + "\nProduto: " + jLDesc.getText());
+            if (input == 0) {
+
+                i.setProductCode(jTextField1.getText());
+                i.setQuantity(Integer.valueOf(jFormattedTextField1.getText()));
+
+                inventoryController.updateMovi(i);
+            }
+
+            return;
+        }
+
+        if (model.getRowCount() > 1) {
+
+            if (jTable1.getSelectedRow() == -1) {
+                JOptionPane.showMessageDialog(null, "Selecione um produto.", "Informação sistema", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+
+                int index = jTable1.getSelectedRow();
+
+                String code = model.getValueAt(index, 1).toString();
+
+                int input = JOptionPane.showConfirmDialog(null, "Deseja realmente incluir esta quantidade? \nQuantidade: " + jFormattedTextField1.getText() + "\nProduto: " + jLDesc.getText());
+                if (input == 0) {
+
+                    i.setProductCode(code);
+                    i.setQuantity(Integer.valueOf(jFormattedTextField1.getText()));
+
+                    inventoryController.updateMovi(i);
+                }
+            }
+        }
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
 

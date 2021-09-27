@@ -12,18 +12,18 @@ import static javax.swing.JOptionPane.ERROR_MESSAGE;
 
 public class InventoryController {
 
- public void createMovi(Inventory i) {
+    public void createMovi(Inventory i) {
         Connection con = ConnectionDatabase.getConnection();
         PreparedStatement stmt = null;
-       
-        try {            
+
+        try {
             stmt = con.prepareStatement(
                     "insert into inventory (productCode, quantity) "
-                            + "values (?, ?);");
-            
+                    + "values (?, ?);");
+
             stmt.setString(1, i.getProductCode());
             stmt.setInt(2, i.getQuantity());
-            
+
             stmt.executeUpdate();
         } catch (SQLException ex) {
 
@@ -32,22 +32,22 @@ public class InventoryController {
             Logger.getLogger(InventoryController.class.getName()).log(Level.SEVERE, null, ex);
 
         } finally {
-            
+
             ConnectionDatabase.closeConnection(con, stmt);
         }
     }
- 
-  public void updateMovi(Inventory i) {
+
+    public void updateMovi(Inventory i) {
         Connection con = ConnectionDatabase.getConnection();
         PreparedStatement stmt = null;
-       
-        try {            
+
+        try {
             stmt = con.prepareStatement(
                     "update inventory set quantity = quantity + ? where productCode = ?");
-            
+
             stmt.setInt(1, i.getQuantity());
             stmt.setString(2, i.getProductCode());
-            
+
             stmt.executeUpdate();
         } catch (SQLException ex) {
 
@@ -56,8 +56,8 @@ public class InventoryController {
             Logger.getLogger(InventoryController.class.getName()).log(Level.SEVERE, null, ex);
 
         } finally {
-            
+
             ConnectionDatabase.closeConnection(con, stmt);
         }
-    }  
+    }
 }
