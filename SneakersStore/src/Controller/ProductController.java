@@ -25,7 +25,7 @@ public class ProductController {
                     "insert into Products ("
                     + "productCode, productCategory, productDescription, productActive,"
                     + "productLocation, productPrice, productSize, productObs, productDtRegistration)"
-                    + "values (?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP());");
+                    + "values (?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP());");
 
             stmt.setString(1, p.getProductCode());
             stmt.setString(2, p.getProductCategory());
@@ -33,16 +33,17 @@ public class ProductController {
             stmt.setString(4, "S");
             stmt.setString(5, p.getProductLocation());
             stmt.setDouble(6, p.getProductPrice());
-            stmt.setString(8, p.getProductSize());
-            stmt.setString(9, p.getProductObs());
-            
+            stmt.setString(7, p.getProductSize());
+            stmt.setString(8, p.getProductObs());
+
+            stmt.executeUpdate();
+
             Inventory i = new Inventory();
-            
+
             i.setProductCode(p.getProductCode());
             i.setQuantity(p.getProductQuantity());
-            
+
             inventory.createMovi(i);
-            stmt.executeUpdate();
         } catch (SQLException ex) {
 
             String err = "Ocorreu um erro não documentado ao salvar o produto. Impossível continuar.\nDetalhes técnicos: " + ex;
@@ -156,6 +157,7 @@ public class ProductController {
                 p.setProductSize(rs.getString("productSize"));
                 p.setProductDtRegistration(rs.getTimestamp("productDtRegistration"));
                 p.setProductObs(rs.getString("productObs"));
+                
             } else {
                 JOptionPane.showMessageDialog(null, "Não existem registros!!", "Informação sistema", JOptionPane.INFORMATION_MESSAGE);
             }

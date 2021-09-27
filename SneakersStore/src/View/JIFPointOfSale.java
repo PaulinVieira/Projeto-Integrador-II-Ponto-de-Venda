@@ -1,8 +1,10 @@
 package View;
 
 import Controller.ClientController;
+import Controller.InventoryController;
 import Controller.ProductController;
 import Model.Client;
+import Model.Inventory;
 import Model.ItemsSale;
 import Model.Product;
 import Model.Sale;
@@ -35,6 +37,7 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
         jLVlTUnit.setText("");
         jLVlDesc.setText("");
         jLTotal.setText("");
+        jLabel14.setText("");
 
     }
 
@@ -45,6 +48,7 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
         jTFTotalItem.setText("0");
         jTFVlUnit.setText("0");
         jTFQtd.setText("0");
+        jLabel14.setText("");
     }
 
     private void addRowToTable(Product p) {
@@ -139,6 +143,7 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
     public void showObjectP(Product p) {
         jLProductName.setText(p.getProductDescription());
         jTFVlUnit.setText(df.format(p.getProductPrice()));
+        jLabel14.setText(Integer.toString(p.getProductQTDInitial()));
     }
 
     @SuppressWarnings("unchecked")
@@ -175,6 +180,8 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
         jTFVlUnit = new javax.swing.JFormattedTextField();
         jTFVlDesc = new javax.swing.JFormattedTextField();
         jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
         jBtnAdd = new javax.swing.JButton();
         jSPPreview = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -408,6 +415,11 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
 
         jLabel8.setText("Cod. Produto");
 
+        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel9.setText("Estoque: ");
+
+        jLabel14.setText("jLabel14");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -438,16 +450,25 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
                                         .addComponent(jLabel13))
                                     .addGap(0, 0, Short.MAX_VALUE)))))
                     .addComponent(jLabel8)
-                    .addComponent(jTFProductCode, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jTFProductCode, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(38, 38, 38)
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel14)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(17, Short.MAX_VALUE)
+                .addContainerGap(21, Short.MAX_VALUE)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTFProductCode, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTFProductCode, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel14)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -583,9 +604,6 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
             jifSale.getJLTotal6().setText(jLTotal.getText());
             
             jifSale.getJTable1().setModel(model);
-            
-            
-            
             jifSale.sale = new Sale();
             
             jifSale.sale.setC(clientController.findClient(jTFClientCPF.getText()));
@@ -677,8 +695,17 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
        
 
         try {
-            addRowToTable(p);
-        } catch (Exception e) {
+            InventoryController inventoryController = new InventoryController();
+            Inventory i = new Inventory();
+            
+            i.setProductCode(p.getProductCode());
+            i.setQuantity(Integer.valueOf(jTFQtd.getText()));
+            
+            if(inventoryController.checkMovi(i)){
+            addRowToTable(p);    
+            }
+            
+        } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Ocorreu um erro não documentado ao adicionar!!", "Informação sistema", JOptionPane.INFORMATION_MESSAGE);
             System.out.println(e);
         }
@@ -753,6 +780,7 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -760,6 +788,7 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

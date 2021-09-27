@@ -103,6 +103,11 @@ public class JIFInventory extends javax.swing.JInternalFrame {
             }
         });
         jTable1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -183,6 +188,11 @@ public class JIFInventory extends javax.swing.JInternalFrame {
         });
 
         jButton3.setText("Subtrair");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -269,7 +279,7 @@ public class JIFInventory extends javax.swing.JInternalFrame {
 
         rowData[0] = p.getProductCode();
         rowData[1] = p.getProductQuantity();
-        rowData[2] = null;
+        rowData[2] = '0';
         rowData[3] = p.getProductCategory();
         rowData[4] = p.getProductLocation();
 
@@ -280,6 +290,9 @@ public class JIFInventory extends javax.swing.JInternalFrame {
                 return;
             }
         }
+
+        jTextField1.setText(p.getProductCode());
+
         model.addRow(rowData);
 
     }
@@ -321,7 +334,16 @@ public class JIFInventory extends javax.swing.JInternalFrame {
                 i.setProductCode(jTextField1.getText());
                 i.setQuantity(Integer.valueOf(jFormattedTextField1.getText()));
 
-                inventoryController.updateMovi(i);
+                inventoryController.addMovi(i);
+
+                try {
+                    Product p = productController.findProduct(jTextField1.getText());
+                    reset();
+                    fillTable(p);
+                } catch (Exception e) {
+                    disableForm();
+                    reset();
+                }
             }
 
             return;
@@ -335,7 +357,7 @@ public class JIFInventory extends javax.swing.JInternalFrame {
 
                 int index = jTable1.getSelectedRow();
 
-                String code = model.getValueAt(index, 1).toString();
+                String code = model.getValueAt(index, 0).toString();
 
                 int input = JOptionPane.showConfirmDialog(null, "Deseja realmente incluir esta quantidade? \nQuantidade: " + jFormattedTextField1.getText() + "\nProduto: " + jLDesc.getText());
                 if (input == 0) {
@@ -343,12 +365,92 @@ public class JIFInventory extends javax.swing.JInternalFrame {
                     i.setProductCode(code);
                     i.setQuantity(Integer.valueOf(jFormattedTextField1.getText()));
 
-                    inventoryController.updateMovi(i);
+                    inventoryController.addMovi(i);
+
+                    try {
+                        Product p = productController.findProduct(model.getValueAt(jTable1.getSelectedRow(), 0).toString());
+                        reset();
+                        fillTable(p);
+                    } catch (Exception e) {
+                        disableForm();
+                        reset();
+                    }
                 }
             }
         }
 
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        InventoryController inventoryController = new InventoryController();
+        Inventory i = new Inventory();
+
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+
+        if (model.getRowCount() == 1) {
+
+            int input = JOptionPane.showConfirmDialog(null, "Deseja realmente incluir esta quantidade? \nQuantidade: " + jFormattedTextField1.getText() + "\nProduto: " + jLDesc.getText());
+            if (input == 0) {
+
+                i.setProductCode(jTextField1.getText());
+                i.setQuantity(Integer.valueOf(jFormattedTextField2.getText()));
+
+                inventoryController.subtractMovi(i);
+
+                try {
+                    Product p = productController.findProduct(jTextField1.getText());
+                    reset();
+                    fillTable(p);
+                } catch (Exception e) {
+                    disableForm();
+                    reset();
+                }
+            }
+
+            return;
+        }
+
+        if (model.getRowCount() > 1) {
+
+            if (jTable1.getSelectedRow() == -1) {
+                JOptionPane.showMessageDialog(null, "Selecione um produto.", "Informação sistema", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+
+                int index = jTable1.getSelectedRow();
+
+                String code = model.getValueAt(index, 0).toString();
+
+                int input = JOptionPane.showConfirmDialog(null, "Deseja realmente incluir esta quantidade? \nQuantidade: " + jFormattedTextField1.getText() + "\nProduto: " + jLDesc.getText());
+                if (input == 0) {
+
+                    i.setProductCode(code);
+                    i.setQuantity(Integer.valueOf(jFormattedTextField2.getText()));
+
+                    inventoryController.subtractMovi(i);
+
+                    try {
+                        Product p = productController.findProduct(jTextField1.getText());
+                        reset();
+                        fillTable(p);
+                    } catch (Exception e) {
+                        disableForm();
+                        reset();
+                    }
+                }
+            }
+        }
+
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+
+        Product p = productController.findProduct(model.getValueAt(jTable1.getSelectedRow(), 0).toString());
+
+        fillLabels(p);
+
+    }//GEN-LAST:event_jTable1MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
