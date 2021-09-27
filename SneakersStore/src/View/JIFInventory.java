@@ -320,6 +320,15 @@ public class JIFInventory extends javax.swing.JInternalFrame {
 
         inventoryController.addMovi(i);
 
+        try {
+            Product p = productController.findProduct(jTextField1.getText());
+            reset();
+            fillTable(p);
+        } catch (Exception e) {
+            disableForm();
+            reset();
+        }
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -331,6 +340,15 @@ public class JIFInventory extends javax.swing.JInternalFrame {
 
         inventoryController.subtractMovi(i);
         
+         try {
+            Product p = productController.findProduct(jTextField1.getText());
+            reset();
+            fillTable(p);
+        } catch (Exception e) {
+            disableForm();
+            reset();
+        }
+
     }//GEN-LAST:event_jButton3ActionPerformed
 
 

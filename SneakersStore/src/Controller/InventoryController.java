@@ -2,7 +2,6 @@ package Controller;
 
 import Dao.ConnectionDatabase;
 import Model.Inventory;
-import Model.Product;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -64,7 +63,7 @@ public class InventoryController {
                     + " where productCode = \'" + i.getProductCode() + "\'");
             stmt.executeUpdate();
 
-            JOptionPane.showMessageDialog(null, "Quantidade adicionada:" + i.getQuantity(), "Informação do Sistema", INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Quantidade adicionada: " + i.getQuantity(), "Informação do Sistema", INFORMATION_MESSAGE);
         } catch (SQLException ex) {
 
             String err = "Ocorreu um erro não documentado. Impossível continuar.\nDetalhes técnicos: " + ex;
@@ -93,10 +92,10 @@ public class InventoryController {
 
                 if (quantity == 0) {
 
-                    JOptionPane.showMessageDialog(null, "Impossível continuar pois o estoque negativo.", "Informação do Sistema", INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Impossível continuar pois o ficaria estoque negativo.", "Informação do Sistema", INFORMATION_MESSAGE);
                     return false;
                 } else if ((quantity - i.getQuantity()) < 0) {
-                    JOptionPane.showMessageDialog(null, "Impossível continuar pois o estoque negativo.", "Informação do Sistema", INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Impossível continuar pois o ficaria estoque negativo.", "Informação do Sistema", INFORMATION_MESSAGE);
                     return false;
                 }
 
@@ -128,13 +127,13 @@ public class InventoryController {
                 stmt.setString(2, i.getProductCode());
 
                 stmt.executeUpdate();
-                
-                stmt = con.prepareStatement(
-                    "update products set productQuantityAvailable = productQuantityAvailable - " + i.getQuantity()
-                    + " where productCode = \'" + i.getProductCode() + "\'");
-            stmt.executeUpdate();
 
-                JOptionPane.showMessageDialog(null, "Quantidade baixada:" + i.getQuantity(), "Informação do Sistema", INFORMATION_MESSAGE);
+                stmt = con.prepareStatement(
+                        "update products set productQuantityAvailable = productQuantityAvailable - " + i.getQuantity()
+                        + " where productCode = \'" + i.getProductCode() + "\'");
+                stmt.executeUpdate();
+
+                JOptionPane.showMessageDialog(null, "Quantidade baixada: " + i.getQuantity(), "Informação do Sistema", INFORMATION_MESSAGE);
 
             } catch (SQLException ex) {
 
