@@ -33,6 +33,7 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
     public JIFPointOfSale() {
         initComponents();
         jTFTotalItem.setEditable(false);
+        jTFVlUnit.setEditable(false);
         jLProductName.setText("");
         jLVlTUnit.setText("");
         jLVlDesc.setText("");
@@ -66,7 +67,47 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
             rowData[3] = jTFVlDesc.getText();
             rowData[4] = jTFTotalItem.getText();
 
-            model.addRow(rowData);
+            if (model.getRowCount() <= 0) {
+                model.addRow(rowData);
+
+                iBuy.setP(p);
+                iBuy.setQuantidade(Integer.valueOf(jTFQtd.getText()));
+                iBuy.setVlDesc(Double.valueOf(formatString(jTFVlDesc.getText())));
+
+                Double vlTUnit = Double.valueOf(formatString(jTFVlUnit.getText())) * Integer.valueOf(jTFQtd.getText());
+
+                iBuy.setVlTUnit(vlTUnit);
+                iBuy.setVlTotal(Double.valueOf(formatString(jTFTotalItem.getText())));
+                listProduct.add(iBuy);
+
+                cleanForm();
+                attValues();
+
+                return;
+            }
+
+            for (int i = 0; i < model.getRowCount(); i++) {
+
+                if (model.getValueAt(i, 0).toString().equals(p.getProductCode())) {
+
+                    for (int j = 0; j < listProduct.size(); j++) {
+
+                        if (p.getProductCode().equals(this.listProduct.get(j).getP().getProductCode())) {
+
+                            Integer newQtd = Integer.valueOf(jTFQtd.getText()) + Integer.valueOf(model.getValueAt(i, 2).toString());
+                            model.setValueAt(newQtd.toString(), i, 2);
+
+                            listProduct.get(j).setQuantidade(newQtd);
+
+                            cleanForm();
+                            attValues();
+
+                        }
+
+                    }
+                }
+
+            }
 
             iBuy.setP(p);
             iBuy.setQuantidade(Integer.valueOf(jTFQtd.getText()));
@@ -143,7 +184,7 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
     public void showObjectP(Product p) {
         jLProductName.setText(p.getProductDescription());
         jTFVlUnit.setText(df.format(p.getProductPrice()));
-        jLabel14.setText(Integer.toString(p.getProductQTDInitial()));
+        jLabel14.setText(Integer.toString(p.getProductQuantity()));
     }
 
     @SuppressWarnings("unchecked")
@@ -418,6 +459,7 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel9.setText("Estoque: ");
 
+        jLabel14.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel14.setText("jLabel14");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -598,25 +640,25 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
             jifSale.getJLabel12().setText(c.getClientPostcode());
             jifSale.getJLabel13().setText(c.getClientState());
             jifSale.getJLabel14().setText(c.getClientCity());
-            
+
             jifSale.getJLTotal2().setText(jLVlTUnit.getText());
             jifSale.getJLTotal5().setText(jLVlDesc.getText());
             jifSale.getJLTotal6().setText(jLTotal.getText());
-            
+
             jifSale.getJTable1().setModel(model);
             jifSale.sale = new Sale();
-            
+
             jifSale.sale.setC(clientController.findClient(jTFClientCPF.getText()));
             jifSale.sale.setItemsSale(listProduct);
             jifSale.sale.setVlDesc(Double.valueOf(formatString(jLVlDesc.getText())));
             jifSale.sale.setVlTotal(Double.valueOf(formatString(jLVlTUnit.getText())));
-            
+
             jifSale.show();
 
         } else {
             JOptionPane.showMessageDialog(null, "Tela já aberta.", "Informação sistema", JOptionPane.INFORMATION_MESSAGE);
         }
-        
+
         JIFPointOfSale.this.dispose();
 
     }//GEN-LAST:event_jBtnFinishActionPerformed
@@ -691,20 +733,18 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
 
         p.setProductCode(jTFProductCode.getText());
         p.setProductDescription(jLProductName.getText());
-        
-       
 
         try {
             InventoryController inventoryController = new InventoryController();
             Inventory i = new Inventory();
-            
+
             i.setProductCode(p.getProductCode());
             i.setQuantity(Integer.valueOf(jTFQtd.getText()));
-            
-            if(inventoryController.checkMovi(i)){
-            addRowToTable(p);    
+
+            if (inventoryController.checkMovi(i)) {
+                addRowToTable(p);
             }
-            
+
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Ocorreu um erro não documentado ao adicionar!!", "Informação sistema", JOptionPane.INFORMATION_MESSAGE);
             System.out.println(e);

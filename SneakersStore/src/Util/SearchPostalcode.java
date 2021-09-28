@@ -40,7 +40,7 @@ public class SearchPostalcode {
             String array[] = new String[30];
             array = json.split("\n");
             
-            c.setClientAddress(array[25]);            
+            c.setClientAddress(array[7]);            
             c.setClientDistrict(array[15]);
             c.setClientCity(array[19]); 
             c.setClientState(array[23]);

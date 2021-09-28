@@ -389,7 +389,7 @@ public class JIFInventory extends javax.swing.JInternalFrame {
 
         if (model.getRowCount() == 1) {
 
-            int input = JOptionPane.showConfirmDialog(null, "Deseja realmente incluir esta quantidade? \nQuantidade: " + jFormattedTextField1.getText() + "\nProduto: " + jLDesc.getText());
+            int input = JOptionPane.showConfirmDialog(null, "Deseja realmente retirar esta quantidade? \nQuantidade: " + jFormattedTextField2.getText() + "\nProduto: " + jLDesc.getText());
             if (input == 0) {
 
                 i.setProductCode(jTextField1.getText());
