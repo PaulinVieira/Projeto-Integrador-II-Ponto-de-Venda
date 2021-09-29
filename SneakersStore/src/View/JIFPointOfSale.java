@@ -85,7 +85,8 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
 
                 return;
             }
-
+            
+            //caso seja digitado o mesmo item duas vezes. Este será somado a quantidade e alterado os valores
             for (int i = 0; i < model.getRowCount(); i++) {
 
                 if (model.getValueAt(i, 0).toString().equals(p.getProductCode())) {
@@ -95,13 +96,25 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
                         if (p.getProductCode().equals(this.listProduct.get(j).getP().getProductCode())) {
 
                             Integer newQtd = Integer.valueOf(jTFQtd.getText()) + Integer.valueOf(model.getValueAt(i, 2).toString());
-                            model.setValueAt(newQtd.toString(), i, 2);
+                            
+                            listProduct.get(j).setVlDesc(Double.valueOf(formatString(jTFVlDesc.getText())) + listProduct.get(j).getVlDesc());
+                            Double vlTotal = Double.valueOf(formatString(jTFVlUnit.getText())) * newQtd - listProduct.get(j).getVlDesc();
+                            
+                            Double vlTUnit = newQtd * listProduct.get(j).getP().getProductPrice();
 
                             listProduct.get(j).setQuantidade(newQtd);
+                            
+                            listProduct.get(j).setVlTUnit(vlTUnit);
+                            listProduct.get(j).setVlTotal(vlTotal);
 
+                            model.setValueAt(newQtd.toString(), i, 2);
+                            model.setValueAt(df.format(listProduct.get(j).getVlDesc()), i, 3);
+                            model.setValueAt(df.format(listProduct.get(j).getVlTUnit()), i, 4);
+                            
                             cleanForm();
                             attValues();
 
+                            return;
                         }
 
                     }
@@ -119,6 +132,8 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
             iBuy.setVlTotal(Double.valueOf(formatString(jTFTotalItem.getText())));
 
             listProduct.add(iBuy);
+
+            model.addRow(rowData);
 
             cleanForm();
             attValues();
@@ -733,6 +748,7 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
 
         p.setProductCode(jTFProductCode.getText());
         p.setProductDescription(jLProductName.getText());
+        p.setProductPrice(Double.valueOf(formatString(jTFVlUnit.getText())));
 
         try {
             InventoryController inventoryController = new InventoryController();
