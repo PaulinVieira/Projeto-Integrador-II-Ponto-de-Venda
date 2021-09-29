@@ -85,7 +85,7 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
 
                 return;
             }
-            
+
             //caso seja digitado o mesmo item duas vezes. Este será somado a quantidade e alterado os valores
             for (int i = 0; i < model.getRowCount(); i++) {
 
@@ -96,21 +96,21 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
                         if (p.getProductCode().equals(this.listProduct.get(j).getP().getProductCode())) {
 
                             Integer newQtd = Integer.valueOf(jTFQtd.getText()) + Integer.valueOf(model.getValueAt(i, 2).toString());
-                            
+
                             listProduct.get(j).setVlDesc(Double.valueOf(formatString(jTFVlDesc.getText())) + listProduct.get(j).getVlDesc());
                             Double vlTotal = Double.valueOf(formatString(jTFVlUnit.getText())) * newQtd - listProduct.get(j).getVlDesc();
-                            
+
                             Double vlTUnit = newQtd * listProduct.get(j).getP().getProductPrice();
 
                             listProduct.get(j).setQuantidade(newQtd);
-                            
+
                             listProduct.get(j).setVlTUnit(vlTUnit);
                             listProduct.get(j).setVlTotal(vlTotal);
 
                             model.setValueAt(newQtd.toString(), i, 2);
                             model.setValueAt(df.format(listProduct.get(j).getVlDesc()), i, 3);
                             model.setValueAt(df.format(listProduct.get(j).getVlTUnit()), i, 4);
-                            
+
                             cleanForm();
                             attValues();
 
@@ -199,6 +199,19 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
     public void showObjectP(Product p) {
         jLProductName.setText(p.getProductDescription());
         jTFVlUnit.setText(df.format(p.getProductPrice()));
+
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+
+        for (int i = 0; i < model.getRowCount(); i++) {
+
+            if (model.getValueAt(i, 0).toString().equals(p.getProductCode())) {
+                Integer qtdAt = p.getProductQuantity() - Integer.valueOf(model.getValueAt(i, 2).toString());
+
+                jLabel14.setText(qtdAt.toString());
+                return;
+            }
+        }
+
         jLabel14.setText(Integer.toString(p.getProductQuantity()));
     }
 
@@ -755,8 +768,23 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
             Inventory i = new Inventory();
 
             i.setProductCode(p.getProductCode());
-            i.setQuantity(Integer.valueOf(jTFQtd.getText()));
 
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+
+            for (int k = 0; k < model.getRowCount(); k++) {
+
+                if (model.getValueAt(k, 0).toString().equals(p.getProductCode())) {
+                    int qtd = Integer.valueOf(jTFQtd.getText()) + Integer.valueOf(model.getValueAt(k, 2).toString());
+                    i.setQuantity(qtd);
+
+                    if (inventoryController.checkMovi(i)) {
+                        addRowToTable(p);
+                    }
+                    return;
+                }
+            }
+            i.setQuantity(Integer.valueOf(jTFQtd.getText()));
+            
             if (inventoryController.checkMovi(i)) {
                 addRowToTable(p);
             }
