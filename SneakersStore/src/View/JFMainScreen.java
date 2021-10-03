@@ -43,6 +43,8 @@ public class JFMainScreen extends javax.swing.JFrame {
         jMPdv = new javax.swing.JMenu();
         jMIPointSale = new javax.swing.JMenuItem();
         jMReports = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         jMInventory = new javax.swing.JMenu();
         Inventário = new javax.swing.JMenuItem();
 
@@ -116,10 +118,30 @@ public class JFMainScreen extends javax.swing.JFrame {
         jMenuBarPrin.add(jMPdv);
 
         jMReports.setText("Relatórios");
+
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem1.setText("Sintético");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMReports.add(jMenuItem1);
+
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem2.setText("Analítico");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMReports.add(jMenuItem2);
+
         jMenuBarPrin.add(jMReports);
 
         jMInventory.setText("Estoque");
 
+        Inventário.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
         Inventário.setText("Inventário");
         Inventário.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -223,6 +245,18 @@ public class JFMainScreen extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_InventárioActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        JIFSyntheticReport jirelatorioS;
+        form.openForm(jirelatorioS = new JIFSyntheticReport(), jdpMain);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+         JIFAnalyticalReport jirelatorioA;
+        form.openForm(jirelatorioA = new JIFAnalyticalReport(), jdpMain);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
     public static void main(String args[]) {
 
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -262,6 +296,8 @@ public class JFMainScreen extends javax.swing.JFrame {
     private javax.swing.JMenu jMRecords;
     private javax.swing.JMenu jMReports;
     private javax.swing.JMenuBar jMenuBarPrin;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JDesktopPane jdpMain;
     // End of variables declaration//GEN-END:variables
 
