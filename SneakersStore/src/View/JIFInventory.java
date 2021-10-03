@@ -5,6 +5,7 @@ import Controller.ProductController;
 import Model.Inventory;
 import Model.Product;
 import java.awt.event.KeyEvent;
+import java.text.DecimalFormat;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -12,6 +13,7 @@ public class JIFInventory extends javax.swing.JInternalFrame {
 
     ProductController productController = new ProductController();
     InventoryController inventory = new InventoryController();
+    DecimalFormat df = new DecimalFormat("###,###.00");
 
     public JIFInventory() {
 
@@ -240,7 +242,7 @@ public class JIFInventory extends javax.swing.JInternalFrame {
     private void fillLabels(Product p) {
 
         jLDesc.setText(p.getProductDescription());
-        jLPrice.setText(p.getProductPrice().toString().replaceAll("\\.", "").replaceAll(",", "."));
+        jLPrice.setText(df.format(p.getProductPrice()));
         jLSize.setText(p.getProductSize());
 
         jButton2.setVisible(true);
@@ -274,6 +276,7 @@ public class JIFInventory extends javax.swing.JInternalFrame {
     }
 
     private void fillTable(Product p) {
+        InventoryController i = new InventoryController();
 
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
 
@@ -281,7 +284,7 @@ public class JIFInventory extends javax.swing.JInternalFrame {
 
         rowData[0] = p.getProductCode();
         rowData[1] = p.getProductQuantity();
-        rowData[2] = '0';
+        rowData[2] = i.getQtdSale(p.getProductCode());
         rowData[3] = p.getProductCategory();
         rowData[4] = p.getProductLocation();
 

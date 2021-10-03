@@ -35,7 +35,7 @@ public class ProductController {
             stmt.setDouble(6, p.getProductPrice());
             stmt.setString(7, p.getProductSize());
             stmt.setString(8, p.getProductObs());
-
+            
             stmt.executeUpdate();
 
             Inventory i = new Inventory();
@@ -55,7 +55,6 @@ public class ProductController {
             ConnectionDatabase.closeConnection(con, stmt);
         }
     }
-
     public void updateProduct(Product p) {
         Connection con = ConnectionDatabase.getConnection();
         PreparedStatement stmt = null;
@@ -63,7 +62,7 @@ public class ProductController {
         try {
             stmt = con.prepareStatement(
                     "update products set productCategory = ?, productDescription = ?, "
-                    + "productActive = ?, productLocation = ?, productPrice = ? ");
+                    + "productActive = ?, productLocation = ?, productPrice = ?, productSize = ?, productObs = ? where productCode= ? ");
 
             stmt.setString(1, p.getProductCategory());
             stmt.setString(2, p.getProductDescription());
@@ -71,7 +70,10 @@ public class ProductController {
             stmt.setString(3, "S");
             stmt.setString(4, p.getProductLocation());
             stmt.setDouble(5, p.getProductPrice());
-
+            stmt.setString(6, p.getProductSize());
+            stmt.setString(7, p.getProductObs());
+            stmt.setString(8, p.getProductCode());
+            
             stmt.executeUpdate();
         } catch (SQLException ex) {
 

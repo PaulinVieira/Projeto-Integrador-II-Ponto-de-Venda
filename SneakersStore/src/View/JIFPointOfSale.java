@@ -656,6 +656,19 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
         JDesktopPane jdpMain = getDesktopPane();
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
 
+        if (model.getRowCount() <= 0) {
+
+            JOptionPane.showMessageDialog(null, "Adicione produtos na lista.", "Informação sistema", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        if (c == null) {
+
+            JOptionPane.showMessageDialog(null, "Adicione um cliente.", "Informação sistema", JOptionPane.INFORMATION_MESSAGE);
+            return;
+
+        }
+
         if (jifSale == null) {
 
             form.openForm(jifSale = new JIFSale(), jdpMain);
@@ -753,7 +766,7 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
     private void jBtnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAddActionPerformed
 
         if (jTFTotalItem.getText().equals("0")) {
-            JOptionPane.showMessageDialog(null, "Desconto total atingido!! Redigite os valores.", "Informação sistema", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Valores inválidos para venda. Redigite!", "Informação sistema", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
 
@@ -784,7 +797,7 @@ public class JIFPointOfSale extends javax.swing.JInternalFrame {
                 }
             }
             i.setQuantity(Integer.valueOf(jTFQtd.getText()));
-            
+
             if (inventoryController.checkMovi(i)) {
                 addRowToTable(p);
             }

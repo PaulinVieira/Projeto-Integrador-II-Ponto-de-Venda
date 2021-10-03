@@ -18,7 +18,8 @@ public class JIFClients extends javax.swing.JInternalFrame {
     public JIFClients() {
         initComponents();
         jBtnUpdate.setVisible(false);
-        jTFClientDtLastBuy.setEditable(false);
+        jLabel9.setVisible(false);
+        jTFClientDtLastBuy.setVisible(false);
     }
 
     private void disableForm() {
@@ -85,8 +86,12 @@ public class JIFClients extends javax.swing.JInternalFrame {
         this.jTFClientEmail.setText(c.getClientEmail());
         
         if (c.getClientDtLastBuy() == null) {
+            jTFClientDtLastBuy.setVisible(true);
+            jLabel9.setVisible(true);
             this.jTFClientDtLastBuy.setText("");
         }else{
+            jTFClientDtLastBuy.setVisible(true);
+            jLabel9.setVisible(true);
             this.jTFClientDtLastBuy.setText(df.format(c.getClientDtLastBuy()));
         }
         
@@ -97,13 +102,12 @@ public class JIFClients extends javax.swing.JInternalFrame {
         this.jTFClientPostcode.setText(c.getClientPostcode());
         this.jTFClientCity.setText(c.getClientCity());
         this.jTFClientDistrict.setText(c.getClientDistrict());
-        this.jTFClientDtBirth.setText(c.getClientDistrict());
+        this.jTFClientDtBirth.setText(c.getClientDtBirth());
 
         if (type == 0) {
             disableForm();
 
         } else {
-
             this.jTFClientCPF.setEnabled(false);
             this.jBtnSave.setVisible(false);
             this.jBtnUpdate.setVisible(true);
@@ -252,7 +256,7 @@ public class JIFClients extends javax.swing.JInternalFrame {
             jFLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jFLayout.createSequentialGroup()
                 .addGap(31, 31, 31)
-                .addGroup(jFLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jFLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jFLayout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -264,11 +268,11 @@ public class JIFClients extends javax.swing.JInternalFrame {
                         .addGap(51, 51, 51)
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTFClientDtLastBuy, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jTFClientDtLastBuy))
                     .addGroup(jFLayout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTFClientDtBirth, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jTFClientDtBirth, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jFLayout.createSequentialGroup()
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -322,7 +326,7 @@ public class JIFClients extends javax.swing.JInternalFrame {
                 .addGroup(jFLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel8)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Informações Gerais", jF);

@@ -161,6 +161,7 @@ public class ClientController {
             c.setClientPostcode(rs.getString("clientPostcode"));
             c.setClientDistrict(rs.getString("clientDistrict"));
             c.setClientCity(rs.getString("clientCity"));
+            c.setClientDtBirth(rs.getString("clientDtBirth"));
 
         } catch (SQLException ex) {
 

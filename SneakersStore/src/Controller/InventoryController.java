@@ -148,4 +148,37 @@ public class InventoryController {
         }
     }
 
+    public int getQtdSale(String code) {
+        
+        Connection con = ConnectionDatabase.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            stmt = con.prepareStatement(
+                    
+                    "select SUM(quantity)  AS \"totalQtd\" from itenssale where productCode = \'" + code + "\'");
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+
+                int quantity = rs.getInt("totalQtd");
+                
+                return quantity;
+
+            }
+
+        } catch (SQLException ex) {
+
+            String err = "Ocorreu um erro não documentado. Impossível continuar.\nDetalhes técnicos: " + ex;
+            JOptionPane.showMessageDialog(null, err, "ERRO Desconhecido", ERROR_MESSAGE);
+            Logger.getLogger(InventoryController.class.getName()).log(Level.SEVERE, null, ex);
+
+        } finally {
+
+            ConnectionDatabase.closeConnection(con, stmt, rs);
+        
+    }
+        return 0;
+}
 }

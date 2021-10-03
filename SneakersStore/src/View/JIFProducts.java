@@ -131,8 +131,41 @@ public class JIFProducts extends javax.swing.JInternalFrame {
         }
         
     }
+    
+    private void verifySelectedRadio(Product p){
+        if(jRBBota.getText().equals(p.getProductCategory())){
+            jRBBota.setSelected(true);
+        
+        }
+        
+        if(jRBChinelo.getText().equals(p.getProductCategory())){
+            jRBChinelo.setSelected(true);
+            
+        }
+        
+        if(jRBEsportivo.getText().equals(p.getProductCategory())){
+            jRBEsportivo.setSelected(true);
+        
+        }
+        
+        if(jRBMeias.getText().equals(p.getProductCategory())){
+            jRBMeias.setSelected(true);
+            
+        }
+        
+        if(jRBSapato.getText().equals(p.getProductCategory())){
+            jRBSapato.setSelected(true);
+            
+        }
+        
+        if(jRBTenis.getText().equals(p.getProductCategory())){
+            jRBTenis.setSelected(true);
+        }
+    }
 
     public void showObject(String code, int type) {
+        
+        
         Product p = productController.findProduct(code);
 
         this.jTFProductDescription.setText(p.getProductDescription());
@@ -149,17 +182,21 @@ public class JIFProducts extends javax.swing.JInternalFrame {
         this.jLDtRegistration.setVisible(true);
         this.jTFProductPrice.setText(p.getProductPrice().toString());
         this.JTAObs.setText(p.getProductObs());
-        verifySelectRadio(p);
         
         this.jSpinner1.getModel().setValue(Integer.valueOf(p.getProductSize()));
-
+        if(type != 1){
+                 verifySelectRadio(p);
+        }
+        
         if (type == 0) {
             disableForm();
         } else {
+            
             this.jTFProductCode.setEnabled(false);
             this.jBtnSave.setVisible(false);
             this.jBtnUpdate.setVisible(true);
             this.jTFQTDInitial.setEnabled(false);
+            verifySelectedRadio(p);
         }
 
     }
@@ -521,7 +558,6 @@ public class JIFProducts extends javax.swing.JInternalFrame {
         p.setProductCategory(productCategory);
         p.setProductSize(this.jSpinner1.getValue().toString());
         p.setProductObs(this.JTAObs.getText());
-        p.setProductQuantity(Integer.valueOf(this.jTFQTDInitial.getText()));
 
         if (!this.jTFQTDInitial.getText().equals("")) {
             p.setProductQTDInitial(Integer.valueOf(this.jTFQTDInitial.getText().replace(".", "")));
@@ -587,7 +623,9 @@ public class JIFProducts extends javax.swing.JInternalFrame {
         p.setProductDescription(this.jTFProductDescription.getText());
         p.setProductLocation(this.jTFProductLocation.getText());
         p.setProductCategory(productCategory);
-        p.setProductQTDInitial(Integer.valueOf(this.jTFQTDInitial.getText()));
+        p.setProductSize(this.jSpinner1.getValue().toString());
+        p.setProductObs(this.JTAObs.getText());
+        p.setProductQuantity(Integer.valueOf(this.jTFQTDInitial.getText()));
 
         if (!this.jTFProductPrice.getText().equals("")) {
             p.setProductPrice(Double.parseDouble(jTFProductPrice.getText().replaceAll("\\.", "").replaceAll(",", ".")));
@@ -596,6 +634,7 @@ public class JIFProducts extends javax.swing.JInternalFrame {
         if (form.ProductValidation(p)) {
             productController.updateProduct(p);
             JOptionPane.showMessageDialog(null, "Produto alterado com sucesso!", "Informação Sistema", JOptionPane.INFORMATION_MESSAGE);
+            showObject(p.getProductCode(), 1);
         }
 
 
