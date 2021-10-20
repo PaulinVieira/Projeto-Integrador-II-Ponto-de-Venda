@@ -9,12 +9,11 @@ public class EmailValidation {
     // validar que o usuário não digite um e-mail inválido. -> Este código não foi nossa autoria.
     //mas, os comentários sim, para demonstrar o entendimento.
     
-    //Aqui utilizamos regex (expressão regular), basicamente é uma sequência de caracteres
+    //Aqui utilizamos regex (expressão regular), basicamente uma sequência de caracteres
     
     //https://receitasdecodigo.com.br/java/validar-email-em-java
     public boolean isValidEmail(String email) {
-        
-        
+
         boolean isEmailIdValid = false;
         if (email != null && email.length() > 0) {
             

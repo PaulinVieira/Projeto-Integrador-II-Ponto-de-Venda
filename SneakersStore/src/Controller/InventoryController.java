@@ -149,21 +149,20 @@ public class InventoryController {
     }
 
     public int getQtdSale(String code) {
-        
+
         Connection con = ConnectionDatabase.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
         try {
             stmt = con.prepareStatement(
-                    
                     "select SUM(quantity)  AS \"totalQtd\" from itenssale where productCode = \'" + code + "\'");
             rs = stmt.executeQuery();
 
             if (rs.next()) {
 
                 int quantity = rs.getInt("totalQtd");
-                
+
                 return quantity;
 
             }
@@ -177,8 +176,9 @@ public class InventoryController {
         } finally {
 
             ConnectionDatabase.closeConnection(con, stmt, rs);
-        
-    }
+
+        }
         return 0;
-}
+    }
+
 }

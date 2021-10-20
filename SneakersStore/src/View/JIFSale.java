@@ -1,6 +1,6 @@
 package View;
 
-import Controller.SaleRepository;
+import Controller.SaleController;
 import Model.Client;
 import Model.Sale;
 import lombok.Data;
@@ -376,7 +376,7 @@ public class JIFSale extends javax.swing.JInternalFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         
-        SaleRepository saleRepository = new SaleRepository();
+        SaleController saleRepository = new SaleController();
         
         sale.setPayment( (String) jCBPayment.getSelectedItem());
         
