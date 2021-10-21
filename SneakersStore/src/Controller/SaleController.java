@@ -101,12 +101,19 @@ public class SaleController {
         ProductController productController = new ProductController();
         Product p = productController.findProduct(code);
         
+        
+        
         try {
             
             s.setP(p);
             
             stmt = con.prepareStatement(
-                    "select SUM(quantity)  AS \"totalQtd\", COUNT(*) AS \"totalReg\" from itenssale where productCode = \'" + code + "\' between \'" + firstDate + "\' and \'" + lastDate + "\'");
+                    "select SUM(quantity)  AS \"totalQtd\", COUNT(*) AS \"totalReg\" from ("
+                            + "SELECT "
+                            + "P.idSale, V.quantity, P.date from "
+                            + "itenssale V, sale P "
+                            + "where (v.idSale = P.idSale) and (date between \'" + firstDate + "\' and \'" + lastDate + "\') "
+                             + "and productCode = \'" + code + "\') as TOTAL");
             rs = stmt.executeQuery();
 
             if (rs.next()) {

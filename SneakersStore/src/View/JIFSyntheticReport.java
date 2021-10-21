@@ -5,9 +5,12 @@ import Controller.SaleController;
 import Model.SyntheticInformation;
 import Util.DateValidation;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -236,7 +239,8 @@ public class JIFSyntheticReport extends javax.swing.JInternalFrame {
 
         SaleController saleController = new SaleController();
         DateValidation dateValidation = new DateValidation();
-        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat df1 = new SimpleDateFormat("ddMMyyyy");
 
         if (jFormattedTextField2.getText() == null || jFormattedTextField2.getText().contains(" ")) {
             JOptionPane.showMessageDialog(null, "Informe um período", "Informação Sistema", JOptionPane.INFORMATION_MESSAGE);
@@ -245,7 +249,18 @@ public class JIFSyntheticReport extends javax.swing.JInternalFrame {
             //produto específico
             if (jTextField1.getText() != null && (!jTextField1.getText().equals(""))) {
 
-                addOneRowToTable(saleController.getInfoSpec(jTextField1.getText(), jFormattedTextField1.getText(), jFormattedTextField2.getText()));
+                Date reserveDate1 = null;
+                Date reserveDate2 = null;
+                
+                try {
+                    reserveDate1 = df1.parse(jFormattedTextField1.getText().replaceAll("/", ""));
+                    reserveDate2 = df1.parse(jFormattedTextField2.getText().replaceAll("/", ""));
+                } catch (ParseException ex) {
+                    Logger.getLogger(JIFSyntheticReport.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                
+                addOneRowToTable(saleController.getInfoSpec(jTextField1.getText(), df.format(reserveDate1), df.format(reserveDate2)));
 
                 //categoria
             } else if (jTextField2.getText() != null && (!jTextField2.getText().equals(""))) {
