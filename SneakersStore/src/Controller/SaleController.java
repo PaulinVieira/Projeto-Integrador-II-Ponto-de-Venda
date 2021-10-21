@@ -95,40 +95,38 @@ public class SaleController {
         Connection con = ConnectionDatabase.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        
+
         SyntheticInformation s = new SyntheticInformation();
-        
+
         ProductController productController = new ProductController();
         Product p = productController.findProduct(code);
-        
-        
-        
+
         try {
-            
+
             s.setP(p);
-            
+
             stmt = con.prepareStatement(
                     "select SUM(quantity)  AS \"totalQtd\", COUNT(*) AS \"totalReg\" from ("
-                            + "SELECT "
-                            + "P.idSale, V.quantity, P.date from "
-                            + "itenssale V, sale P "
-                            + "where (v.idSale = P.idSale) and (date between \'" + firstDate + "\' and \'" + lastDate + "\') "
-                             + "and productCode = \'" + code + "\') as TOTAL");
+                    + "SELECT "
+                    + "P.idSale, V.quantity, P.date from "
+                    + "itenssale V, sale P "
+                    + "where (v.idSale = P.idSale) and (date between \'" + firstDate + "\' and \'" + lastDate + "\') "
+                    + "and productCode = \'" + code + "\') as TOTAL");
             rs = stmt.executeQuery();
 
             if (rs.next()) {
 
                 int quantity = rs.getInt("totalQtd");
                 int totalRes = rs.getInt("totalReg");
-                
+
                 s.setSaleQtd(quantity);
-                
-                if(quantity > 0){
-                    s.setSalesAverage(quantity/totalRes);
+
+                if (quantity > 0) {
+                    s.setSalesAverage(quantity / totalRes);
                 }
-                
+
             }
-            
+
             return s;
 
         } catch (SQLException ex) {
@@ -143,5 +141,73 @@ public class SaleController {
 
         }
         return s;
+    }
+
+    public ArrayList<SyntheticInformation> getInfoSpecCate(String cate, String firstDate, String lastDate) {
+
+        Connection con = ConnectionDatabase.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        SyntheticInformation s = new SyntheticInformation();
+        ArrayList<SyntheticInformation> aSyntheticInformation = new ArrayList<>();
+
+        ProductController productController = new ProductController();
+
+        try {
+
+            stmt = con.prepareStatement(
+                    "select productCode from ("
+                    + "SELECT "
+                    + "P.idSale, V.quantity, P.date, D.productCategory, V.productCode from "
+                    + "itenssale V, sale P, products D "
+                    + "where (v.idSale = P.idSale) and (date between \'" + firstDate + "\' and \'" + lastDate + "\') "
+                    + "and (v.productCode = D.productCode) "
+                    + "and (D.productCategory = \'" + cate + "\') ) as TOTAL");
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+
+                s.setP(productController.findProduct(rs.getString("productCode")));
+
+                stmt = con.prepareStatement(
+                        "select SUM(quantity) AS \"totalQtd\", COUNT(*) AS \"totalReg\" from ("
+                        + "SELECT "
+                        + "P.idSale, V.quantity, P.date, D.productCategory, V.productCode from "
+                        + "itenssale V, sale P, products D "
+                        + "where (V.idSale = P.idSale) and (date between \'" + firstDate + "\' and \'" + lastDate + "\') "
+                        + "and (v.productCode = D.productCode) and "
+                        + "(v.productCode = \'" + rs.getString("productCode") + "\') ) as total ");
+                rs = stmt.executeQuery();
+
+                if (rs.next()) {
+
+                    int quantity = rs.getInt("totalQtd");
+                    int totalRes = rs.getInt("totalReg");
+
+                    s.setSaleQtd(quantity);
+
+                    if (quantity > 0) {
+                        s.setSalesAverage(quantity / totalRes);
+                    }
+                    aSyntheticInformation.add(s);
+                }
+
+            }
+
+            return aSyntheticInformation;
+
+        } catch (SQLException ex) {
+
+            String err = "Ocorreu um erro não documentado. Impossível continuar.\nDetalhes técnicos: " + ex;
+            JOptionPane.showMessageDialog(null, err, "ERRO Desconhecido", ERROR_MESSAGE);
+            Logger.getLogger(InventoryController.class.getName()).log(Level.SEVERE, null, ex);
+
+        } finally {
+
+            ConnectionDatabase.closeConnection(con, stmt, rs);
+
+        }
+        return aSyntheticInformation;
     }
 }

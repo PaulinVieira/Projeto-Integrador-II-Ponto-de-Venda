@@ -150,6 +150,12 @@ public class JIFSyntheticReport extends javax.swing.JInternalFrame {
 
         jLabel4.setText("Localização Física");
 
+        jTextField1.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                jTextField1CaretUpdate(evt);
+            }
+        });
+
         jLabel2.setText("Categoria do Produto");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -170,7 +176,7 @@ public class JIFSyntheticReport extends javax.swing.JInternalFrame {
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jTextField3)))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -251,19 +257,30 @@ public class JIFSyntheticReport extends javax.swing.JInternalFrame {
 
                 Date reserveDate1 = null;
                 Date reserveDate2 = null;
-                
+
                 try {
                     reserveDate1 = df1.parse(jFormattedTextField1.getText().replaceAll("/", ""));
                     reserveDate2 = df1.parse(jFormattedTextField2.getText().replaceAll("/", ""));
                 } catch (ParseException ex) {
                     Logger.getLogger(JIFSyntheticReport.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
-                
+
                 addOneRowToTable(saleController.getInfoSpec(jTextField1.getText(), df.format(reserveDate1), df.format(reserveDate2)));
 
                 //categoria
             } else if (jTextField2.getText() != null && (!jTextField2.getText().equals(""))) {
+
+                Date reserveDate1 = null;
+                Date reserveDate2 = null;
+
+                try {
+                    reserveDate1 = df1.parse(jFormattedTextField1.getText().replaceAll("/", ""));
+                    reserveDate2 = df1.parse(jFormattedTextField2.getText().replaceAll("/", ""));
+                } catch (ParseException ex) {
+                    Logger.getLogger(JIFSyntheticReport.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                addRowToTable((saleController.getInfoSpecCate(jTextField2.getText(), df.format(reserveDate1), df.format(reserveDate2))));
 
                 //localizacao
             } else if (jTextField3.getText() != null && (!jTextField3.getText().equals(""))) {
@@ -274,6 +291,19 @@ public class JIFSyntheticReport extends javax.swing.JInternalFrame {
 
 
     }//GEN-LAST:event_jBtnConsultarActionPerformed
+
+    private void jTextField1CaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTextField1CaretUpdate
+        if (jTextField1.getText() != null || !jTextField1.getText().equals("") || !jTextField1.getText().equals(" ")) {
+            jTextField2.setEnabled(false);
+            jTextField3.setEnabled(false);
+        }
+
+        if (jTextField1.getText() == null || jTextField1.getText().equals("") || jTextField1.getText().equals(" ")) {
+            jTextField2.setEnabled(true);
+            jTextField3.setEnabled(true);
+        }
+
+    }//GEN-LAST:event_jTextField1CaretUpdate
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
