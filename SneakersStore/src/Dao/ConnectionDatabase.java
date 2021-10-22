@@ -62,4 +62,16 @@ public class ConnectionDatabase {
 	    }
 	}
     }
+    
+    public static void closeConnection(Connection con, PreparedStatement stmt, ResultSet rs, ResultSet rs1) {
+	closeConnection(con, stmt);
+	if (rs != null && rs1 != null) {
+	    try {
+		rs.close();
+                rs1.close();
+	    } catch (SQLException ex) {
+		Logger.getLogger(ConnectionDatabase.class.getName()).log(Level.SEVERE, null, ex);
+	    }
+	}
+    }
 }

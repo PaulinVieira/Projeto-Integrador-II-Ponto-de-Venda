@@ -123,6 +123,10 @@ public class SaleController {
 
                 if (quantity > 0) {
                     s.setSalesAverage(quantity / totalRes);
+                } else {
+                    String msg = "Não há dados com os parâmetros informados!!";
+                    JOptionPane.showMessageDialog(null, msg, "Informação do Sistema", JOptionPane.INFORMATION_MESSAGE);
+                    return null;
                 }
 
             }
@@ -148,8 +152,8 @@ public class SaleController {
         Connection con = ConnectionDatabase.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
+        ResultSet rs1 = null;
 
-        SyntheticInformation s = new SyntheticInformation();
         ArrayList<SyntheticInformation> aSyntheticInformation = new ArrayList<>();
 
         ProductController productController = new ProductController();
@@ -157,18 +161,25 @@ public class SaleController {
         try {
 
             stmt = con.prepareStatement(
-                    "select productCode from ("
+                    "select distinct productCode from ("
                     + "SELECT "
                     + "P.idSale, V.quantity, P.date, D.productCategory, V.productCode from "
                     + "itenssale V, sale P, products D "
                     + "where (v.idSale = P.idSale) and (date between \'" + firstDate + "\' and \'" + lastDate + "\') "
                     + "and (v.productCode = D.productCode) "
                     + "and (D.productCategory = \'" + cate + "\') ) as TOTAL");
-            rs = stmt.executeQuery();
+            rs1 = stmt.executeQuery();
 
-            while (rs.next()) {
+            if (!rs1.next()) {
+                JOptionPane.showMessageDialog(null, "Não existem informações para o período informado!!", "Informação sistema", JOptionPane.INFORMATION_MESSAGE);
+                return null;
+            }
 
-                s.setP(productController.findProduct(rs.getString("productCode")));
+            while (rs1.next()) {
+
+                SyntheticInformation s = new SyntheticInformation();
+
+                s.setP(productController.findProduct(rs1.getString("productCode")));
 
                 stmt = con.prepareStatement(
                         "select SUM(quantity) AS \"totalQtd\", COUNT(*) AS \"totalReg\" from ("
@@ -177,13 +188,13 @@ public class SaleController {
                         + "itenssale V, sale P, products D "
                         + "where (V.idSale = P.idSale) and (date between \'" + firstDate + "\' and \'" + lastDate + "\') "
                         + "and (v.productCode = D.productCode) and "
-                        + "(v.productCode = \'" + rs.getString("productCode") + "\') ) as total ");
+                        + "(v.productCode = \'" + rs1.getString("productCode") + "\') ) as total ");
                 rs = stmt.executeQuery();
 
                 if (rs.next()) {
 
-                    int quantity = rs.getInt("totalQtd");
-                    int totalRes = rs.getInt("totalReg");
+                    double quantity = rs.getInt("totalQtd");
+                    double totalRes = rs.getInt("totalReg");
 
                     s.setSaleQtd(quantity);
 
@@ -205,7 +216,7 @@ public class SaleController {
 
         } finally {
 
-            ConnectionDatabase.closeConnection(con, stmt, rs);
+            ConnectionDatabase.closeConnection(con, stmt, rs, rs1);
 
         }
         return aSyntheticInformation;

@@ -161,7 +161,7 @@ public class ProductController {
                 p.setProductObs(rs.getString("productObs"));
                 
             } else {
-                JOptionPane.showMessageDialog(null, "Não existem registros!!", "Informação sistema", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Código de produto não existente!!", "Informação sistema", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (SQLException ex) {
 

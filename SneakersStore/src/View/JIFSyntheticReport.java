@@ -38,6 +38,21 @@ public class JIFSyntheticReport extends javax.swing.JInternalFrame {
 
     }
 
+    private void cleanFields() {
+
+        jBtnConsultar.setEnabled(true);
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+
+        model.setRowCount(0);
+        
+        jFormattedTextField1.setText("");
+        jFormattedTextField2.setText("");
+        jTextField3.setText("");
+        jTextField1.setText("");
+        jComboBox1.setEnabled(true);
+
+    }
+
     private void addRowToTable(ArrayList<SyntheticInformation> list) {
 
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
@@ -69,12 +84,13 @@ public class JIFSyntheticReport extends javax.swing.JInternalFrame {
         jFormattedTextField2 = new javax.swing.JFormattedTextField();
         jLabel6 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        jTextField2 = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
 
         setClosable(true);
         setForeground(java.awt.Color.white);
@@ -100,7 +116,7 @@ public class JIFSyntheticReport extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Produto", "Descrição Produto", "Quantidade Atual", "Quantidade Vendida", "Média de Vendas"
+                "Produto", "Descrição Produto", "Quantidade Atual", "Total Vendido", "Média de Vendas"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -158,6 +174,8 @@ public class JIFSyntheticReport extends javax.swing.JInternalFrame {
 
         jLabel2.setText("Categoria do Produto");
 
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tênis", "Esportivo ", "Sapato ", "Meias", "Chinelo ", "Bota" }));
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -168,11 +186,11 @@ public class JIFSyntheticReport extends javax.swing.JInternalFrame {
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField1))
+                        .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(10, 10, 10)
+                        .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -189,13 +207,20 @@ public class JIFSyntheticReport extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
+
+        jButton1.setText("Limpar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -208,8 +233,14 @@ public class JIFSyntheticReport extends javax.swing.JInternalFrame {
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(35, 35, 35)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
-                        .addComponent(jBtnConsultar))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 2, Short.MAX_VALUE)
+                                .addComponent(jBtnConsultar))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButton1)
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(271, 271, 271)
                         .addComponent(jLabel1)
@@ -229,7 +260,9 @@ public class JIFSyntheticReport extends javax.swing.JInternalFrame {
                             .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(14, 14, 14)
-                                .addComponent(jBtnConsultar))))
+                                .addComponent(jBtnConsultar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton1))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(36, 36, 36)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -268,7 +301,7 @@ public class JIFSyntheticReport extends javax.swing.JInternalFrame {
                 addOneRowToTable(saleController.getInfoSpec(jTextField1.getText(), df.format(reserveDate1), df.format(reserveDate2)));
 
                 //categoria
-            } else if (jTextField2.getText() != null && (!jTextField2.getText().equals(""))) {
+            } else if (jComboBox1.isEnabled()) {
 
                 Date reserveDate1 = null;
                 Date reserveDate2 = null;
@@ -280,7 +313,7 @@ public class JIFSyntheticReport extends javax.swing.JInternalFrame {
                     Logger.getLogger(JIFSyntheticReport.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
-                addRowToTable((saleController.getInfoSpecCate(jTextField2.getText(), df.format(reserveDate1), df.format(reserveDate2))));
+                addRowToTable((saleController.getInfoSpecCate(jComboBox1.getSelectedItem().toString(), df.format(reserveDate1), df.format(reserveDate2))));
 
                 //localizacao
             } else if (jTextField3.getText() != null && (!jTextField3.getText().equals(""))) {
@@ -294,20 +327,28 @@ public class JIFSyntheticReport extends javax.swing.JInternalFrame {
 
     private void jTextField1CaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTextField1CaretUpdate
         if (jTextField1.getText() != null || !jTextField1.getText().equals("") || !jTextField1.getText().equals(" ")) {
-            jTextField2.setEnabled(false);
+            jComboBox1.setEnabled(false);
+
             jTextField3.setEnabled(false);
+            jTextField3.setText("");
         }
 
         if (jTextField1.getText() == null || jTextField1.getText().equals("") || jTextField1.getText().equals(" ")) {
-            jTextField2.setEnabled(true);
+            jComboBox1.setEnabled(true);
             jTextField3.setEnabled(true);
         }
 
     }//GEN-LAST:event_jTextField1CaretUpdate
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        cleanFields();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtnConsultar;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JFormattedTextField jFormattedTextField2;
     private javax.swing.JLabel jLabel1;
@@ -320,7 +361,6 @@ public class JIFSyntheticReport extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
 }

@@ -6,7 +6,7 @@ import lombok.Data;
 public class SyntheticInformation{
   
  private Product p;   
- private int saleQtd;
+ private double saleQtd;
  private double salesAverage;
  
 }
