@@ -44,7 +44,7 @@ public class JIFSyntheticReport extends javax.swing.JInternalFrame {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
 
         model.setRowCount(0);
-        
+
         jFormattedTextField1.setText("");
         jFormattedTextField2.setText("");
         jTextField3.setText("");
@@ -55,6 +55,10 @@ public class JIFSyntheticReport extends javax.swing.JInternalFrame {
 
     private void addRowToTable(ArrayList<SyntheticInformation> list) {
 
+        if (list == null || list.isEmpty()) {
+            return;
+        }
+
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
 
         Object rowData[] = new Object[7];
@@ -62,10 +66,12 @@ public class JIFSyntheticReport extends javax.swing.JInternalFrame {
         for (int i = 0; i < list.size(); i++) {
 
             rowData[0] = list.get(i).getP().getProductCode();
-            rowData[1] = list.get(i).getP().getProductDescription();
-            rowData[2] = list.get(i).getP().getProductQuantity();
-            rowData[3] = list.get(i).getSaleQtd();
-            rowData[4] = list.get(i).getSalesAverage();
+            rowData[1] = list.get(i).getP().getProductCategory();
+            rowData[2] = list.get(i).getP().getProductLocation();
+            rowData[3] = list.get(i).getP().getProductDescription();
+            rowData[4] = list.get(i).getP().getProductQuantity();
+            rowData[5] = list.get(i).getSaleQtd();
+            rowData[6] = list.get(i).getSalesAverage();
 
             model.addRow(rowData);
         }
@@ -116,7 +122,7 @@ public class JIFSyntheticReport extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Produto", "Descrição Produto", "Quantidade Atual", "Total Vendido", "Média de Vendas"
+                "Produto", "Categoria", "Loc. Fisica", "Descrição Produto", "Quantidade Atual", "Total Vendido", "Média de Vendas"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -163,6 +169,12 @@ public class JIFSyntheticReport extends javax.swing.JInternalFrame {
         );
 
         jLabel3.setText("Cód. do Produto");
+
+        jTextField3.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                jTextField3CaretUpdate(evt);
+            }
+        });
 
         jLabel4.setText("Localização Física");
 
@@ -281,45 +293,42 @@ public class JIFSyntheticReport extends javax.swing.JInternalFrame {
         SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
         SimpleDateFormat df1 = new SimpleDateFormat("ddMMyyyy");
 
+        Date reserveDate1 = null;
+        Date reserveDate2 = null;
+
         if (jFormattedTextField2.getText() == null || jFormattedTextField2.getText().contains(" ")) {
             JOptionPane.showMessageDialog(null, "Informe um período", "Informação Sistema", JOptionPane.INFORMATION_MESSAGE);
+            return;
+            
+        } else {
 
-        } else if (dateValidation.isDateValid(jFormattedTextField2.getText()) && dateValidation.isDateValid(jFormattedTextField1.getText())) {
+            try {
+                reserveDate1 = df1.parse(jFormattedTextField1.getText().replaceAll("/", ""));
+                reserveDate2 = df1.parse(jFormattedTextField2.getText().replaceAll("/", ""));
+            } catch (ParseException ex) {
+                Logger.getLogger(JIFSyntheticReport.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+
+        if (dateValidation.isDateValid(jFormattedTextField2.getText()) && dateValidation.isDateValid(jFormattedTextField1.getText())) {
             //produto específico
+
             if (jTextField1.getText() != null && (!jTextField1.getText().equals(""))) {
-
-                Date reserveDate1 = null;
-                Date reserveDate2 = null;
-
-                try {
-                    reserveDate1 = df1.parse(jFormattedTextField1.getText().replaceAll("/", ""));
-                    reserveDate2 = df1.parse(jFormattedTextField2.getText().replaceAll("/", ""));
-                } catch (ParseException ex) {
-                    Logger.getLogger(JIFSyntheticReport.class.getName()).log(Level.SEVERE, null, ex);
-                }
 
                 addOneRowToTable(saleController.getInfoSpec(jTextField1.getText(), df.format(reserveDate1), df.format(reserveDate2)));
 
                 //categoria
             } else if (jComboBox1.isEnabled()) {
 
-                Date reserveDate1 = null;
-                Date reserveDate2 = null;
-
-                try {
-                    reserveDate1 = df1.parse(jFormattedTextField1.getText().replaceAll("/", ""));
-                    reserveDate2 = df1.parse(jFormattedTextField2.getText().replaceAll("/", ""));
-                } catch (ParseException ex) {
-                    Logger.getLogger(JIFSyntheticReport.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
                 addRowToTable((saleController.getInfoSpecCate(jComboBox1.getSelectedItem().toString(), df.format(reserveDate1), df.format(reserveDate2))));
 
                 //localizacao
             } else if (jTextField3.getText() != null && (!jTextField3.getText().equals(""))) {
 
-            }
+                addRowToTable(saleController.getInfoSpecLoca(jTextField3.getText(), df.format(reserveDate1), df.format(reserveDate2)));
 
+            }
         }
 
 
@@ -343,6 +352,20 @@ public class JIFSyntheticReport extends javax.swing.JInternalFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         cleanFields();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTextField3CaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTextField3CaretUpdate
+        if (jTextField3.getText() != null || !jTextField3.getText().equals("") || !jTextField3.getText().equals(" ")) {
+            jComboBox1.setEnabled(false);
+
+            jTextField1.setEnabled(false);
+            jTextField1.setText("");
+        }
+
+        if (jTextField3.getText() == null || jTextField3.getText().equals("") || jTextField3.getText().equals(" ")) {
+            jComboBox1.setEnabled(true);
+            jTextField1.setEnabled(true);
+        }
+    }//GEN-LAST:event_jTextField3CaretUpdate
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
