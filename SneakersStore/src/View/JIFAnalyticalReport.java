@@ -7,10 +7,20 @@ package View;
 
 import Controller.InventoryController;
 import Controller.ProductController;
+import Controller.SaleController;
+import Model.AnalyticalInformation;
 import Model.Inventory;
 import Model.Product;
+import Model.SyntheticInformation;
+import Util.DateValidation;
 import Util.PositionForm;
 import java.awt.event.KeyEvent;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 /**
@@ -25,6 +35,8 @@ public class JIFAnalyticalReport extends javax.swing.JInternalFrame {
     public JIFAnalyticalReport() {
         initComponents();
     }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -61,7 +73,7 @@ public class JIFAnalyticalReport extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Seq.", "Cliente", "Produto", "Qtd Vendida", "Total"
+                "Seq.", "Cliente", "Qtd Vendida", "Forma Pagamento", "Valor Desconto", "Total"
             }
         ));
         jScrollPane1.setViewportView(jTAnalitico);
@@ -74,6 +86,11 @@ public class JIFAnalyticalReport extends javax.swing.JInternalFrame {
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Icons/pesquisa-de-pesquisa.png"))); // NOI18N
         jButton1.setText("CONSULTAR");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         try {
             jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
@@ -122,7 +139,7 @@ public class JIFAnalyticalReport extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
-        jLabel4.setText("Código do Cliente");
+        jLabel4.setText("CPF do Cliente");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -169,6 +186,71 @@ public class JIFAnalyticalReport extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    
+    private void addRowToTable(ArrayList<AnalyticalInformation> list) {
+
+        if (list == null || list.isEmpty()) {
+            return;
+        }
+
+        DefaultTableModel model = (DefaultTableModel) jTAnalitico.getModel();
+
+        Object rowData[] = new Object[7];
+
+        for (int i = 0; i < list.size(); i++) {
+            
+            
+            rowData[0] = i+1;
+            rowData[1] = list.get(i).getS().getC().getClientName();
+            rowData[2] = list.get(i).getSaleQtd();
+            rowData[3] = list.get(i).getS().getPayment();
+            rowData[4] = list.get(i).getS().getVlDesc();
+            rowData[5] = list.get(i).getS().getVlTotal();
+            
+            model.addRow(rowData);
+        }
+    }
+    
+    
+    
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+        SaleController saleController = new SaleController();
+        DateValidation dateValidation = new DateValidation();
+        SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat df1 = new SimpleDateFormat("ddMMyyyy");
+
+        Date reserveDate1 = null;
+        Date reserveDate2 = null;
+
+        if (jFormattedTextField2.getText() == null || jFormattedTextField2.getText().contains(" ")) {
+            JOptionPane.showMessageDialog(null, "Informe um período", "Informação Sistema", JOptionPane.INFORMATION_MESSAGE);
+            return;
+            
+        } else {
+
+            try {
+                reserveDate1 = df1.parse(jFormattedTextField1.getText().replaceAll("/", ""));
+                reserveDate2 = df1.parse(jFormattedTextField2.getText().replaceAll("/", ""));
+            } catch (ParseException ex) {
+                Logger.getLogger(JIFAnalyticalReport.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+
+        if (dateValidation.isDateValid(jFormattedTextField2.getText()) && dateValidation.isDateValid(jFormattedTextField1.getText())) {
+           
+            if (jTextField1.getText() != null && (!jTextField1.getText().equals(""))) {
+                
+                addRowToTable(saleController.getAnalyticalInformationCl(jTextField1.getText(), df.format(reserveDate1), df.format(reserveDate2)));
+
+            }else{
+                JOptionPane.showMessageDialog(null, "Informe o código do cliente", "Informação Sistema", JOptionPane.INFORMATION_MESSAGE);
+            }
+        
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

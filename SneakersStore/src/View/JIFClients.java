@@ -87,10 +87,12 @@ public class JIFClients extends javax.swing.JInternalFrame {
         
         if (c.getClientDtLastBuy() == null) {
             jTFClientDtLastBuy.setVisible(true);
+            jTFClientDtLastBuy.setEditable(false);
             jLabel9.setVisible(true);
             this.jTFClientDtLastBuy.setText("");
         }else{
             jTFClientDtLastBuy.setVisible(true);
+            jTFClientDtLastBuy.setEditable(false);
             jLabel9.setVisible(true);
             this.jTFClientDtLastBuy.setText(df.format(c.getClientDtLastBuy()));
         }

@@ -24,15 +24,16 @@ public class JIFSyntheticReport extends javax.swing.JInternalFrame {
 
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
 
-        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-
-        Object rowData[] = new Object[5];
-
-        rowData[0] = list.getP().getProductCode();
-        rowData[1] = list.getP().getProductDescription();
-        rowData[2] = list.getP().getProductQuantity();
-        rowData[3] = list.getSaleQtd();
-        rowData[4] = list.getSalesAverage();
+        Object rowData[] = new Object[7];
+        
+        
+            rowData[0] = list.getP().getProductCode();
+            rowData[1] = list.getP().getProductCategory();
+            rowData[2] = list.getP().getProductLocation();
+            rowData[3] = list.getP().getProductDescription();
+            rowData[4] = list.getP().getProductQuantity();
+            rowData[5] = list.getSaleQtd();
+            rowData[6] = list.getSalesAverage();
 
         model.addRow(rowData);
 

@@ -1,6 +1,8 @@
 package Controller;
 
 import Dao.ConnectionDatabase;
+import Model.AnalyticalInformation;
+import Model.Client;
 import Model.Sale;
 import Model.ItemsSale;
 import Model.Product;
@@ -293,6 +295,67 @@ public class SaleController {
 
         }
         return aSyntheticInformation;
+    }
+    
+    
+    public ArrayList<AnalyticalInformation> getAnalyticalInformationCl(String cpf, String firstDate, String lastDate) {
+
+        Connection con = ConnectionDatabase.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        ArrayList<AnalyticalInformation> analyticalInformation = new ArrayList<>();
+        ClientController clientController = new ClientController();
+
+        try {
+
+            stmt = con.prepareStatement(
+                    "select * from ("
+                    + "SELECT SUM(quantity)  AS \"totalQtd\", P.payment, P.vlTotal, P.vlDesc from "
+                    + "itenssale V, sale P where (v.idSale = P.idSale) " +"and "
+                    + "(date between  \'" + firstDate + "\' and \'" + lastDate + "\') and P.clientCPF = \'" + cpf + "\') as TOTAL");
+            
+            
+            rs = stmt.executeQuery();
+            
+            Client c = clientController.findClient(cpf);
+
+                while (rs.next()) {
+                    
+                    Sale s = new Sale ();
+                    
+                    s.setC(c);
+                    s.setPayment(rs.getString("payment"));
+                    s.setVlDesc(rs.getDouble("vlDesc"));
+                    s.setVlTotal(rs.getDouble("vlTotal"));
+
+                    AnalyticalInformation analytical = new AnalyticalInformation();
+                    analytical.setS(s);
+                    analytical.setSaleQtd(rs.getDouble("totalQtd"));
+
+                    analyticalInformation.add(analytical);
+                    
+                    }
+                
+                
+                if(analyticalInformation.isEmpty())
+                    JOptionPane.showMessageDialog(null, "Não há dados com o parâmetro informado!!", "Informação sistema", JOptionPane.INFORMATION_MESSAGE);
+
+                 
+                return analyticalInformation;
+
+        } catch (SQLException ex) {
+
+            String err = "Ocorreu um erro não documentado. Impossível continuar.\nDetalhes técnicos: " + ex;
+            JOptionPane.showMessageDialog(null, err, "ERRO Desconhecido", ERROR_MESSAGE);
+            Logger.getLogger(InventoryController.class.getName()).log(Level.SEVERE, null, ex);
+
+        } finally {
+
+            ConnectionDatabase.closeConnection(con, stmt, rs, rs);
+
+        }
+        return analyticalInformation;
     }
 
 }

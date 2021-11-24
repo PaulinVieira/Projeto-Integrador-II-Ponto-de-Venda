@@ -55,7 +55,7 @@ public class ClientController {
         try {
             stmt = con.prepareStatement(
                     "update clients set clientCode = ?, clientName = ?, clientDtBirth = ?, clientEmail = ?, "
-                    + "clientCellphone = ?, clientDtLastBuy = ?, clientPostcode = ?, clientAddress = ?, clientDistrict = ?, "
+                    + "clientCellphone = ?, clientPostcode = ?, clientAddress = ?, clientDistrict = ?, "
                     + "clientState = ?, clientCity = ? where clientCpf = ?;");
 
             stmt.setString(1, c.getClientCode());
@@ -64,13 +64,12 @@ public class ClientController {
             stmt.setString(4, c.getClientEmail());
             stmt.setString(5, c.getClientCellphone());
             //implementar código para buscar última compra
-            stmt.setString(6, "15/08/2021");
-            stmt.setString(7, c.getClientPostcode());
-            stmt.setString(8, c.getClientAddress());
-            stmt.setString(9, c.getClientDistrict());
-            stmt.setString(10, c.getClientState());
-            stmt.setString(11, c.getClientCity());
-            stmt.setString(12, c.getClientCPF());
+            stmt.setString(6, c.getClientPostcode());
+            stmt.setString(7, c.getClientAddress());
+            stmt.setString(8, c.getClientDistrict());
+            stmt.setString(9, c.getClientState());
+            stmt.setString(10, c.getClientCity());
+            stmt.setString(11, c.getClientCPF());
 
             stmt.executeUpdate();
         } catch (SQLException ex) {

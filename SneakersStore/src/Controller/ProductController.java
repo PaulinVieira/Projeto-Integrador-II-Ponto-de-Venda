@@ -41,7 +41,7 @@ public class ProductController {
             Inventory i = new Inventory();
 
             i.setProductCode(p.getProductCode());
-            i.setQuantity(p.getProductQuantity());
+            i.setQuantity(p.getProductQTDInitial());
 
             inventory.createMovi(i);
         } catch (SQLException ex) {
