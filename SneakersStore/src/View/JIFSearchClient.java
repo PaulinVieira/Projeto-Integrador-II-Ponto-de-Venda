@@ -444,6 +444,11 @@ public class JIFSearchClient extends javax.swing.JInternalFrame {
         DefaultTableModel model = (DefaultTableModel) jTListClients.getModel();
         String cpf = model.getValueAt(index, 2).toString();
 
+        if (clientController.getMoviCl(cpf)){
+            JOptionPane.showMessageDialog(null, "Cliente possui movimentações. Impossível excluir!", "Informação sistema", JOptionPane.INFORMATION_MESSAGE);
+        return;
+        }
+
         int input = JOptionPane.showConfirmDialog(null, "Deseja realmente excluir o cliente selecionado?");
         if (input == 0) {
             clientController.deleteByCPF(cpf);

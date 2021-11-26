@@ -365,5 +365,42 @@ public class ProductController {
         }
         return listProducts;
     }
+    
+    public boolean getMoviP(String code) {
+
+        Connection con = ConnectionDatabase.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+     
+        try {
+
+            stmt = con.prepareStatement(
+                    "select SUM(quantity)  AS \"totalQtd\", COUNT(*) AS \"totalReg\" from ("
+                    + "SELECT "
+                    + "P.idSale, V.quantity, P.date from "
+                    + "itenssale V, sale P "
+                    + "where (v.idSale = P.idSale) "
+                    + "and productCode = \'" + code + "\') as TOTAL");
+            rs = stmt.executeQuery();
+
+            if (rs.next()) 
+            return true;
+            
+        } catch (SQLException ex) {
+
+            String err = "Ocorreu um erro não documentado. Impossível continuar.\nDetalhes técnicos: " + ex;
+            JOptionPane.showMessageDialog(null, err, "ERRO Desconhecido", ERROR_MESSAGE);
+            Logger.getLogger(InventoryController.class.getName()).log(Level.SEVERE, null, ex);
+
+        } finally {
+
+            ConnectionDatabase.closeConnection(con, stmt, rs);
+
+        }
+        return false;
+    }
+    
+    
+    
 
 }

@@ -2,6 +2,7 @@ package View;
 
 import Controller.ProductController;
 import Model.Product;
+import Util.PositionForm;
 import Util.ProductForm;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -16,6 +17,8 @@ public class JIFProducts extends javax.swing.JInternalFrame {
     ProductController productController = new ProductController();
     String productCategory = "Tênis";
     ProductForm form = new ProductForm();
+    PositionForm form1 = new PositionForm();
+    JIFSearchProduct jifSProducts;
 
     public JIFProducts() {
         initComponents();
@@ -243,6 +246,7 @@ public class JIFProducts extends javax.swing.JInternalFrame {
         jBtnSave = new javax.swing.JButton();
         jBtnClear = new javax.swing.JButton();
         jBtnUpdate = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setClosable(true);
         setMaximizable(true);
@@ -515,6 +519,13 @@ public class JIFProducts extends javax.swing.JInternalFrame {
             }
         });
 
+        jButton1.setText("Pesquisar Produtos");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -522,15 +533,19 @@ public class JIFProducts extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 725, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 725, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 26, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jBtnUpdate)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jBtnSave)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jBtnClear)))
-                .addContainerGap(32, Short.MAX_VALUE))
+                        .addComponent(jBtnClear)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -541,7 +556,8 @@ public class JIFProducts extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBtnSave)
                     .addComponent(jBtnClear)
-                    .addComponent(jBtnUpdate))
+                    .addComponent(jBtnUpdate)
+                    .addComponent(jButton1))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -648,6 +664,30 @@ public class JIFProducts extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTFProductPriceActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+        JDesktopPane desktop = getDesktopPane();
+
+        if (jifSProducts == null) {
+
+            form1.openForm(jifSProducts = new JIFSearchProduct(), desktop);
+
+            jifSProducts.show();
+
+        } else if (!jifSProducts.isVisible()) {
+
+            form1.openForm(jifSProducts = new JIFSearchProduct(), desktop);
+
+            jifSProducts.show();
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Tela já aberta.", "Informação sistema", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+        this.dispose();
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea JTAObs;
@@ -656,6 +696,7 @@ public class JIFProducts extends javax.swing.JInternalFrame {
     private javax.swing.JButton jBtnClear;
     private javax.swing.JButton jBtnSave;
     private javax.swing.JButton jBtnUpdate;
+    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jF;
     private javax.swing.JLabel jLDtRegistration;
     private javax.swing.JLabel jLabel1;

@@ -435,15 +435,19 @@ public class JIFSearchProduct extends javax.swing.JInternalFrame {
 
     private void jBtnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnDeleteActionPerformed
 
-        if (jTListProducts.getSelectedRow() == -1) {
+         if (jTListProducts.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(null, "Selecione um produto para excluir.", "Informação sistema", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
-
         int index = jTListProducts.getSelectedRow();
 
         DefaultTableModel model = (DefaultTableModel) jTListProducts.getModel();
         String code = model.getValueAt(index, 1).toString();
+
+        if (productController.getMoviP(code)) {
+            JOptionPane.showMessageDialog(null, "Produto possui movimentações. Impossível excluir!", "Informação sistema", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
 
         int input = JOptionPane.showConfirmDialog(null, "Deseja realmente excluir o produto selecionado?");
         if (input == 0) {

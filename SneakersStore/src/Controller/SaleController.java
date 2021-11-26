@@ -310,10 +310,10 @@ public class SaleController {
         try {
 
             stmt = con.prepareStatement(
-                    "select * from ("
-                    + "SELECT SUM(quantity)  AS \"totalQtd\", P.payment, P.vlTotal, P.vlDesc from "
+
+                    "select quantity, P.payment, P.vlTotal, P.vlDesc from "
                     + "itenssale V, sale P where (v.idSale = P.idSale) " +"and "
-                    + "(date between  \'" + firstDate + "\' and \'" + lastDate + "\') and P.clientCPF = \'" + cpf + "\') as TOTAL");
+                    + "(date between  \'" + firstDate + "\' and \'" + lastDate + "\') and P.clientCPF = \'" + cpf + "\'");
             
             
             rs = stmt.executeQuery();
@@ -331,7 +331,7 @@ public class SaleController {
 
                     AnalyticalInformation analytical = new AnalyticalInformation();
                     analytical.setS(s);
-                    analytical.setSaleQtd(rs.getDouble("totalQtd"));
+                    analytical.setSaleQtd(rs.getDouble("quantity"));
 
                     analyticalInformation.add(analytical);
                     

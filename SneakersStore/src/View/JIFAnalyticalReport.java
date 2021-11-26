@@ -56,8 +56,8 @@ public class JIFAnalyticalReport extends javax.swing.JInternalFrame {
         jFormattedTextField2 = new javax.swing.JFormattedTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
+        jTFClientCPF = new javax.swing.JFormattedTextField();
 
         setClosable(true);
         setIconifiable(true);
@@ -67,7 +67,7 @@ public class JIFAnalyticalReport extends javax.swing.JInternalFrame {
         jLabel1.setText("Relatório Analítico");
 
         jTAnalitico.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jTAnalitico.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jTAnalitico.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jTAnalitico.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -141,28 +141,40 @@ public class JIFAnalyticalReport extends javax.swing.JInternalFrame {
 
         jLabel4.setText("CPF do Cliente");
 
+        try {
+            jTFClientCPF.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        jTFClientCPF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTFClientCPFActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(216, 216, 216)
+                .addComponent(jLabel1)
+                .addContainerGap(349, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(216, 216, 216)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 548, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(6, 6, 6)
+                            .addComponent(jLabel4)
+                            .addGap(116, 116, 116))
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(jTFClientCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(91, 91, 91)))
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -175,12 +187,12 @@ public class JIFAnalyticalReport extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4))
-                        .addGap(0, 111, Short.MAX_VALUE)))
+                        .addComponent(jTFClientCPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 87, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -241,16 +253,20 @@ public class JIFAnalyticalReport extends javax.swing.JInternalFrame {
 
         if (dateValidation.isDateValid(jFormattedTextField2.getText()) && dateValidation.isDateValid(jFormattedTextField1.getText())) {
            
-            if (jTextField1.getText() != null && (!jTextField1.getText().equals(""))) {
+            if (!jTFClientCPF.getText().contains(" ")) {
                 
-                addRowToTable(saleController.getAnalyticalInformationCl(jTextField1.getText(), df.format(reserveDate1), df.format(reserveDate2)));
+                addRowToTable(saleController.getAnalyticalInformationCl(jTFClientCPF.getText(), df.format(reserveDate1), df.format(reserveDate2)));
 
             }else{
-                JOptionPane.showMessageDialog(null, "Informe o código do cliente", "Informação Sistema", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Informe o CPF do cliente", "Informação Sistema", JOptionPane.INFORMATION_MESSAGE);
             }
         
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTFClientCPFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFClientCPFActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTFClientCPFActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -264,6 +280,6 @@ public class JIFAnalyticalReport extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTAnalitico;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JFormattedTextField jTFClientCPF;
     // End of variables declaration//GEN-END:variables
 }

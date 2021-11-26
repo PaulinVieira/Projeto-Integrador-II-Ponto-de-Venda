@@ -362,5 +362,39 @@ public class ClientController {
         }
         return listClients;
     }
+    
+     public boolean getMoviCl(String cpf) {
+
+        Connection con = ConnectionDatabase.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+
+            stmt = con.prepareStatement(
+                    "select * from ("
+                    + "SELECT SUM(quantity)  AS \"totalQtd\", P.payment, P.vlTotal, P.vlDesc from "
+                    + "itenssale V, sale P where (v.idSale = P.idSale) "
+                            + "and P.clientCPF = \'" + cpf + "\') as TOTAL");
+            
+            
+            rs = stmt.executeQuery();
+            
+            if(rs.next())
+                return true;
+            
+            
+        } catch (SQLException ex) {
+
+            String err = "Ocorreu um erro não documentado. Impossível continuar.\nDetalhes técnicos: " + ex;
+            JOptionPane.showMessageDialog(null, err, "ERRO Desconhecido", ERROR_MESSAGE);
+            Logger.getLogger(InventoryController.class.getName()).log(Level.SEVERE, null, ex);
+
+        } finally {
+
+            ConnectionDatabase.closeConnection(con, stmt, rs, rs);
+
+        }
+        return false;
+    }
 
 }

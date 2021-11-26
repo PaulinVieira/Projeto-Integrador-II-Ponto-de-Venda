@@ -3,6 +3,7 @@ package View;
 import Controller.ClientController;
 import Model.Client;
 import Util.ClientForm;
+import Util.PositionForm;
 import Util.SearchPostalcode;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -12,8 +13,10 @@ import javax.swing.JOptionPane;
 public class JIFClients extends javax.swing.JInternalFrame {
 
     JDesktopPane windowManager;
+    PositionForm form1 = new PositionForm();
     ClientController clientController = new ClientController();
     ClientForm form = new ClientForm();
+    JIFSearchClient jifSClient;
 
     public JIFClients() {
         initComponents();
@@ -84,20 +87,19 @@ public class JIFClients extends javax.swing.JInternalFrame {
         this.jTFClientCode.setText(c.getClientCode());
         this.jTFClientCPF.setText(c.getClientCPF());
         this.jTFClientEmail.setText(c.getClientEmail());
-        
+
         if (c.getClientDtLastBuy() == null) {
             jTFClientDtLastBuy.setVisible(true);
             jTFClientDtLastBuy.setEditable(false);
             jLabel9.setVisible(true);
             this.jTFClientDtLastBuy.setText("");
-        }else{
+        } else {
             jTFClientDtLastBuy.setVisible(true);
             jTFClientDtLastBuy.setEditable(false);
             jLabel9.setVisible(true);
             this.jTFClientDtLastBuy.setText(df.format(c.getClientDtLastBuy()));
         }
-        
-        
+
         this.jTFClientCellPhone.setText(c.getClientCellphone());
         this.jCBClientState.setSelectedItem(c.getClientState());
         this.jTFClientAddress.setText(c.getClientAddress());
@@ -180,6 +182,7 @@ public class JIFClients extends javax.swing.JInternalFrame {
         jBtnSave = new javax.swing.JButton();
         jBtnClear = new javax.swing.JButton();
         jBtnUpdate = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
         setClosable(true);
         setMaximizable(true);
@@ -589,6 +592,13 @@ public class JIFClients extends javax.swing.JInternalFrame {
             }
         });
 
+        jButton3.setText("Pesquisar Clientes");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -603,7 +613,8 @@ public class JIFClients extends javax.swing.JInternalFrame {
                         .addComponent(jBtnSave)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jBtnClear)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -612,10 +623,12 @@ public class JIFClients extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jBtnSave)
-                    .addComponent(jBtnClear)
-                    .addComponent(jBtnUpdate))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jBtnSave)
+                        .addComponent(jBtnClear)
+                        .addComponent(jBtnUpdate))
+                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
 
@@ -722,6 +735,31 @@ public class JIFClients extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTFClientDtLastBuyActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+
+        JDesktopPane desktop = getDesktopPane();
+
+        if (jifSClient == null) {
+
+            form1.openForm(jifSClient = new JIFSearchClient(), desktop);
+
+            jifSClient.show();
+
+        } else if (!jifSClient.isVisible()) {
+
+            form1.openForm(jifSClient = new JIFSearchClient(), desktop);
+
+            jifSClient.show();
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Tela já aberta.", "Informação sistema", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+        this.dispose();
+
+
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea JTAObs;
     private javax.swing.JTextField JTFDistrict1;
@@ -730,6 +768,7 @@ public class JIFClients extends javax.swing.JInternalFrame {
     private javax.swing.JButton jBtnUpdate;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JComboBox<String> jCBClientState;
     private javax.swing.JComboBox<String> jCBUf1;
     private javax.swing.JPanel jF;
